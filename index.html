@@ -55,8 +55,9 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   padding-right:100%;
   font-size:15px;
   line-height:1.8;
-  animation: scrollAyah 14s linear forwards;
+  animation: scrollAyah 30s cubic-bezier(.3,.7,.4,1) forwards;
 }
+
 
 @keyframes scrollAyah{
   from{
@@ -91,7 +92,7 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
     تَحِيَّتُهُمْ يَوْمَ يَلْقَوْنَهُ سَلَامٌ
     وَأَعَدَّ لَهُمْ أَجْرًا كَرِيمًا
     <span class="ayah-bracket">﴾</span>
-    — سورة الأحزاب (41–44)
+    
   </div>
 </div>
 <div style="padding:0 14px">
@@ -177,9 +178,9 @@ function showAyahBar(){
   bar.classList.remove('hidden');
 
   // إخفاؤه بعد انتهاء الحركة
-  setTimeout(()=>{
-    bar.classList.add('hidden');
-  }, 14000); // نفس مدة animation
+ setTimeout(()=>{
+  bar.classList.add('hidden');
+}, 30000); // نفس مدة animation (30 ثانية)
 }
 function setMax(v){max=v;localStorage.setItem('max',v);document.getElementById('maxLabel').innerText=v;playBeep(420)}
 function changeZikr(){
