@@ -89,7 +89,19 @@ let audioCtx=null;
 function playBeep(f=600,d=0.18){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=f;g.gain.value=0.12;o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+d)}
 window.onload=()=>{document.body.classList.toggle('night',localStorage.getItem('night')==='1');document.getElementById('maxLabel').innerText=max;showStats()};
 function setMax(v){max=v;localStorage.setItem('max',v);document.getElementById('maxLabel').innerText=v;playBeep(420)}
-function changeZikr(){const s=document.getElementById('zikr');currentZikr=s.value;count=parseInt(localStorage.getItem(currentZikr)||0);document.getElementById('count').innerText=count;document.getElementById('zikrText').innerText=currentZikr;playBeep(500)}
+function changeZikr(){
+  const s = document.getElementById('zikr');
+  currentZikr = s.value;
+  count = parseInt(localStorage.getItem(currentZikr) || 0);
+
+  document.getElementById('count').innerText = count;
+  document.getElementById('zikrText').innerText = currentZikr;
+
+  // ✅ إغلاق القائمة المنسدلة فورًا
+  s.blur();
+
+  playBeep(500);
+}
 function increment(){if(!currentZikr)return;count++;localStorage.setItem(currentZikr,count);if(!stats[today])stats[today]={};stats[today][currentZikr]=(stats[today][currentZikr]||0)+1;localStorage.setItem('stats',JSON.stringify(stats));document.getElementById('count').innerText=count;showStats();if(count===max){playBeep(900);document.getElementById('complete').style.display='block'}}
 function clearCount(){localStorage.clear();location.reload()}
 function toggleNight(){document.body.classList.toggle('night');localStorage.setItem('night',document.body.classList.contains('night')?'1':'0')}
