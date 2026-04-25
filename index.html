@@ -43,18 +43,16 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   margin:10px 14px;
   padding:10px 0;
 }
-
+.hidden{
+  opacity:0;
+  pointer-events:none;
+}
 .ayah-text{
   display:inline-block;
   padding-right:100%;
   font-size:15px;
   line-height:1.8;
-  animation: scrollAyah 14s cubic-bezier(.2,.8,.4,1) forwards;
-}
-.hidden{
-  display:none;
-}
-
+ 
 @keyframes scrollAyah{
   0%{
     transform:translateX(-100%);
@@ -148,17 +146,23 @@ let count=0,currentZikr='';
 const today=new Date().toLocaleDateString();
 const stats=JSON.parse(localStorage.getItem('stats')||'{}');
 let audioCtx=null;
- function showAyahBar(){
+function showAyahBar(){
   const bar = document.getElementById('ayahBar');
-  if (!bar) return;
+  const text = bar.querySelector('.ayah-text');
+  if (!bar || !text) return;
+
+  // إعادة تشغيل الحركة
+  text.style.animation = 'none';
+  text.offsetHeight; // إعادة الحساب
+  text.style.animation = '';
 
   // إظهار الشريط
   bar.classList.remove('hidden');
 
-  // إخفاؤه بعد انتهاء الحركة بدون كسر الصفحة
+  // إخفاؤه بعد انتهاء الحركة
   setTimeout(()=>{
     bar.classList.add('hidden');
-  }, 20000); // نفس مدة animation
+  }, 14000); // نفس مدة animation
 }
 function setMax(v){max=v;localStorage.setItem('max',v);document.getElementById('maxLabel').innerText=v;playBeep(420)}
 function changeZikr(){
