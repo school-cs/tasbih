@@ -42,27 +42,33 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   border-radius:12px;
   margin:10px 14px;
   padding:10px 0;
+  transition: opacity .4s ease;
 }
+
 .hidden{
   opacity:0;
   pointer-events:none;
 }
+
 .ayah-text{
   display:inline-block;
   padding-right:100%;
   font-size:15px;
   line-height:1.8;
- 
+  animation: scrollAyah 14s linear forwards;
+}
+
 @keyframes scrollAyah{
-  0%{
+  from{
     transform:translateX(-100%);
   }
-  100%{
+  to{
     transform:translateX(100%);
   }
 }
+
 .ayah-bracket{
-  color:#c4a24a;   /* ذهبي هادئ */
+  color:#c4a24a;
   font-weight:bold;
 }
 </style>
@@ -146,6 +152,17 @@ let count=0,currentZikr='';
 const today=new Date().toLocaleDateString();
 const stats=JSON.parse(localStorage.getItem('stats')||'{}');
 let audioCtx=null;
+  function playBeep(freq=600, duration=0.2){
+  if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type='sine';
+  o.frequency.value=freq;
+  g.gain.value=0.15;
+  o.connect(g).connect(audioCtx.destination);
+  o.start();
+  o.stop(audioCtx.currentTime + duration);
+}
 function showAyahBar(){
   const bar = document.getElementById('ayahBar');
   const text = bar.querySelector('.ayah-text');
@@ -205,6 +222,16 @@ function increment(){
 function clearCount(){localStorage.clear();location.reload()}
 function toggleNight(){document.body.classList.toggle('night');localStorage.setItem('night',document.body.classList.contains('night')?'1':'0')}
 function showStats(){let s='📊 إحصائية اليوم:<br>';for(let z in(stats[today]||{}))s+=`${z} : ${stats[today][z]}<br>`;document.getElementById('stats').innerHTML=s}
+window.onload = () => {
+  document.body.classList.toggle(
+    'night',
+    localStorage.getItem('night') === '1'
+  );
+  document.getElementById('maxLabel').innerText = max;
+  showStats();
+  showAyahBar(); // ✅ تشغيل شريط الآية
+};
+
 </script>
 </div>
 </body>
