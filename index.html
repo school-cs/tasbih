@@ -27,7 +27,7 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 .counter{font-size:56px;font-weight:bold;text-align:center;color:var(--accent);margin:12px 0 6px}
 .center{flex:1;display:flex;align-items:center;justify-content:center;padding:12px}
 .touch{width:100%;min-height:160px;border-radius:26px;background:var(--touch);display:flex;align-items:center;justify-content:center;font-size:22px}
-.complete{color:#dc2626;text-align:center;font-weight:bold;margin-top:8px}
+.complete{color:#0f766e;text-align:center;font-weight:bold;margin-top:8px}
 .stats{font-size:14px;line-height:1.9;margin-top:10px}
 .app-logo {
   width: 90px;
@@ -47,7 +47,7 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 <div style="padding:0 14px">
 <select id="zikr" onchange="changeZikr()">
 <option disabled selected>اختر الذكر</option>
-<option>لا إله إلا الله وحده لا شريك له له الملك وله الحمد وهو على كل شيء قدير.</option>
+<option>لا إله إلا الله وحده لا شريك له ،له الملك وله الحمد وهو على كل شيء قدير.</option>
 <option>سبحان الله وبحمده سبحان الله العظيم.</option>
 <option>سبحان الله العظيم وبحمده.</option>
 <option>لا حول ولا قوة إلا بالله.</option>
@@ -55,7 +55,7 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 <option>سبحان الله والحمد لله ولا إله إلا الله والله أكبر.</option>
 <option>استغفر الله العظيم الذي لا إله إلا هو الحي القيوم وأتوب إليه.</option>
 <option>الله أكبر كبيرًا، والحمد لله كثيرًا، وسبحان الله بكرةً وأصيلاً.</option>
-<option>اللهم صل وسلم وبارك على نبينا محمد.</option>
+<option>اللهم صلِ وسلم وبارك على نبينا محمد.</option>
 <option>اللهم صل على محمد وعلى آل محمد، كما صليت على آل إبراهيم، وبارك على محمد، وعلى آل محمد، كما باركت على آل إبراهيم في العالمين إنك حميد مجيد.</option>
 </select>
 
@@ -67,6 +67,7 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 
 <div id="zikrText" class="zikrText"></div>
 <div id="count" class="counter">0</div>
+  <div id="complete" class="complete" style="display:none"></div>
 <div style="text-align:center;font-size:14px">الحد الحالي: <span id="maxLabel">100</span></div>
 </div>
 
@@ -76,7 +77,7 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 
 <footer>
 <button onclick="clearCount()">مسح العدّادات</button>
-<div id="complete" class="complete" style="display:none">✅ اكتمل العدد</div>
+
 <div id="stats" class="stats"></div>
 </footer>
 </div>
