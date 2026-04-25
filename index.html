@@ -49,9 +49,8 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   padding-right:100%;
   font-size:15px;
   line-height:1.8;
-  animation: scrollAyah 20s linear forwards;
+  animation: scrollAyah 14s cubic-bezier(.2,.8,.4,1) forwards;
 }
-
 .hidden{
   display:none;
 }
@@ -77,9 +76,9 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   <button onclick="toggleNight()">🌙 / ☀️</button>
 </header>
 <div id="ayahBar" class="ayah-bar hidden">
-  <div class="ayah-text">
-  <span class="ayah-bracket">﴿</span>
+ <div class="ayah-text">
   بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+  <span class="ayah-bracket">﴿</span>
   يَا أَيُّهَا الَّذِينَ آمَنُوا اذْكُرُوا اللَّهَ ذِكْرًا كَثِيرًا
   وَسَبِّحُوهُ بُكْرَةً وَأَصِيلًا
   هُوَ الَّذِي يُصَلِّي عَلَيْكُمْ وَمَلَائِكَتُهُ
@@ -148,27 +147,18 @@ let count=0,currentZikr='';
 const today=new Date().toLocaleDateString();
 const stats=JSON.parse(localStorage.getItem('stats')||'{}');
 let audioCtx=null;
-  function showAyahBar(){
+ function showAyahBar(){
   const bar = document.getElementById('ayahBar');
+  if (!bar) return;
+
+  // إظهار الشريط
   bar.classList.remove('hidden');
 
-  // إخفاء الشريط بعد انتهاء الحركة (20 ثانية)
+  // إخفاؤه بعد انتهاء الحركة بدون كسر الصفحة
   setTimeout(()=>{
-    bar.style.display = 'none';
-  }, 20000);
+    bar.classList.add('hidden');
+  }, 20000); // نفس مدة animation
 }
-function playBeep(f=600,d=0.18){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=f;g.gain.value=0.12;o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+d)}
-window.onload = () => {
-  document.body.classList.toggle(
-    'night',
-    localStorage.getItem('night') === '1'
-  );
-  document.getElementById('maxLabel').innerText = max;
-  showStats();
-
-  // ✅ تشغيل شريط الآية عند فتح التطبيق
-  showAyahBar();
-};
 function setMax(v){max=v;localStorage.setItem('max',v);document.getElementById('maxLabel').innerText=v;playBeep(420)}
 function changeZikr(){
   const s = document.getElementById('zikr');
