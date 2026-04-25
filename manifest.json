@@ -1,7 +1,7 @@
 {
   "name": "السبحة الإلكترونية",
   "short_name": "السبحة",
-  "start_url": "tasbih.html",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#0f766e",
   "theme_color": "#0f766e",
