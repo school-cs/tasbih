@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>سبحة إلكترونية ذكية</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<style>
+:root{
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --text:#0f172a;
+  --accent:#0f766e;
+  --touch:#d1fae5;
+}
+body.night{--bg:#020617;--card:#020617;--text:#e5e7eb;--accent:#22d3ee;--touch:#0f172a}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif}
+.app{max-width:520px;margin:auto;min-height:100vh;display:flex;flex-direction:column}
+header,footer{padding:14px}
+header{display:flex;justify-content:space-between;align-items:center}
+select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1px solid #ccc}
+.settings{display:flex;gap:8px;margin-top:10px}
+.settings button{flex:1}
+.zikrText{background:var(--card);border-radius:14px;padding:16px;margin-top:12px;font-size:15px;line-height:2;word-break:break-word;overflow-wrap:break-word;white-space:normal}
+.counter{font-size:56px;font-weight:bold;text-align:center;color:var(--accent);margin:12px 0 6px}
+.center{flex:1;display:flex;align-items:center;justify-content:center;padding:12px}
+.touch{width:100%;min-height:160px;border-radius:26px;background:var(--touch);display:flex;align-items:center;justify-content:center;font-size:22px}
+.complete{color:#dc2626;text-align:center;font-weight:bold;margin-top:8px}
+.stats{font-size:14px;line-height:1.9;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <strong>📿 السبحة الإلكترونية</strong>
+  <button onclick="toggleNight()">🌙 / ☀️</button>
+</header>
+
+<div style="padding:0 14px">
+<select id="zikr" onchange="changeZikr()">
+<option disabled selected>اختر الذكر</option>
+<option>لا إله إلا الله وحده لا شريك له له الملك وله الحمد وهو على كل شيء قدير.</option>
+<option>سبحان الله وبحمده سبحان الله العظيم.</option>
+<option>سبحان الله العظيم وبحمده.</option>
+<option>لا حول ولا قوة إلا بالله.</option>
+<option>سبحان الله وبحمده، عدد خلقه ورضى نفسه وزنة عرشه ومداد كلماته.</option>
+<option>سبحان الله والحمد لله ولا إله إلا الله والله أكبر.</option>
+<option>استغفر الله العظيم الذي لا إله إلا هو الحي القيوم وأتوب إليه.</option>
+<option>الله أكبر كبيرًا، والحمد لله كثيرًا، وسبحان الله بكرةً وأصيلاً.</option>
+<option>اللهم صل وسلم وبارك على نبينا محمد.</option>
+<option>اللهم صل على محمد وعلى آل محمد، كما صليت على آل إبراهيم، وبارك على محمد، وعلى آل محمد، كما باركت على آل إبراهيم في العالمين إنك حميد مجيد.</option>
+</select>
+
+<div class="settings">
+  <button onclick="setMax(33)">33</button>
+  <button onclick="setMax(99)">99</button>
+  <button onclick="setMax(100)">100</button>
+</div>
+
+<div id="zikrText" class="zikrText"></div>
+<div id="count" class="counter">0</div>
+<div style="text-align:center;font-size:14px">الحد الحالي: <span id="maxLabel">100</span></div>
+</div>
+
+<div class="center">
+  <div class="touch" onclick="increment()">المس هنا للتسبيح</div>
+</div>
+
+<footer>
+<button onclick="clearCount()">مسح العدّادات</button>
+<div id="complete" class="complete" style="display:none">✅ اكتمل العدد</div>
+<div id="stats" class="stats"></div>
+</footer>
+</div>
+
+<script>
+let max=parseInt(localStorage.getItem('max')||'100');
+let count=0,currentZikr='';
+const today=new Date().toLocaleDateString();
+const stats=JSON.parse(localStorage.getItem('stats')||'{}');
+let audioCtx=null;
+function playBeep(f=600,d=0.18){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=f;g.gain.value=0.12;o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+d)}
+window.onload=()=>{document.body.classList.toggle('night',localStorage.getItem('night')==='1');document.getElementById('maxLabel').innerText=max;showStats()};
+function setMax(v){max=v;localStorage.setItem('max',v);document.getElementById('maxLabel').innerText=v;playBeep(420)}
+function changeZikr(){const s=document.getElementById('zikr');currentZikr=s.value;count=parseInt(localStorage.getItem(currentZikr)||0);document.getElementById('count').innerText=count;document.getElementById('zikrText').innerText=currentZikr;playBeep(500)}
+function increment(){if(!currentZikr)return;count++;localStorage.setItem(currentZikr,count);if(!stats[today])stats[today]={};stats[today][currentZikr]=(stats[today][currentZikr]||0)+1;localStorage.setItem('stats',JSON.stringify(stats));document.getElementById('count').innerText=count;showStats();if(count===max){playBeep(900);document.getElementById('complete').style.display='block'}}
+function clearCount(){localStorage.clear();location.reload()}
+function toggleNight(){document.body.classList.toggle('night');localStorage.setItem('night',document.body.classList.contains('night')?'1':'0')}
+function showStats(){let s='📊 إحصائية اليوم:<br>';for(let z in(stats[today]||{}))s+=`${z} : ${stats[today][z]}<br>`;document.getElementById('stats').innerHTML=s}
+</script>
+</body>
+</html>

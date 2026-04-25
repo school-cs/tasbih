@@ -1,0 +1,13 @@
+{
+  "name": "السبحة الإلكترونية",
+  "short_name": "السبحة",
+  "start_url": "tasbih.html",
+  "display": "standalone",
+  "background_color": "#0f766e",
+  "theme_color": "#0f766e",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}
