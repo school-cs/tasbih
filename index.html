@@ -67,7 +67,6 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 
 <div id="zikrText" class="zikrText"></div>
 <div id="count" class="counter">0</div>
-  <div id="complete" class="complete" style="display:none"></div>
 <div style="text-align:center;font-size:14px">الحد الحالي: <span id="maxLabel">100</span></div>
 </div>
 
@@ -77,12 +76,27 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 
 <footer>
 <button onclick="clearCount()">مسح العدّادات</button>
-
+<div class="settings">
+  <label>
+    الاكتمال:
+    <select onchange="setCompletionMode(this.value)">
+      <option value="none">بدون تنبيه</option>
+      <option value="vibrate">اهتزاز</option>
+      <option value="sound">صوت</option>
+    </select>
+  </label>
+</div>
 <div id="stats" class="stats"></div>
 </footer>
 </div>
 
 <script>
+  let completionMode = localStorage.getItem('completionMode') || 'none';
+// القيم الممكنة: 'none' | 'vibrate' | 'sound'
+  function setCompletionMode(val){
+  completionMode = val;
+  localStorage.setItem('completionMode', val);
+}
 let max=parseInt(localStorage.getItem('max')||'100');
 let count=0,currentZikr='';
 const today=new Date().toLocaleDateString();
@@ -102,9 +116,26 @@ function changeZikr(){
   // ✅ إغلاق القائمة المنسدلة فورًا
   s.blur();
 
-  playBeep(500);
 }
-function increment(){if(!currentZikr)return;count++;localStorage.setItem(currentZikr,count);if(!stats[today])stats[today]={};stats[today][currentZikr]=(stats[today][currentZikr]||0)+1;localStorage.setItem('stats',JSON.stringify(stats));document.getElementById('count').innerText=count;showStats();if(count===max){playBeep(900);document.getElementById('complete').style.display='block'}}
+function increment(){
+  if (!currentZikr) return;
+
+  count++;
+  localStorage.setItem(currentZikr, count);
+  document.getElementById('count').innerText = count;
+
+  // ✅ تنبيه فقط عند اكتمال العدد
+  if (count === Number(max)) {
+
+    if (completionMode === 'vibrate' && navigator.vibrate) {
+      navigator.vibrate(300); // اهتزاز واحد فقط عند الاكتمال
+    }
+
+    if (completionMode === 'sound') {
+      playBeep(800, 0.4); // صوت واحد فقط عند الاكتمال
+    }
+  }
+}
 function clearCount(){localStorage.clear();location.reload()}
 function toggleNight(){document.body.classList.toggle('night');localStorage.setItem('night',document.body.classList.contains('night')?'1':'0')}
 function showStats(){let s='📊 إحصائية اليوم:<br>';for(let z in(stats[today]||{}))s+=`${z} : ${stats[today][z]}<br>`;document.getElementById('stats').innerHTML=s}
