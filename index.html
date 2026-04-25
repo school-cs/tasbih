@@ -201,5 +201,6 @@ function clearCount(){localStorage.clear();location.reload()}
 function toggleNight(){document.body.classList.toggle('night');localStorage.setItem('night',document.body.classList.contains('night')?'1':'0')}
 function showStats(){let s='📊 إحصائية اليوم:<br>';for(let z in(stats[today]||{}))s+=`${z} : ${stats[today][z]}<br>`;document.getElementById('stats').innerHTML=s}
 </script>
+</div>
 </body>
 </html>
