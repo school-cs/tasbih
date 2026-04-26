@@ -184,17 +184,18 @@ function showAyahBar(){
 function setMax(v){max=v;localStorage.setItem('max',v);document.getElementById('maxLabel').innerText=v;playBeep(420)}
 function changeZikr(){
   const s = document.getElementById('zikr');
-  currentZikr = s.value;
-  count = parseInt(localStorage.getItem(currentZikr) || 0);
+
+  currentZikr = s.options[s.selectedIndex].text; // ✅ مضمون
+
+  count = parseInt(localStorage.getItem(currentZikr)) || 0;
 
   document.getElementById('count').innerText = count;
   document.getElementById('zikrText').innerText = currentZikr;
 
-  // ✅ إغلاق القائمة المنسدلة فورًا
   s.blur();
-
 }
 function increment(){
+if (!currentZikr || currentZikr.trim() === '') return;
   if (!currentZikr) return;
 
   count++;
