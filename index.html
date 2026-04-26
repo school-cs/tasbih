@@ -208,7 +208,7 @@ function increment(){
   showStats();
 
   // ✅ تنبيه فقط عند اكتمال العدد
- if (count === Number(max)) {
+if (count === Number(max)) {
 
   // 🔔 تنبيه الاكتمال
   if (completionMode === 'vibrate' && navigator.vibrate) {
@@ -219,10 +219,12 @@ function increment(){
     playBeep(800, 0.4);
   }
 
-  // ✅ إعادة العداد تلقائيًا
-  count = 0;
-  localStorage.setItem(currentZikr, 0);
-  document.getElementById('count').innerText = 0;
+  // ✅ إعادة العداد بعد تأخير بسيط
+  setTimeout(() => {
+    count = 0;
+    localStorage.setItem(currentZikr, 0);
+    document.getElementById('count').innerText = 0;
+  }, 300); // 0.3 ثانية
 }
   }
 }
