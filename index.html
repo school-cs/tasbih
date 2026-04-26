@@ -208,15 +208,22 @@ function increment(){
   showStats();
 
   // ✅ تنبيه فقط عند اكتمال العدد
-  if (count === Number(max)) {
+ if (count === Number(max)) {
 
-    if (completionMode === 'vibrate' && navigator.vibrate) {
-      navigator.vibrate(300);
-    }
+  // 🔔 تنبيه الاكتمال
+  if (completionMode === 'vibrate' && navigator.vibrate) {
+    navigator.vibrate(300);
+  }
 
-    if (completionMode === 'sound') {
-      playBeep(800, 0.4);
-    }
+  if (completionMode === 'sound') {
+    playBeep(800, 0.4);
+  }
+
+  // ✅ إعادة العداد تلقائيًا
+  count = 0;
+  localStorage.setItem(currentZikr, 0);
+  document.getElementById('count').innerText = 0;
+}
   }
 }
 function clearCount(){localStorage.clear();location.reload()}
