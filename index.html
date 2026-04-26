@@ -185,7 +185,8 @@ function setMax(v){max=v;localStorage.setItem('max',v);document.getElementById('
 function changeZikr(){
   const s = document.getElementById('zikr');
 
-  currentZikr = s.options[s.selectedIndex].text; // ✅ مضمون
+  // ✅ تعيين الذكر بشكل مضمون
+  currentZikr = s.options[s.selectedIndex].text;
 
   count = parseInt(localStorage.getItem(currentZikr)) || 0;
 
@@ -194,9 +195,10 @@ function changeZikr(){
 
   s.blur();
 }
+
 function increment(){
-if (!currentZikr || currentZikr.trim() === '') return;
-  if (!currentZikr) return;
+  // ✅ شرط واحد فقط صحيح
+  if (!currentZikr || currentZikr.trim() === '') return;
 
   count++;
   localStorage.setItem(currentZikr, count);
@@ -208,27 +210,27 @@ if (!currentZikr || currentZikr.trim() === '') return;
   localStorage.setItem('stats', JSON.stringify(stats));
   showStats();
 
-  // ✅ تنبيه فقط عند اكتمال العدد
-if (count === Number(max)) {
+  // ✅ عند الوصول للحد
+  if (count === Number(max)) {
 
-  // 🔔 تنبيه الاكتمال
-  if (completionMode === 'vibrate' && navigator.vibrate) {
-    navigator.vibrate(300);
+    // 🔔 تنبيه الاكتمال
+    if (completionMode === 'vibrate' && navigator.vibrate) {
+      navigator.vibrate(300);
+    }
+
+    if (completionMode === 'sound') {
+      playBeep(800, 0.4);
+    }
+
+    // ✅ إعادة العداد بعد تأخير بسيط
+    setTimeout(() => {
+      count = 0;
+      localStorage.setItem(currentZikr, 0);
+      document.getElementById('count').innerText = 0;
+    }, 300);
   }
-
-  if (completionMode === 'sound') {
-    playBeep(800, 0.4);
-  }
-
-  // ✅ إعادة العداد بعد تأخير بسيط
-  setTimeout(() => {
-    count = 0;
-    localStorage.setItem(currentZikr, 0);
-    document.getElementById('count').innerText = 0;
-  }, 300); // 0.3 ثانية
 }
-  }
-}
+
 function clearCount(){localStorage.clear();location.reload()}
 function toggleNight(){document.body.classList.toggle('night');localStorage.setItem('night',document.body.classList.contains('night')?'1':'0')}
 function showStats(){let s='📊 إحصائية اليوم:<br>';for(let z in(stats[today]||{}))s+=`${z} : ${stats[today][z]}<br>`;document.getElementById('stats').innerHTML=s}
