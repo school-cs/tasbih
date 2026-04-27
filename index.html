@@ -29,11 +29,21 @@
 }
 body.night{--bg:#020617;--card:#020617;--text:#e5e7eb;--accent:#22d3ee;--touch:#0f172a}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif}
+html, body{
+  height:100%;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Tahoma,Arial,sans-serif;
+}
+
 .app{
   max-width:520px;
   margin:auto;
-  min-height:100vh;
+  height:100vh;          /* ✅ هذا هو التغيير الحاسم */
   display:flex;
   flex-direction:column;
 }
@@ -50,14 +60,13 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 .zikrText{background:var(--card);border-radius:14px;padding:16px;margin-top:12px;font-size:15px;line-height:2;word-break:break-word;overflow-wrap:break-word;white-space:normal}
 .counter{font-size:56px;font-weight:bold;text-align:center;color:var(--accent);margin:12px 0 6px}
 .center{
-  flex:1;                 /* ✅ يملأ الفراغ العمودي */
+  flex:1;
   display:flex;
-  align-items:stretch;    /* ✅ يسمح للزر بالتمدد */
   padding:12px;
+  min-height:0;          /* ✅ هذا السطر يحل المشكلة نهائيًا */
 }
 
-
-.touch{
+.ouch{
   width:100%;
   height:100%;            /* ✅ يملأ كل center */
   border-radius:32px;
