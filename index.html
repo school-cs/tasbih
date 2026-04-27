@@ -48,6 +48,7 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   margin: 10px auto;
   display: block;
 }
+/* شريط الآيات / الأحاديث */
 .ayah-bar{
   background:#f8fafc;
   overflow:hidden;
@@ -58,19 +59,22 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   transition: opacity .4s ease;
 }
 
+/* إخفاء الشريط */
 .hidden{
   opacity:0;
   pointer-events:none;
 }
 
+/* النص المتحرك */
 .ayah-text{
   display:inline-block;
   padding-right:100%;
   font-size:15px;
   line-height:1.8;
-  animation: scrollAyah 30s linear forwards;
+  white-space:nowrap;
 }
 
+/* حركة النص */
 @keyframes scrollAyah{
   from{
     transform:translateX(-100%);
@@ -80,10 +84,12 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   }
 }
 
+/* زخرفة الأقواس القرآنية */
 .ayah-bracket{
   color:#c4a24a;
   font-weight:bold;
 }
+
 </style>
 </head>
 <body>
@@ -93,19 +99,7 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   <button onclick="toggleNight()">🌙 / ☀️</button>
 </header>
 <div id="ayahBar" class="ayah-bar hidden">
-  <div class="ayah-text">
-    بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-    <span class="ayah-bracket">﴿</span>
-    يَا أَيُّهَا الَّذِينَ آمَنُوا اذْكُرُوا اللَّهَ ذِكْرًا كَثِيرًا
-    وَسَبِّحُوهُ بُكْرَةً وَأَصِيلًا
-    هُوَ الَّذِي يُصَلِّي عَلَيْكُمْ وَمَلَائِكَتُهُ
-    لِيُخْرِجَكُم مِّنَ الظُّلُمَاتِ إِلَى النُّورِ
-    وَكَانَ بِالْمُؤْمِنِينَ رَحِيمًا
-    تَحِيَّتُهُمْ يَوْمَ يَلْقَوْنَهُ سَلَامٌ
-    وَأَعَدَّ لَهُمْ أَجْرًا كَرِيمًا
-    <span class="ayah-bracket">﴾</span>
-    
-  </div>
+  <div id="ayahText" class="ayah-text"></div>
 </div>
 <div style="padding:0 14px">
 <select id="zikr" onchange="changeZikr()">
@@ -153,8 +147,152 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 </footer>
 </div>
 
-<script>
-  let completionMode = localStorage.getItem('completionMode') || 'none';
+
+  <script>
+const rotatingTexts = [
+
+`بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+قال الله تعالى:
+﴿ يَا أَيُّهَا الَّذِينَ آمَنُوا اذْكُرُوا اللَّهَ ذِكْرًا كَثِيرًا
+وَسَبِّحُوهُ بُكْرَةً وَأَصِيلًا
+هُوَ الَّذِي يُصَلِّي عَلَيْكُمْ وَمَلَائِكَتُهُ
+لِيُخْرِجَكُم مِّنَ الظُّلُمَاتِ إِلَى النُّورِ ۚ
+وَكَانَ بِالْمُؤْمِنِينَ رَحِيمًا
+تَحِيَّتُهُمْ يَوْمَ يَلْقَوْنَهُ سَلَامٌ ۚ
+وَأَعَدَّ لَهُمْ أَجْرًا كَرِيمًا ﴾`,
+
+`قال الله تعالى:
+﴿ فَاذْكُرُونِي أَذْكُرْكُمْ
+وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ ﴾`,
+
+`قال رسول الله ﷺ:
+«مَنْ قَرَأَ حَرْفًا مِنْ كِتَابِ اللهِ فَلَهُ بِهِ حَسَنَةٌ،
+وَالْحَسَنَةُ بِعَشْرِ أَمْثَالِهَا،
+لَا أَقُولُ: {الم} حَرْفٌ،
+وَلَكِنْ {أَلِفٌ} حَرْفٌ،
+و{لَامٌ} حَرْفٌ،
+و{مِيمٌ} حَرْفٌ»`,
+
+`قال رسول الله ﷺ:
+«يقال لصاحب القرآن اقرأ وارتقِ،
+ورتِّل كما كنت ترتِّل في الدنيا،
+فإن منزلتك عند آخر آية تقرؤها»`,
+
+`قال رسول الله ﷺ:
+«مَن قال: لا إلهَ إلا اللهُ وحده لا شريك له،
+له الملك وله الحمد وهو على كل شيء قدير،
+في يومٍ مائةَ مرة،
+كانت له عدلَ عشرِ رقاب،
+وكُتبت له مائةُ حسنة،
+ومُحيت عنه مائةُ سيئة،
+وكانت له حرزًا من الشيطان يومه ذلك حتى يمسي»`,
+
+`عن ابن عمر رضي الله عنه قال:
+كنا نعدُّ لرسول الله ﷺ في المجلس الواحد
+مائةَ مرة:
+«ربِّ اغفر لي وتُب عليَّ
+إنك أنت التواب الرحيم»`,
+
+`قال رسول الله ﷺ:
+«مَن قال: أستغفرُ اللهَ العظيمَ
+الذي لا إله إلا هو الحي القيوم وأتوب إليه،
+غُفر له وإن كان فرَّ من الزحف»`,
+
+`قال رسول الله ﷺ:
+«ألا أدلُّك على كنزٍ من كنوز الجنة؟
+لا حولَ ولا قوةَ إلا بالله»`,
+
+`قال رسول الله ﷺ:
+«لقيتُ إبراهيم ليلة أُسري بي فقال:
+يا محمد، أقرئ أمتك مني السلام،
+وأخبرهم أن الجنة طيبة التربة عذبة الماء،
+وأنها قيعان، وأن غراسها:
+سبحان الله، والحمد لله،
+ولا إله إلا الله، والله أكبر»`,
+
+`قال رسول الله ﷺ:
+«خذوا جنتكم من النار؛ قولوا:
+سبحان الله، والحمد لله،
+ولا إله إلا الله، والله أكبر،
+فإنهن يأتين يوم القيامة
+مقدمات ومعقبات ومجنبات،
+وهن الباقيات الصالحات»`,
+
+`قال رسول الله ﷺ:
+«لأن أقول:
+سبحان الله، والحمد لله،
+ولا إله إلا الله، والله أكبر،
+أحب إليَّ مما طلعت عليه الشمس»`,
+
+`قال رسول الله ﷺ:
+«مَن قال: سبحانَ اللهِ العظيمِ وبحمدِه،
+غُرست له نخلة في الجنة»`,
+
+`عن أبي هريرة رضي الله عنه قال:
+قال رسول الله ﷺ:
+«مَن قال حين يصبح وحين يمسي:
+سبحان الله العظيم وبحمده
+مائة مرة،
+لم يأتِ أحدٌ يوم القيامة
+بأفضل مما جاء به إلا أحد قال مثل ما قال أو زاد عليه»`,
+
+`قال رسول الله ﷺ:
+«كلمتان خفيفتان على اللسان،
+ثقيلتان في الميزان،
+حبيبتان إلى الرحمن:
+سبحان الله العظيم،
+سبحان الله وبحمده»`,
+
+`قال رسول الله ﷺ:
+«مَن قال حين يصبح وحين يمسي:
+سبحان الله وبحمده مائة مرة،
+لم يأت أحد يوم القيامة
+بأفضل مما جاء به
+إلا أحد قال مثل ما قال أو زاد عليه»`,
+
+`عن جويرية رضي الله عنها:
+أن النبي ﷺ خرج من عندها ثم رجع،
+فقال: ما زلتِ على حالك؟
+قالت: نعم،
+قال:
+«لقد قلتُ بعدك أربع كلمات ثلاث مرات،
+لو وُزنت بما قلتِ لوزنتهن:
+سبحان الله وبحمده عدد خلقه،
+ورضا نفسه،
+وزنة عرشه،
+ومداد كلماته»`,
+
+`قال رسول الله ﷺ:
+«أيعجز أحدكم أن يكسب كل يوم ألف حسنة؟
+يسبِّح الله مائة تسبيحة،
+فيكتب الله له بها ألف حسنة،
+ويحط عنه بها ألف خطيئة»`,
+
+`قال رسول الله ﷺ:
+«أحب الكلام إلى الله أربع:
+سبحان الله،
+والحمد لله،
+ولا إله إلا الله،
+والله أكبر،
+لا يضرك بأيهن بدأت»`,
+
+`قال رسول الله ﷺ:
+«سبق المفردون».
+قالوا: وما المفردون يا رسول الله؟
+قال:
+«الذاكرون الله كثيرًا والذاكرات»`,
+
+`قال رسول الله ﷺ:
+«لا يزال لسانُك رطبًا من ذكرِ الله»`
+
+];
+    let rotateIndex = 0;
+
+// ⏱️ الإعدادات
+const scrollDuration = 30000; // مدة حركة النص (30 ثانية)
+const pauseAfter = 5000;      // الفاصل قبل النص التالي (5 ثوانٍ)
+    
+    let completionMode = localStorage.getItem('completionMode') || 'none';
 // القيم الممكنة: 'none' | 'vibrate' | 'sound'
   function setCompletionMode(val){
   completionMode = val;
@@ -178,21 +316,30 @@ let audioCtx=null;
 }
 function showAyahBar(){
   const bar = document.getElementById('ayahBar');
-  const text = bar.querySelector('.ayah-text');
-  if (!bar || !text) return;
+  const textEl = document.getElementById('ayahText');
+  if (!bar || !textEl) return;
+
+  // وضع النص الحالي
+  textEl.innerText = rotatingTexts[rotateIndex];
 
   // إعادة تشغيل الحركة
-  text.style.animation = 'none';
-  text.offsetHeight; // إعادة الحساب
-  text.style.animation = '';
+  textEl.style.animation = 'none';
+  textEl.offsetHeight; // إعادة الحساب
+  textEl.style.animation = `scrollAyah ${scrollDuration/1000}s linear forwards`;
 
   // إظهار الشريط
   bar.classList.remove('hidden');
 
   // إخفاؤه بعد انتهاء الحركة
- setTimeout(()=>{
-  bar.classList.add('hidden');
-}, 30000); // نفس مدة animation (30 ثانية)
+  setTimeout(() => {
+    bar.classList.add('hidden');
+  }, scrollDuration);
+
+  // الانتقال للنص التالي (دوران)
+  rotateIndex = (rotateIndex + 1) % rotatingTexts.length;
+
+  // عرض النص التالي بعد الفاصل
+  setTimeout(showAyahBar, scrollDuration + pauseAfter);
 }
 function setMax(v){max=v;localStorage.setItem('max',v);document.getElementById('maxLabel').innerText=v;playBeep(420)}
 function changeZikr(){
@@ -254,8 +401,10 @@ window.onload = () => {
   );
   document.getElementById('maxLabel').innerText = max;
   showStats();
-  showAyahBar(); // ✅ تشغيل شريط الآية
+
+  showAyahBar(); // ✅ يبدأ عرض الآيات/الأحاديث بالتتابع
 };
+
 
 </script>
 </div>
