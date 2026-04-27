@@ -261,16 +261,20 @@ function showAyahBar(){
 
   // وضع النص الحالي
 const item = rotatingTexts[rotateIndex];
-
-// تحويل النص إلى سطر واحد
 let cleanText = item.text.replace(/\s*\n\s*/g, ' ');
 
-// إذا كان آية → نضيف الأقواس
 if (item.type === 'ayah') {
-  textEl.innerHTML = `<span class="ayah-bracket">﴿</span> ${cleanText} <span class="ayah-bracket">﴾</span>`;
+  textEl.innerHTML =
+    `<span style="margin-left:6px;">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ — قال الله تعالى:</span>
+     <span class="ayah-bracket">﴿</span>
+     ${cleanText}
+     <span class="ayah-bracket">﴾</span>`;
+  textEl.classList.remove('hadith-text');
 } else {
-  textEl.innerText = cleanText;
+  textEl.innerHTML =
+    `<span class="hadith-text">قال رسول الله ﷺ: ${cleanText}</span>`;
 }
+
 
   // إعادة تشغيل الحركة
   textEl.style.animation = 'none';
