@@ -265,14 +265,14 @@ let cleanText = item.text.replace(/\s*\n\s*/g, ' ');
 
 if (item.type === 'ayah') {
   textEl.innerHTML =
-    `<span style="margin-left:6px;">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ — قال الله تعالى:</span>
+    `<span style="margin-left:6px;"> قال الله تعالى </span>
      <span class="ayah-bracket">﴿</span>
      ${cleanText}
      <span class="ayah-bracket">﴾</span>`;
   textEl.classList.remove('hadith-text');
 } else {
   textEl.innerHTML =
-    `<span class="hadith-text">قال رسول الله ﷺ: ${cleanText}</span>`;
+    `<span class="hadith-text"> ${cleanText}</span>`;
 }
 
 
