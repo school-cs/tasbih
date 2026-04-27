@@ -320,7 +320,8 @@ function showAyahBar(){
   if (!bar || !textEl) return;
 
   // وضع النص الحالي
-  textEl.innerText = rotatingTexts[rotateIndex];
+textEl.innerText = rotatingTexts[rotateIndex]
+  .replace(/\s*\n\s*/g, ' ');
 
   // إعادة تشغيل الحركة
   textEl.style.animation = 'none';
