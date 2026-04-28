@@ -49,7 +49,11 @@ body{
   flex-direction:column;
 }
 header,footer{padding:14px}
-
+footer{
+  position:relative;
+  max-height:180px;       /* ✅ ارتفاع ثابت */
+  overflow:hidden;        /* يمنع التمدد */
+}
   header{
   position: relative;   /* ✅ مرجع */
   display:flex;
@@ -107,7 +111,14 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   pointer-events:none;
 }
   .complete{color:#0f766e;text-align:center;font-weight:bold;margin-top:8px}
-.stats{font-size:14px;line-height:1.9;margin-top:10px}
+.stats{
+  font-size:14px;
+  line-height:1.9;
+  margin-top:10px;
+  max-height:80px;        /* ✅ */
+  overflow-y:auto;        /* ✅ تمرير داخلي */
+}
+  .stats{font-size:14px;line-height:1.9;margin-top:10px}
 .app-logo {
   width: 90px;
   height: 90px;
