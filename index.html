@@ -93,17 +93,13 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   align-items:center;
   justify-content:center;
   gap:8px;
-
-  --shift: calc(var(--footer-h, 140px) / 2);
-  transform: translateY(calc(-1 * var(--shift)));
   transition: transform 0.15s ease;
 }
 
 .touch:active{
-  transform:
-    translateY(calc(-1 * var(--shift)))
-    scale(0.97);
+  transform: scale(0.97);
 }
+
   .touch::after{
   content:"";
   display:block;
