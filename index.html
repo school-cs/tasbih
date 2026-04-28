@@ -118,7 +118,6 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   max-height:80px;        /* ✅ */
   overflow-y:auto;        /* ✅ تمرير داخلي */
 }
-  .stats{font-size:14px;line-height:1.9;margin-top:10px}
 .app-logo {
   width: 90px;
   height: 90px;
@@ -524,15 +523,7 @@ window.onload = () => {
   showAyahBar();
 };
 
-  function syncFooterHeight(){
-  const footer = document.querySelector('footer');
-  if(!footer) return;
-  const h = footer.offsetHeight;
-  document.documentElement.style.setProperty('--footer-h', h + 'px');
-}
-
-window.addEventListener('load', syncFooterHeight);
-window.addEventListener('resize', syncFooterHeight);
+ 
   </script>
 
 <p style="display:none">
