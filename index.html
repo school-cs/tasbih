@@ -508,8 +508,6 @@ function showStats(){
     s += `${z} : ${stats[today][z]}<br>`;
   }
   document.getElementById('stats').innerHTML = s;
-
-  syncFooterHeight(); // ✅ تحديث الارتفاع بعد تغيّر المحتوى
 }
 
 window.onload = () => {
