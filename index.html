@@ -83,7 +83,7 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 
 .touch{
   width:100%;
-  height:100%;            /* ✅ يملأ كل center */
+  height:100%;
   border-radius:32px;
   background:var(--touch);
   display:flex;
@@ -92,6 +92,12 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   justify-content:center;
   gap:8px;
 }
+.touch::after{
+  content:"";
+  display:block;
+  height:var(--footer-h, 140px);
+}
+
   .complete{color:#0f766e;text-align:center;font-weight:bold;margin-top:8px}
 .stats{font-size:14px;line-height:1.9;margin-top:10px}
 .app-logo {
