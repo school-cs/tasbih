@@ -37,7 +37,7 @@ body{
   background:var(--bg);
   color:var(--text);
   font-family:Tahoma,Arial,sans-serif;
-  overflow:hidden; /* ✅ يمنع التمرير العام */
+  overflow-y:auto;     /* ✅ يسمح بالتمرير */
 }
 
 .app{
@@ -60,8 +60,8 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 .zikrText{background:var(--card);border-radius:14px;padding:16px;margin-top:12px;font-size:15px;line-height:2;word-break:break-word;overflow-wrap:break-word;white-space:normal}
 .counter{font-size:56px;font-weight:bold;text-align:center;color:var(--accent);margin:12px 0 6px}
 .center{
-  flex:1;             /* ✅ يأخذ المساحة المتبقية دائمًا */
-  min-height:240px;
+  flex:1;
+  min-height:220px;   /* أقل → يزيل الفراغ */
   display:flex;
   padding:12px;
 }
@@ -99,11 +99,12 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 }
 
 .ayah-bar{
-  position:absolute;
-  top:-58px;              /* ✅ دائمًا فوق زر التسبيح */
+  position: absolute;      /* ✅ لا يؤثر على التخطيط */
+  top:70px;                /* تحت الهيدر مباشرة */
   left:50%;
   transform:translateX(-50%);
-  width:100%;
+  width:calc(100% - 28px);
+  max-width:520px;
   height:48px;
 
   display:flex;
@@ -113,9 +114,8 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   padding:0 12px;
   overflow:hidden;
   white-space:nowrap;
-  z-index:10;
+  z-index:50;
 }
-
 .hidden{
   display:none;
 }
@@ -191,6 +191,9 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   <button onclick="toggleNight()">🌙 / ☀️</button>
 </header>
 
+<div id="ayahBar" class="ayah-bar hidden">
+  <div id="ayahText" class="ayah-text"></div>
+</div>
 <div class="top-panel">
 <select id="zikr" onchange="changeZikr()">
 <option disabled selected>اختر الذكر</option>
@@ -219,11 +222,6 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 
 <div class="center">
   <div class="touch-wrapper">
-
-    <!-- ✅ شريط الآيات (فوق زر التسبيح دائمًا) -->
-    <div id="ayahBar" class="ayah-bar hidden">
-      <div id="ayahText" class="ayah-text"></div>
-    </div>
 
     <!-- ✅ زر التسبيح -->
     <div class="touch" onclick="increment()">
