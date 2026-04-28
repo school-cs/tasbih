@@ -71,14 +71,14 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 .settings button{flex:1}
 .zikrText{background:var(--card);border-radius:14px;padding:16px;margin-top:12px;font-size:15px;line-height:2;word-break:break-word;overflow-wrap:break-word;white-space:normal}
 .counter{font-size:56px;font-weight:bold;text-align:center;color:var(--accent);margin:12px 0 6px}
-
- .center{
+.center{
   flex:1;
   min-height:180px;
   display:flex;
   padding:12px;
-  padding-bottom:var(--footer-h, 140px); /* احتياطي */
+  padding-bottom:140px; /* ثابت وآمن */
 }
+
   .top-panel{
   max-height:45vh;      /* ✅ بدل height */
   overflow-y:auto;
@@ -526,11 +526,27 @@ document.getElementById('touchCount').innerText = count;
 function clearCount(){localStorage.clear();location.reload()}
 function toggleNight(){document.body.classList.toggle('night');localStorage.setItem('night',document.body.classList.contains('night')?'1':'0')}
 function showStats(){
-  let s='📊 إحصائية اليوم:<br>';
-  for(let z in (stats[today] || {})) {
-    s += `${z} : ${stats[today][z]}<br>`;
+  const el = document.getElementById('stats');
+  const todayStats = stats[today] || {};
+
+  if (!Object.keys(todayStats).length) {
+    el.innerHTML = `
+      <div class="stat-card">
+        لا توجد إحصائيات اليوم
+      </div>`;
+    return;
   }
-  document.getElementById('stats').innerHTML = s;
+
+  let html = '';
+  for (let z in todayStats) {
+    html += `
+      <div class="stat-card">
+        <div class="stat-title">${z}</div>
+        <div class="stat-count">🔢 ${todayStats[z]} مرة</div>
+      </div>
+    `;
+  }
+  el.innerHTML = html;
 }
 
 window.onload = () => {
