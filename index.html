@@ -94,25 +94,33 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   display: block;
 }
 /* شريط الآيات / الأحاديث */
+.touch-wrapper{
+  position:relative;
+  width:100%;
+  height:100%;
+}
+
 .ayah-bar{
-  position: fixed;        /* ✅ يخرج من التخطيط */
-  bottom: 80px;           /* فوق زر التسبيح */
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 28px);
-  max-width: 492px;
+  position:absolute;
+  top:-58px;              /* ✅ دائمًا فوق زر التسبيح */
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
   height:48px;
 
   display:flex;
   align-items:center;
   background:#f8fafc;
-  overflow:hidden;
-  white-space:nowrap;
   border-radius:12px;
   padding:0 12px;
-  z-index:1000;           /* فوق كل شيء */
+  overflow:hidden;
+  white-space:nowrap;
+  z-index:10;
 }
 
+.hidden{
+  display:none;
+}
 .hidden{
   display:none;
 }
@@ -187,9 +195,7 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
  <strong>📿 السبحة الإلكترونية</strong>
   <button onclick="toggleNight()">🌙 / ☀️</button>
 </header>
-<div id="ayahBar" class="ayah-bar hidden">
-  <div id="ayahText" class="ayah-text"></div>
-</div>
+
 <div class="top-panel">
 <select id="zikr" onchange="changeZikr()">
 <option disabled selected>اختر الذكر</option>
@@ -217,10 +223,20 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 </div>
 
 <div class="center">
-<div class="touch" onclick="increment()">
-  <div class="touch-count" id="touchCount">0</div>
-  <div class="touch-label"> للتسبيح</div>
-</div>
+  <div class="touch-wrapper">
+
+    <!-- ✅ شريط الآيات (فوق زر التسبيح دائمًا) -->
+    <div id="ayahBar" class="ayah-bar hidden">
+      <div id="ayahText" class="ayah-text"></div>
+    </div>
+
+    <!-- ✅ زر التسبيح -->
+    <div class="touch" onclick="increment()">
+      <div class="touch-count" id="touchCount">0</div>
+      <div class="touch-label">للتسبيح</div>
+    </div>
+
+  </div>
 </div>
 
 <footer>
