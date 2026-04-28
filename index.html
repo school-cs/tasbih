@@ -49,11 +49,12 @@ body{
   flex-direction:column;
 }
 header,footer{padding:14px}
-footer{
-  position:relative;
-  max-height:180px;
-  overflow-y:auto;   /* ✅ يسمح بالتمرير */
+
+ footer{
+  padding:14px;
+  background:var(--bg);
 }
+
   header{
   position: relative;   /* ✅ مرجع */
   display:flex;
@@ -111,19 +112,35 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   pointer-events:none;
 }
   .complete{color:#0f766e;text-align:center;font-weight:bold;margin-top:8px}
+
 .stats{
-  font-size:15px;              /* أوضح */
-  line-height:2;               /* راحة للعين */
-  margin-top:10px;
-  padding:8px 6px;             /* ✅ مسافة داخلية */
-  max-height:100px;            /* مساحة كافية */
-  overflow-y:auto;
-  background:rgba(0,0,0,0.03); /* تمييز خفيف */
-  border-radius:8px;
+  margin-top:12px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
-body.night .stats{
-  background:rgba(255,255,255,0.06);
+.stat-card{
+  background:var(--card);
+  border-radius:12px;
+  padding:12px;
+  border:1px solid rgba(0,0,0,.06);
 }
+
+.stat-title{
+  font-size:14px;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+.stat-count{
+  font-size:15px;
+  font-weight:800;
+  color:var(--accent);
+}
+body.night .stat-card{
+  border-color:#0f172a;
+}
+
 .app-logo {
   width: 90px;
   height: 90px;
