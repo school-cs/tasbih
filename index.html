@@ -51,8 +51,8 @@ body{
 header,footer{padding:14px}
 footer{
   position:relative;
-  max-height:180px;       /* ✅ ارتفاع ثابت */
-  overflow:hidden;        /* يمنع التمدد */
+  max-height:180px;
+  overflow-y:auto;   /* ✅ يسمح بالتمرير */
 }
   header{
   position: relative;   /* ✅ مرجع */
@@ -112,11 +112,17 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 }
   .complete{color:#0f766e;text-align:center;font-weight:bold;margin-top:8px}
 .stats{
-  font-size:14px;
-  line-height:1.9;
+  font-size:15px;              /* أوضح */
+  line-height:2;               /* راحة للعين */
   margin-top:10px;
-  max-height:80px;        /* ✅ */
-  overflow-y:auto;        /* ✅ تمرير داخلي */
+  padding:8px 6px;             /* ✅ مسافة داخلية */
+  max-height:100px;            /* مساحة كافية */
+  overflow-y:auto;
+  background:rgba(0,0,0,0.03); /* تمييز خفيف */
+  border-radius:8px;
+}
+body.night .stats{
+  background:rgba(255,255,255,0.06);
 }
 .app-logo {
   width: 90px;
