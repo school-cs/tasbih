@@ -40,14 +40,14 @@ body{
   overflow-y:auto;     /* ✅ يسمح بالتمرير */
 }
 
-.app{
+  .app{
+  position: relative;
   max-width:520px;
   margin:auto;
-  height:100vh;          /* ✅ هذا هو التغيير الحاسم */
+  min-height:100vh;   /* ✅ بدل height */
   display:flex;
   flex-direction:column;
 }
-
 header,footer{padding:14px}
 
 footer{
@@ -59,9 +59,9 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 .settings button{flex:1}
 .zikrText{background:var(--card);border-radius:14px;padding:16px;margin-top:12px;font-size:15px;line-height:2;word-break:break-word;overflow-wrap:break-word;white-space:normal}
 .counter{font-size:56px;font-weight:bold;text-align:center;color:var(--accent);margin:12px 0 6px}
-.center{
+  .center{
   flex:1;
-  min-height:220px;   /* أقل → يزيل الفراغ */
+  min-height:180px;  /* ✅ يقلل الفراغ */
   display:flex;
   padding:12px;
 }
@@ -99,8 +99,8 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 }
 
 .ayah-bar{
-  position: absolute;      /* ✅ لا يؤثر على التخطيط */
-  top:70px;                /* تحت الهيدر مباشرة */
+  position:absolute;
+  top:64px;              /* ✅ أسفل الهيدر مباشرة وفوق اختر الذكر */
   left:50%;
   transform:translateX(-50%);
   width:calc(100% - 28px);
@@ -114,8 +114,9 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   padding:0 12px;
   overflow:hidden;
   white-space:nowrap;
-  z-index:50;
+  z-index:20;
 }
+``
 .hidden{
   display:none;
 }
