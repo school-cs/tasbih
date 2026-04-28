@@ -483,8 +483,14 @@ document.getElementById('touchCount').innerText = count;
 
 function clearCount(){localStorage.clear();location.reload()}
 function toggleNight(){document.body.classList.toggle('night');localStorage.setItem('night',document.body.classList.contains('night')?'1':'0')}
-function showStats(){let s='📊 إحصائية اليوم:<br>';for(let z in(stats[today]||{}))s+=`${z} : ${stats[today][z]}<br>`;document.getElementById('stats').innerHTML=s}
-window.onload = () => {
+function showStats(){
+  let s='📊 إحصائية اليوم:<br>';
+  for(let z in(stats[today]||{}))
+    s+=`${z} : ${stats[today][z]}<br>`;
+  document.getElementById('stats').innerHTML=s;
+
+  syncFooterHeight(); // ⭐ تحديث الارتفاع بعد تغيّر المحتوى
+}
   document.body.classList.toggle(
     'night',
     localStorage.getItem('night') === '1'
