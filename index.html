@@ -95,12 +95,15 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 }
 /* شريط الآيات / الأحاديث */
 .ayah-bar{
+  height:48px;                 /* ✅ يمنع القص نهائيًا */
+  display:flex;
+  align-items:center;          /* ✅ توسيط عمودي للنص */
   background:#f8fafc;
   overflow:hidden;
   white-space:nowrap;
   border-radius:12px;
   margin:10px 14px;
-  padding:10px 0;
+  padding:0 12px;              /* أفضل من padding عمودي */
   transition: opacity .4s ease;
 }
 
