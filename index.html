@@ -103,15 +103,23 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   width:100%;
   height:100%;
 }
-.ayah-bar{
+  .ayah-bar{
   position:absolute;
-  top:100%;
+  top:100%;              /* ✅ أسفل الهيدر مباشرة مهما كان ارتفاعه */
   margin-top:6px;
   left:50%;
   transform:translateX(-50%);
   width:calc(100% - 28px);
   max-width:520px;
   height:48px;
+
+  display:flex;
+  align-items:center;
+  background:#f8fafc;
+  border-radius:12px;
+  padding:0 12px;
+  overflow:hidden;
+  white-space:nowrap;
   z-index:20;
 }
   .hidden{
@@ -183,15 +191,17 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 </style>
 </head>
 <body>
-<div class="app">
-<header>
- <strong>📿 السبحة الإلكترونية</strong>
-  <button onclick="toggleNight()">🌙 / ☀️</button>
-</header>
+<div class="header-wrap">
+  <header>
+    <strong>📿 السبحة الإلكترونية</strong>
+    <button onclick="toggleNight()">🌙 / ☀️</button>
+  </header>
 
-<div id="ayahBar" class="ayah-bar hidden">
-  <div id="ayahText" class="ayah-text"></div>
+  <div id="ayahBar" class="ayah-bar hidden">
+    <div id="ayahText" class="ayah-text"></div>
+  </div>
 </div>
+
 <div class="top-panel">
 <select id="zikr" onchange="changeZikr()">
 <option disabled selected>اختر الذكر</option>
