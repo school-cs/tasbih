@@ -68,11 +68,11 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 
 
 .top-panel{
+  flex:1;              /* ✅ هو الذي يتمدد */
+  overflow-y:auto;     /* ✅ الذكر الطويل يُمرَّر */
   padding:0 14px;
-  height:35vh;        /* ✅ تثبيت الارتفاع */
-  overflow-y:auto;
-  flex-shrink:0;      /* ✅ يمنع ضغط المنطقة الخضراء */
 }
+
 
 .touch{
   width:100%;
