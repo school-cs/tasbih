@@ -65,8 +65,36 @@ header,footer{padding:14px}
   .header-wrap{
   position: relative;   /* ✅ مرجع الحساب */
 }
+/* ✅ الصفحة الرئيسية - Dashboard */
+.dashboard{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  padding:14px;
+}
 
-select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1px solid #ccc}
+.dashboard button{
+  background:var(--card);
+  border-radius:16px;
+  padding:18px 10px;
+  border:1px solid rgba(0,0,0,.08);
+  font-size:26px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  cursor:pointer;
+}
+
+.dashboard span{
+  font-size:14px;
+  font-weight:600;
+}
+.view{
+  padding:14px;
+}
+  select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1px solid #ccc}
 .settings{display:flex;gap:8px;margin-top:10px}
 .settings button{flex:1}
 .zikrText{background:var(--card);border-radius:14px;padding:16px;margin-top:12px;font-size:15px;line-height:2;word-break:break-word;overflow-wrap:break-word;white-space:normal}
@@ -256,12 +284,74 @@ margin:16px 14px 24px; /* ✅ هنا */
     <strong>📿 السبحة الإلكترونية</strong>
     <button onclick="toggleNight()">🌙 / ☀️</button>
   </header>
-
-  <!-- ✅ شريط الآيات -->
+    <!-- ✅ شريط الآيات -->
   <div id="ayahBar" class="ayah-bar hidden">
     <div id="ayahText" class="ayah-text"></div>
   </div>
+<!-- ✅ الصفحة الرئيسية (Dashboard) -->
+<div id="home" class="dashboard">
 
+  <button onclick="openView('quran')">📖<span>القرآن الكريم</span></button>
+  <button onclick="openView('morning')">🌅<span>أذكار الصباح</span></button>
+  <button onclick="openView('evening')">🌙<span>أذكار المساء</span></button>
+  <button onclick="openView('sleep')">😴<span>أذكار النوم</span></button>
+  <button onclick="openView('prayer')">🕌<span>أذكار الصلاة</span></button>
+  <button onclick="openView('dua')">🤲<span>الدعاء</span></button>
+  <button onclick="openView('names')">📿<span>أسماء الله الحسنى</span></button>
+  <button onclick="openView('tasbeeh')">📿<span>السبحة</span></button>
+  <button onclick="openView('virtues')">⭐<span>فضائل الأعمال</span></button>
+  <button onclick="openView('prayersTime')">🕰️<span>مواقيت الصلاة</span></button>
+</div>
+  
+   <div id="quran" class="view hidden">
+  <button onclick="backHome()">← رجوع</button>
+  <h2>📖 القرآن الكريم</h2>
+</div>
+
+<div id="morning" class="view hidden">
+  <button onclick="backHome()">← رجوع</button>
+  <h2>🌅 أذكار الصباح</h2>
+</div>
+
+<div id="evening" class="view hidden">
+  <button onclick="backHome()">← رجوع</button>
+  <h2>🌙 أذكار المساء</h2>
+</div>
+
+<div id="sleep" class="view hidden">
+  <button onclick="backHome()">← رجوع</button>
+  <h2>😴 أذكار النوم</h2>
+</div>
+
+<div id="prayer" class="view hidden">
+  <button onclick="backHome()">← رجوع</button>
+  <h2>🕌 أذكار الصلاة</h2>
+</div>
+
+<div id="dua" class="view hidden">
+  <button onclick="backHome()">← رجوع</button>
+  <h2>🤲 الدعاء</h2>
+</div>
+
+<div id="names" class="view hidden">
+  <button onclick="backHome()">← رجوع</button>
+  <h2>📿 أسماء الله الحسنى</h2>
+</div>
+
+<div id="tasbeeh" class="view hidden">
+  <button onclick="backHome()">← رجوع</button>
+  <h2>📿 السبحة</h2>
+</div>
+
+<div id="virtues" class="view hidden">
+  <button onclick="backHome()">← رجوع</button>
+  <h2>⭐ فضائل الأعمال</h2>
+</div>
+
+<div id="prayersTime" class="view hidden">
+  <button onclick="backHome()">← رجوع</button>
+  <h2>🕰️ مواقيت الصلاة</h2>
+</div>
 </div>
 <div class="top-panel">
 <select id="zikr" onchange="changeZikr()">
@@ -573,7 +663,24 @@ window.onload = () => {
   showAyahBar();
 };
 
- 
+function openView(id){
+  document.getElementById("home").classList.add("hidden");
+
+  document.querySelectorAll(".view").forEach(v=>{
+    v.classList.add("hidden");
+  });
+
+  document.getElementById(id).classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function backHome(){
+  document.querySelectorAll(".view").forEach(v=>{
+    v.classList.add("hidden");
+  });
+
+  document.getElementById("home").classList.remove("hidden");
+} 
   </script>
 
 <p style="display:none">
