@@ -71,6 +71,7 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
 .settings button{flex:1}
 .zikrText{background:var(--card);border-radius:14px;padding:16px;margin-top:12px;font-size:15px;line-height:2;word-break:break-word;overflow-wrap:break-word;white-space:normal}
 .counter{font-size:56px;font-weight:bold;text-align:center;color:var(--accent);margin:12px 0 6px}
+/* منطقة زر التسبيح – المساحة العامة */
 .center{
   flex:1;
   display:flex;
@@ -79,10 +80,18 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   align-items:stretch;   /* ✅ مهم */
 }
 
+/* تحسين إحساس الزر قريب من الأسفل */
+.touch-wrapper{
+  flex:1;
+  display:flex;
+}
+
+/* المسافة أعلى اختر الذكر */
 .top-panel{
   padding:54px 14px 0;
 }
-  
+
+/* زر التسبيح */
 .touch{
   width:100%;
   flex:1;
@@ -95,16 +104,28 @@ select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1
   justify-content:center;
   gap:8px;
 }
+
+/* تفاعل الضغط */
 .touch:active{
   transform: scale(0.97);
 }
+
+/* رقم العداد */
 .touch-count{
   font-size:64px;
   font-weight:800;
   color:var(--accent);
 }
 
-  .complete{color:#0f766e;text-align:center;font-weight:bold;margin-top:8px}
+/* رسالة الاكتمال */
+.complete{
+  color:#0f766e;
+  text-align:center;
+  font-weight:bold;
+  margin-top:8px;
+}
+  
+
 
 .stats{
   margin-top:12px;
