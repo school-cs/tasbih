@@ -165,17 +165,10 @@ body.night .stat-card{
   margin: 10px auto;
   display: block;
 }
-/* شريط الآيات / الأحاديث */
-.touch-wrapper{
-  position:relative;
-  width:100%;
-}
+/* شريط الآيات – داخل التدفق (حل احترافي بدون تداخل) */
 .ayah-bar{
-  position:absolute;
-  top:100%;              /* ✅ أسفل الهيدر مباشرة */
-  margin-top:6px;        /* مسافة صغيرة */
-  left:50%;
-  transform:translateX(-50%);
+  position:relative;              /* ✅ داخل التدفق */
+  margin:8px auto 0;
   width:calc(100% - 28px);
   max-width:520px;
   height:48px;
@@ -187,7 +180,16 @@ body.night .stat-card{
   padding:0 12px;
   overflow:hidden;
   white-space:nowrap;
-  z-index:20;
+
+  transition:opacity .3s ease, transform .3s ease;
+}
+
+.ayah-bar.hidden{
+  opacity:0;
+  transform:translateY(-6px);
+}
+.top-panel{
+  padding:16px 14px 0;
 }
   .hidden{
   display:none;
