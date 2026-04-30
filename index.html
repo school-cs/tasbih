@@ -630,8 +630,13 @@ function setMax(v){max=v;localStorage.setItem('max',v);document.getElementById('
 function changeZikr(){
   const s = document.getElementById('zikr');
 
-  currentZikr = s.options[s.selectedIndex].text;
+  if (!s.value) {
+    currentZikr = '';
+    document.getElementById('zikrText').innerText = '';
+    return;
+  }
 
+  currentZikr = s.value;
   count = parseInt(localStorage.getItem(currentZikr)) || 0;
 
   document.getElementById('count').innerText = count;
@@ -640,6 +645,7 @@ function changeZikr(){
 
   showStats();
 }
+
 function increment(){
   // ✅ شرط واحد فقط صحيح
   if (!currentZikr || currentZikr.trim() === '') return;
@@ -723,9 +729,15 @@ function openView(id){
 
   document.getElementById(id).classList.remove("hidden");
 
+  if (id === "tasbeeh") {
+    currentZikr = '';
+    document.getElementById('zikr').value = '';
+    document.getElementById('zikrText').innerText = '';
+    document.getElementById('touchCount').innerText = '0';
+  }
+
   window.scrollTo({top:0,behavior:"smooth"});
 }
-
 
 function backHome(){
   document.querySelectorAll(".view").forEach(v=>{
