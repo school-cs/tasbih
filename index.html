@@ -80,6 +80,34 @@ body{
   font-family:Tahoma,Arial,sans-serif;
   overflow-y:auto; /* ✅ يسمح بالتمرير */
 }
+ /* =========================
+   ✅ تنسيق عام لكل الأزرار
+   ========================= */
+
+button{
+  width:100%;
+  min-height:52px;              /* حجم مريح */
+  padding:14px 16px;
+
+  border-radius:16px;
+  border:1px solid rgba(0,0,0,.08);
+  background:var(--card);
+
+  font-family:inherit;
+  font-size:17px;
+  font-weight:800;              /* ✅ غامق وواضح */
+  letter-spacing:.2px;
+  color:var(--text);
+
+  cursor:pointer;
+  transition:transform .15s ease, background .15s ease;
+}
+
+/* تفاعل الضغط */
+button:active{
+  transform:scale(.97);
+}
+
   .app{
   position: relative;
   max-width:520px;
@@ -174,6 +202,18 @@ header,footer{padding:14px}
 }
 .dashboard button[data-tone="purple"] span{
   color: var(--purple);
+}
+  
+  .dashboard button{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.dashboard button span{
+  font-size:18px;     /* ✅ أكبر قليلًا */
+  font-weight:800;
 }
   
   .view{
