@@ -76,33 +76,69 @@ header,footer{padding:14px}
   padding:14px;
 }
 
+
+/* =========================
+   🧭 Dashboard بنص فقط
+   ========================= */
+
+/* الزر */
 .dashboard button{
-  background:var(--card);
-  border-radius:16px;
-  padding:18px 10px;
-  border:1px solid rgba(0,0,0,.08);
-  font-size:26px;
+  background: var(--card);
+  border-radius: 16px;
+  padding: 18px 14px;
+  border: 1px solid rgba(0,0,0,.06);
+  cursor: pointer;
+
   display:flex;
-  flex-direction:column;
   align-items:center;
-  justify-content:center;
-  gap:6px;
-  cursor:pointer;
+  justify-content:center; /* تمركز النص */
 }
+
+/* النص */
+.dashboard button span{
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.25px;
+  color: var(--text);
+}
+
+/* تفاعل لطيف */
 .dashboard button:active{
-  transform:scale(0.96);
+  transform: scale(0.97);
 }
 
-.dashboard span{
-  font-size:14px;
-  font-weight:600;
-}
-/* ✅ تمييز زر السبحة */
+/* تمييز زر السبحة (الهوية الرئيسية) */
 .dashboard .tasbeeh-btn{
-  background:#ecfeff;
-  border-color:#99f6e4;
+  border-color: var(--primary);
+  background: var(--primary-soft);
 }
 
+.dashboard .tasbeeh-btn span{
+  color: var(--primary);
+}
+
+/* تمييزات خفيفة اختيارية للأقسام (بدون أيقونات) */
+.dashboard button[data-tone="blue"]{
+  background: var(--blue-soft);
+}
+.dashboard button[data-tone="blue"] span{
+  color: var(--blue);
+}
+
+.dashboard button[data-tone="amber"]{
+  background: var(--amber-soft);
+}
+.dashboard button[data-tone="amber"] span{
+  color: var(--amber);
+}
+
+.dashboard button[data-tone="purple"]{
+  background: var(--purple-soft);
+}
+.dashboard button[data-tone="purple"] span{
+  color: var(--purple);
+}
+  
   .view{
   padding:14px;
 }
@@ -375,21 +411,51 @@ body.night #tasbeehUI .touch{
 </div>
     <!-- ✅ الصفحة الرئيسية (Dashboard) -->
 <div id="home" class="dashboard">
-<div style="grid-column:1/-1;text-align:center;font-weight:bold;font-size:16px;opacity:.75;">
-  اختر القسم
-</div>
-  <button onclick="openView('quran')">📖<span>القرآن الكريم</span></button>
-  <button onclick="openView('morning')">🌅<span>أذكار الصباح</span></button>
-  <button onclick="openView('evening')">🌙<span>أذكار المساء</span></button>
-  <button onclick="openView('sleep')">😴<span>أذكار النوم</span></button>
-  <button onclick="openView('prayer')">🕌<span>أذكار الصلاة</span></button>
-  <button onclick="openView('dua')">🤲<span>الدعاء</span></button>
-  <button onclick="openView('names')">📿<span>أسماء الله الحسنى</span></button>
- <button onclick="openView('tasbeeh')" class="tasbeeh-btn">
-  📿<span>السبحة</span>
-</button>
-  <button onclick="openView('virtues')">⭐<span>فضائل الأعمال</span></button>
-  <button onclick="openView('prayersTime')">🕰️<span>مواقيت الصلاة</span></button>
+
+  <div style="grid-column:1/-1;text-align:center;font-weight:bold;font-size:16px;opacity:.75;">
+    اختر القسم
+  </div>
+
+  <button data-tone="blue" onclick="openView('quran')">
+    <span>القرآن الكريم</span>
+  </button>
+
+  <button data-tone="amber" onclick="openView('morning')">
+    <span>أذكار الصباح</span>
+  </button>
+
+  <button data-tone="amber" onclick="openView('evening')">
+    <span>أذكار المساء</span>
+  </button>
+
+  <button onclick="openView('sleep')">
+    <span>أذكار النوم</span>
+  </button>
+
+  <button onclick="openView('prayer')">
+    <span>أذكار الصلاة</span>
+  </button>
+
+  <button data-tone="purple" onclick="openView('dua')">
+    <span>الدعاء</span>
+  </button>
+
+  <button onclick="openView('names')">
+    <span>أسماء الله الحسنى</span>
+  </button>
+
+  <button class="tasbeeh-btn" onclick="openView('tasbeeh')">
+    <span>السبحة</span>
+  </button>
+
+  <button onclick="openView('virtues')">
+    <span>فضائل الأعمال</span>
+  </button>
+
+  <button onclick="openView('prayersTime')">
+    <span>مواقيت الصلاة</span>
+  </button>
+
 </div>
   
    <div id="quran" class="view hidden">
