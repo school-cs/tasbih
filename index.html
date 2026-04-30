@@ -218,8 +218,7 @@ body.night .stat-card{
 }
 
 .ayah-bar.hidden{
-  opacity:0;
-  transform:translateY(-6px);
+  display:none;
 }
 .top-panel{
   padding:16px 14px 0;
@@ -676,7 +675,8 @@ window.onload = () => {
 };
 
  function openView(id){
-  document.getElementById("home").classList.add("hidden");
+document.getElementById("ayahBar").classList.add("hidden");
+   document.getElementById("home").classList.add("hidden");
 
   document.querySelectorAll(".view").forEach(v=>{
     v.classList.add("hidden");
@@ -702,7 +702,9 @@ function backHome(){
 
   document.getElementById("tasbeehUI").classList.add("hidden");
   document.getElementById("home").classList.remove("hidden");
+document.getElementById("ayahBar").classList.remove("hidden");
 }
+
   </script>
 
 <p style="display:none">
