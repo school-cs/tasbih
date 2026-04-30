@@ -646,13 +646,18 @@ function changeZikr(){
 }
 
 function increment(){
-  // ✅ شرط واحد فقط صحيح
-  if (!currentZikr || currentZikr.trim() === '') return;
+
+  // ✅ منع التسبيح بدون اختيار ذكر
+  if (!currentZikr || currentZikr.trim() === '') {
+    alert('يرجى اختيار الذكر أولًا');
+    return;
+  }
 
   count++;
   localStorage.setItem(currentZikr, count);
   document.getElementById('count').innerText = count;
-document.getElementById('touchCount').innerText = count;
+  document.getElementById('touchCount').innerText = count;
+
   // ✅ تحديث إحصائيات اليوم
   if (!stats[today]) stats[today] = {};
   stats[today][currentZikr] = (stats[today][currentZikr] || 0) + 1;
@@ -675,12 +680,11 @@ document.getElementById('touchCount').innerText = count;
     setTimeout(() => {
       count = 0;
       localStorage.setItem(currentZikr, 0);
-     document.getElementById('count').innerText = 0;
-  document.getElementById('touchCount').innerText = 0;
+      document.getElementById('count').innerText = 0;
+      document.getElementById('touchCount').innerText = 0;
     }, 300);
   }
 }
-
 function clearCount(){localStorage.clear();location.reload()}
 function toggleNight(){document.body.classList.toggle('night');localStorage.setItem('night',document.body.classList.contains('night')?'1':'0')}
 function showStats(){
@@ -734,7 +738,8 @@ function openView(id){
     document.getElementById('zikr').value = '';
     document.getElementById('zikrText').innerText = '';
     document.getElementById('touchCount').innerText = '0';
- document.getElementById('count').innerText = '0';
+    document.getElementById('count').innerText = '0';
+document.getElementById('tasbeehStats').innerHTML = '';
   }
 
   window.scrollTo({top:0,behavior:"smooth"});
