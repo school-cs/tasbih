@@ -630,14 +630,14 @@ function changeZikr(){
   const s = document.getElementById('zikr');
 
   currentZikr = s.options[s.selectedIndex].text;
+
   count = parseInt(localStorage.getItem(currentZikr)) || 0;
 
   document.getElementById('count').innerText = count;
   document.getElementById('touchCount').innerText = count;
   document.getElementById('zikrText').innerText = currentZikr;
 
-  showStats();   // ✅ هذا هو سطر الحل
-  s.blur();
+  showStats();
 }
 function increment(){
   // ✅ شرط واحد فقط صحيح
