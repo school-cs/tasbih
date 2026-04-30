@@ -110,13 +110,14 @@ header,footer{padding:14px}
 #tasbeeh.view{
   padding-bottom:0;
 }
+ #tasbeeh > button {
+  margin-bottom: 12px;
+}
   .view h2{
   margin-top:8px;
   font-size:20px;
 }
-.view button{
-  margin-bottom:12px;
-}
+
 
   select,button{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1px solid #ccc}
 .settings{display:flex;gap:8px;margin-top:10px}
@@ -391,10 +392,12 @@ margin:16px 14px 24px; /* ✅ هنا */
   <option>لا حول ولا قوة إلا بالله.</option>
   <option>سبحان الله وبحمده، عدد خلقه ورضى نفسه وزنة عرشه ومداد كلماته.</option>
   <option>سبحان الله والحمد لله ولا إله إلا الله والله أكبر.</option>
-  <option>استغفر الله العظيم الذي لا إله إلا هو الحي القيوم وأتوب إليه.</option>
   <option>الله أكبر كبيرًا، والحمد لله كثيرًا، وسبحان الله بكرةً وأصيلاً.</option>
+  <option>استغفر الله العظيم الذي لا إله إلا هو الحي القيوم وأتوب إليه.</option>
+    <option>اللهم اغفرلي ولوالدي ولجميع المسلمين والمسلمات والمؤمنين والمؤمنات الاحياء منهم والاموات</option>         
   <option>اللهم صلِ وسلم وبارك على نبينا محمد.</option>
-  <option>اللهم صل على محمد وعلى آل محمد...</option>
+  <option>اللهم صل على محمد وعلى آل محمد ، كما صليت على آل إبراهيم ، وبارك على محمد ، وعلى آل محمد ، كما باركت على آل إبراهيم في العالمين إنك حميد مجيد .</option 
+
 
     </select>  
      
@@ -649,7 +652,6 @@ function increment(){
 
   // ✅ منع التسبيح بدون اختيار ذكر
   if (!currentZikr || currentZikr.trim() === '') {
-    alert('يرجى اختيار الذكر أولًا');
     return;
   }
 
@@ -685,7 +687,20 @@ function increment(){
     }, 300);
   }
 }
-function clearCount(){localStorage.clear();location.reload()}
+function clearCount(){
+  localStorage.removeItem('stats');
+  localStorage.removeItem('lastStatsDay');
+
+  count = 0;
+  if (currentZikr) localStorage.setItem(currentZikr, 0);
+
+  document.getElementById('count').innerText = '0';
+  document.getElementById('touchCount').innerText = '0';
+  document.getElementById('tasbeehStats').innerHTML = '';
+
+  // ✅ بدون reload
+}
+
 function toggleNight(){document.body.classList.toggle('night');localStorage.setItem('night',document.body.classList.contains('night')?'1':'0')}
 function showStats(){
 const el = document.getElementById('tasbeehStats');
@@ -712,6 +727,13 @@ const el = document.getElementById('tasbeehStats');
 }
 
 window.onload = () => {
+  const todayKey = new Date().toISOString().split('T')[0];
+const lastDay = localStorage.getItem('lastStatsDay');
+
+if (lastDay !== todayKey) {
+  localStorage.removeItem('stats'); // ✅ تصفير تلقائي بعد يوم
+  localStorage.setItem('lastStatsDay', todayKey);
+}
   document.body.classList.toggle(
     'night',
     localStorage.getItem('night') === '1'
