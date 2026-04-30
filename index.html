@@ -712,37 +712,28 @@ window.onload = () => {
   showAyahBar();
 };
 
- function openView(id){
-document.getElementById("ayahBar").classList.add("hidden");
-   document.getElementById("home").classList.add("hidden");
+function openView(id){
+  document.getElementById("ayahBar").classList.add("hidden");
+  document.getElementById("home").classList.add("hidden");
 
   document.querySelectorAll(".view").forEach(v=>{
     v.classList.add("hidden");
   });
 
-  // إخفاء واجهة السبحة
-  document.getElementById("tasbeehUI").classList.add("hidden");
-
   document.getElementById(id).classList.remove("hidden");
-
-  // إظهار السبحة فقط عند فتحها
-  if(id === "tasbeeh"){
-    document.getElementById("tasbeehUI").classList.remove("hidden");
-  }
 
   window.scrollTo({top:0,behavior:"smooth"});
 }
+
 
 function backHome(){
   document.querySelectorAll(".view").forEach(v=>{
     v.classList.add("hidden");
   });
 
-  document.getElementById("tasbeehUI").classList.add("hidden");
   document.getElementById("home").classList.remove("hidden");
-document.getElementById("ayahBar").classList.remove("hidden");
+  document.getElementById("ayahBar").classList.remove("hidden");
 }
-
   </script>
 
 <p style="display:none">
