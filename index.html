@@ -737,18 +737,31 @@ function increment(){
   }
 }
 function clearCount(){
+
+  /* ✅ مسح إحصائيات اليوم */
   localStorage.removeItem('stats');
   localStorage.removeItem('lastStatsDay');
 
-  count = 0;
-  if (currentZikr) localStorage.setItem(currentZikr, 0);
+  /* ✅ مسح جميع عدّادات الأذكار المخزّنة */
+  const select = document.getElementById('zikr');
+  Array.from(select.options).forEach(opt => {
+    if (opt.value && opt.value.trim() !== '') {
+      localStorage.removeItem(opt.value);
+    }
+  });
 
+  /* ✅ تصفير القيم الحالية */
+  count = 0;
+  currentZikr = '';
+
+  /* ✅ تحديث الواجهة */
+  document.getElementById('zikr').value = '';
+  document.getElementById('zikrText').innerText = '';
   document.getElementById('count').innerText = '0';
   document.getElementById('touchCount').innerText = '0';
   document.getElementById('tasbeehStats').innerHTML = '';
-
-  // ✅ بدون reload
 }
+
 
 function toggleNight(){document.body.classList.toggle('night');localStorage.setItem('night',document.body.classList.contains('night')?'1':'0')}
 function showStats(){
