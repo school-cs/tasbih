@@ -288,7 +288,8 @@ margin:16px 14px 24px; /* ✅ هنا */
   <div id="ayahBar" class="ayah-bar hidden">
     <div id="ayahText" class="ayah-text"></div>
   </div>
-<!-- ✅ الصفحة الرئيسية (Dashboard) -->
+</div>
+    <!-- ✅ الصفحة الرئيسية (Dashboard) -->
 <div id="home" class="dashboard">
 
   <button onclick="openView('quran')">📖<span>القرآن الكريم</span></button>
@@ -353,7 +354,8 @@ margin:16px 14px 24px; /* ✅ هنا */
   <h2>🕰️ مواقيت الصلاة</h2>
 </div>
 </div>
-<div class="top-panel">
+<div id="tasbeehUI">
+  <div class="top-panel">
 <select id="zikr" onchange="changeZikr()">
 <option disabled selected>اختر الذكر</option>
 <option>لا إله إلا الله وحده لا شريك له ،له الملك وله الحمد وهو على كل شيء قدير.</option>
@@ -406,6 +408,8 @@ margin:16px 14px 24px; /* ✅ هنا */
 <div id="stats" class="stats"></div>
 
 </footer>
+ </div> <!-- ✅ إغلاق tasbeehUI -->
+
   <section class="info-section">
   <details>
     <summary>📿 ما هي السبحة الإلكترونية؟ وكيف تُستخدم كتطبيق</summary>
@@ -681,6 +685,34 @@ function backHome(){
 
   document.getElementById("home").classList.remove("hidden");
 } 
+ function openView(id){
+  document.getElementById("home").classList.add("hidden");
+
+  document.querySelectorAll(".view").forEach(v=>{
+    v.classList.add("hidden");
+  });
+
+  // إخفاء واجهة السبحة
+  document.getElementById("tasbeehUI").classList.add("hidden");
+
+  document.getElementById(id).classList.remove("hidden");
+
+  // إظهار السبحة فقط عند فتحها
+  if(id === "tasbeeh"){
+    document.getElementById("tasbeehUI").classList.remove("hidden");
+  }
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function backHome(){
+  document.querySelectorAll(".view").forEach(v=>{
+    v.classList.add("hidden");
+  });
+
+  document.getElementById("tasbeehUI").classList.add("hidden");
+  document.getElementById("home").classList.remove("hidden");
+}
   </script>
 
 <p style="display:none">
