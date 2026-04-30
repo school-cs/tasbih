@@ -376,9 +376,56 @@ margin:16px 14px 24px; /* ✅ هنا */
 </div>
 
 <div id="tasbeeh" class="view hidden">
+
   <button onclick="backHome()">← رجوع</button>
 
+  <div id="tasbeehUI">
+
+    <div class="top-panel">
+      <select id="zikr" onchange="changeZikr()">
+        <!-- الخيارات -->
+      </select>
+
+      <div class="settings">
+        <button onclick="setMax(33)">33</button>
+        <button onclick="setMax(99)">99</button>
+        <button onclick="setMax(100)">100</button>
+      </div>
+
+      <div id="zikrText" class="zikrText"></div>
+      <div style="text-align:center;font-size:14px">
+        الحد الحالي: <span id="maxLabel">100</span>
+      </div>
+    </div>
+
+    <div class="center">
+      <div class="touch-wrapper">
+        <div class="touch" onclick="increment()">
+          <div class="touch-count" id="touchCount">0</div>
+          <div class="touch-label">للتسبيح</div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <button onclick="clearCount()">مسح العدّادات</button>
+      <div class="settings">
+        <label>
+          الاكتمال:
+          <select onchange="setCompletionMode(this.value)">
+            <option value="none">بدون تنبيه</option>
+            <option value="vibrate">اهتزاز</option>
+            <option value="sound">صوت</option>
+          </select>
+        </label>
+      </div>
+      <div id="stats" class="stats"></div>
+    </footer>
+
+  </div>
+
 </div>
+
 
 <div id="virtues" class="view hidden">
   <button onclick="backHome()">← رجوع</button>
@@ -390,7 +437,7 @@ margin:16px 14px 24px; /* ✅ هنا */
   <h2>🕰️ مواقيت الصلاة</h2>
 </div>
 </div>
- <div id="tasbeehUI" class="hidden">
+
   <div class="top-panel">
 <select id="zikr" onchange="changeZikr()">
 <option disabled selected>اختر الذكر</option>
