@@ -106,7 +106,11 @@ header,footer{padding:14px}
   .view{
   padding:14px;
 }
- .view h2{
+/* ✅ لا نضيف فراغ للسبحة */
+#tasbeeh.view{
+  padding-bottom:0;
+}
+  .view h2{
   margin-top:8px;
   font-size:20px;
 }
@@ -294,6 +298,15 @@ margin:16px 14px 24px; /* ✅ هنا */
 .info-section details[open] summary{
   margin-bottom:10px;
 }
+/* ✅ سحب واجهة السبحة للأعلى */
+#tasbeehUI{
+  margin-top:-20px;
+}
+
+/* ✅ تقليل المسافة فوق "اختر الذكر" */
+#tasbeehUI .top-panel{
+  padding-top:6px;
+}
 </style>
 </head>
 <body>
@@ -320,7 +333,9 @@ margin:16px 14px 24px; /* ✅ هنا */
   <button onclick="openView('prayer')">🕌<span>أذكار الصلاة</span></button>
   <button onclick="openView('dua')">🤲<span>الدعاء</span></button>
   <button onclick="openView('names')">📿<span>أسماء الله الحسنى</span></button>
-  <button onclick="openView('tasbeeh')">📿<span>السبحة</span></button>
+ <button onclick="openView('tasbeeh')" class="tasbeeh-btn">
+  📿<span>السبحة</span>
+</button>
   <button onclick="openView('virtues')">⭐<span>فضائل الأعمال</span></button>
   <button onclick="openView('prayersTime')">🕰️<span>مواقيت الصلاة</span></button>
 </div>
