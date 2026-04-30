@@ -89,12 +89,21 @@ header,footer{padding:14px}
   gap:6px;
   cursor:pointer;
 }
+.dashboard button:active{
+  transform:scale(0.96);
+}
 
 .dashboard span{
   font-size:14px;
   font-weight:600;
 }
-.view{
+/* ✅ تمييز زر السبحة */
+.dashboard .tasbeeh-btn{
+  background:#ecfeff;
+  border-color:#99f6e4;
+}
+
+  .view{
   padding:14px;
 }
  .view h2{
@@ -301,7 +310,9 @@ margin:16px 14px 24px; /* ✅ هنا */
 </div>
     <!-- ✅ الصفحة الرئيسية (Dashboard) -->
 <div id="home" class="dashboard">
-
+<div style="grid-column:1/-1;text-align:center;font-weight:bold;font-size:16px;opacity:.75;">
+  اختر القسم
+</div>
   <button onclick="openView('quran')">📖<span>القرآن الكريم</span></button>
   <button onclick="openView('morning')">🌅<span>أذكار الصباح</span></button>
   <button onclick="openView('evening')">🌙<span>أذكار المساء</span></button>
