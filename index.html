@@ -24,18 +24,53 @@
 <link rel="apple-touch-icon" href="icon-512.png">
 <style>
 :root{
+  /* الأساس */
   --bg:#f4f6f8;
   --card:#ffffff;
   --text:#0f172a;
   --accent:#0f766e;
   --touch:#d1fae5;
+
+  /* ألوان الهوية */
+  --primary:#0f766e;
+  --primary-soft:#ccfbf1;
+
+  /* ألوان Dashboard */
+  --blue:#2563eb;
+  --blue-soft:#dbeafe;
+
+  --amber:#d97706;
+  --amber-soft:#fef3c7;
+
+  --purple:#7c3aed;
+  --purple-soft:#ede9fe;
 }
-body.night{--bg:#020617;--card:#020617;--text:#e5e7eb;--accent:#22d3ee;--touch:#0f172a}
+body.night{
+  /* الأساس */
+  --bg:#020617;
+  --card:#020617;
+  --text:#e5e7eb;
+  --accent:#22d3ee;
+  --touch:#0f172a;
+
+  /* ألوان Dashboard */
+  --primary:#22d3ee;
+  --primary-soft:#083344;
+
+  --blue:#60a5fa;
+  --blue-soft:#0b1220;
+
+  --amber:#fbbf24;
+  --amber-soft:#1c1403;
+
+  --purple:#c4b5fd;
+  --purple-soft:#1e1b4b;
+}
 *{box-sizing:border-box}
 html, body{
   height:100%;
-}
-body{
+
+  body{
   margin:0;
   background:var(--bg);
   color:var(--text);
