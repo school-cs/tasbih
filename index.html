@@ -299,14 +299,62 @@ margin:16px 14px 24px; /* ✅ هنا */
 .info-section details[open] summary{
   margin-bottom:10px;
 }
-/* ✅ سحب واجهة السبحة للأعلى */
-#tasbeehUI{
-  margin-top:-20px;
+
+/* =========================
+   📿 تنسيقات صفحة السبحة
+   ========================= */
+
+/* صفحة السبحة */
+#tasbeeh.view{
+  padding-bottom: 0;
 }
 
-/* ✅ تقليل المسافة فوق "اختر الذكر" */
+/* زر الرجوع داخل السبحة */
+#tasbeeh > button{
+  margin-bottom: 14px; /* ✅ مسافة واضحة ومريحة */
+}
+
+/* حاوية واجهة السبحة */
+#tasbeehUI{
+  margin-top: 0;      /* ✅ إلغاء السحب السلبي نهائيًا */
+}
+
+/* الجزء العلوي (اختر الذكر + الإعدادات) */
 #tasbeehUI .top-panel{
-  padding-top:6px;
+  padding-top: 10px;  /* ✅ فراغ مريح تحت زر الرجوع */
+}
+
+/* صندوق نص الذكر */
+#tasbeehUI .zikrText{
+  margin-top: 12px;
+}
+
+/* منطقة الزر الكبير */
+#tasbeehUI .center{
+  padding-top: 10px;
+  padding-bottom: 140px;
+}
+
+/* زر التسبيح */
+#tasbeehUI .touch{
+  min-height: 220px;
+  border-radius: 32px;
+}
+
+/* العداد */
+#tasbeehUI .touch-count{
+  font-size: 64px;
+  font-weight: 800;
+}
+
+/* إحصائيات السبحة */
+#tasbeehUI .stats{
+  margin-top: 12px;
+}
+
+/* الوضع الليلي الخاص بالسبحة */
+body.night #tasbeehUI .touch{
+  background: var(--touch);
 }
 </style>
 </head>
