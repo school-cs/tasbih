@@ -384,7 +384,20 @@ margin:16px 14px 24px; /* ✅ هنا */
     <div class="top-panel">
       <select id="zikr" onchange="changeZikr()">
         <!-- الخيارات -->
-      </select>
+    <option disabled selected>اختر الذكر</option>
+<option>لا إله إلا الله وحده لا شريك له ،له الملك وله الحمد وهو على كل شيء قدير.</option>
+<option>سبحان الله وبحمده سبحان الله العظيم.</option>
+<option>سبحان الله العظيم وبحمده.</option>
+<option>لا حول ولا قوة إلا بالله.</option>
+<option>سبحان الله وبحمده، عدد خلقه ورضى نفسه وزنة عرشه ومداد كلماته.</option>
+<option>سبحان الله والحمد لله ولا إله إلا الله والله أكبر.</option>
+<option>استغفر الله العظيم الذي لا إله إلا هو الحي القيوم وأتوب إليه.</option>
+<option>الله أكبر كبيرًا، والحمد لله كثيرًا، وسبحان الله بكرةً وأصيلاً.</option>
+<option>اللهم صلِ وسلم وبارك على نبينا محمد.</option>
+<option>اللهم صل على محمد وعلى آل محمد، كما صليت على آل إبراهيم، وبارك على محمد، وعلى آل محمد، كما باركت على آل إبراهيم في العالمين إنك حميد مجيد.</option>
+</select>
+      
+     
 
       <div class="settings">
         <button onclick="setMax(33)">33</button>
@@ -438,59 +451,7 @@ margin:16px 14px 24px; /* ✅ هنا */
 </div>
 </div>
 
-  <div class="top-panel">
-<select id="zikr" onchange="changeZikr()">
-<option disabled selected>اختر الذكر</option>
-<option>لا إله إلا الله وحده لا شريك له ،له الملك وله الحمد وهو على كل شيء قدير.</option>
-<option>سبحان الله وبحمده سبحان الله العظيم.</option>
-<option>سبحان الله العظيم وبحمده.</option>
-<option>لا حول ولا قوة إلا بالله.</option>
-<option>سبحان الله وبحمده، عدد خلقه ورضى نفسه وزنة عرشه ومداد كلماته.</option>
-<option>سبحان الله والحمد لله ولا إله إلا الله والله أكبر.</option>
-<option>استغفر الله العظيم الذي لا إله إلا هو الحي القيوم وأتوب إليه.</option>
-<option>الله أكبر كبيرًا، والحمد لله كثيرًا، وسبحان الله بكرةً وأصيلاً.</option>
-<option>اللهم صلِ وسلم وبارك على نبينا محمد.</option>
-<option>اللهم صل على محمد وعلى آل محمد، كما صليت على آل إبراهيم، وبارك على محمد، وعلى آل محمد، كما باركت على آل إبراهيم في العالمين إنك حميد مجيد.</option>
-</select>
 
-<div class="settings">
-  <button onclick="setMax(33)">33</button>
-  <button onclick="setMax(99)">99</button>
-  <button onclick="setMax(100)">100</button>
-</div>
-
-<div id="zikrText" class="zikrText"></div>
-<div id="count" class="counter">0</div>
-<div style="text-align:center;font-size:14px">الحد الحالي: <span id="maxLabel">100</span></div>
-</div>
-
-<div class="center">
-  <div class="touch-wrapper">
-
-    <!-- ✅ زر التسبيح -->
-    <div class="touch" onclick="increment()">
-      <div class="touch-count" id="touchCount">0</div>
-      <div class="touch-label">للتسبيح</div>
-    </div>
-
-  </div>
-</div>
-
-<footer>
-<button onclick="clearCount()">مسح العدّادات</button>
-<div class="settings">
-  <label>
-    الاكتمال:
-    <select onchange="setCompletionMode(this.value)">
-      <option value="none">بدون تنبيه</option>
-      <option value="vibrate">اهتزاز</option>
-      <option value="sound">صوت</option>
-    </select>
-  </label>
-</div>
-<div id="stats" class="stats"></div>
-
-</footer>
  </div> <!-- ✅ إغلاق tasbeehUI -->
 
   <section class="info-section">
