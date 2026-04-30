@@ -433,7 +433,7 @@ margin:16px 14px 24px; /* ✅ هنا */
           </select>
         </label>
       </div>
-      <div id="stats" class="stats"></div>
+<div id="tasbeehStats" class="stats"></div>
     </footer>
 
   </div>
@@ -684,7 +684,7 @@ document.getElementById('touchCount').innerText = count;
 function clearCount(){localStorage.clear();location.reload()}
 function toggleNight(){document.body.classList.toggle('night');localStorage.setItem('night',document.body.classList.contains('night')?'1':'0')}
 function showStats(){
-  const el = document.getElementById('stats');
+const el = document.getElementById('tasbeehStats');
   const todayStats = stats[today] || {};
 
   if (!Object.keys(todayStats).length) {
@@ -730,9 +730,11 @@ function openView(id){
 
   if (id === "tasbeeh") {
     currentZikr = '';
+    count = 0;
     document.getElementById('zikr').value = '';
     document.getElementById('zikrText').innerText = '';
     document.getElementById('touchCount').innerText = '0';
+ document.getElementById('count').innerText = '0';
   }
 
   window.scrollTo({top:0,behavior:"smooth"});
