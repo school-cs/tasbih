@@ -20,9 +20,13 @@
 ">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link rel="manifest" href="manifest.json">
+
+<link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-512.png">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;800;900&display=swap"
+
+<!-- ✅ خط Tajawal -->
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;800;900&display=swap" rel="stylesheet">
+  
   <style>
 :root{
   /* الأساس */
@@ -111,33 +115,7 @@ button:active{
   body.night button{
   border-color:rgba(255,255,255,.12);
 }
-  /* =========================
-   ✅ تنسيق عام لكل الأزرار
-   ========================= */
-
-button{
-  width:100%;
-  min-height:52px;              /* حجم مريح */
-  padding:14px 16px;
-
-  border-radius:16px;
-  border:1px solid rgba(0,0,0,.08);
-  background:var(--card);
-
-  font-family:inherit;
-  font-size:17px;
-  font-weight:800;              /* ✅ غامق وواضح */
-  letter-spacing:.2px;
-  color:var(--text);
-
-  cursor:pointer;
-  transition:transform .15s ease, background .15s ease;
-}
-
-/* تفاعل الضغط */
-button:active{
-  transform:scale(.97);
-}
+ 
 
   .app{
   position: relative;
