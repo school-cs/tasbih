@@ -143,33 +143,32 @@ header,footer{padding:14px}
 
 
 /* =========================
-   🧭 Dashboard بنص فقط
+   🧭 Dashboard – نص فقط
    ========================= */
 
-/* الزر */
 .dashboard button{
   background: var(--card);
-  border-radius: 16px;
-  padding: 18px 14px;
-  border: 1px solid rgba(0,0,0,.06);
-  cursor: pointer;
+  border-radius:16px;
+  padding:18px 14px;
+  border:1px solid rgba(0,0,0,.06);
+  cursor:pointer;
 
   display:flex;
   align-items:center;
-  justify-content:center; /* تمركز النص */
+  justify-content:center;
+  text-align:center;
 }
 
-/* النص */
 .dashboard button span{
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: 0.25px;
-  color: var(--text);
+  font-size:18px;        /* ✅ واضح */
+  font-weight:800;       /* ✅ غامق */
+  letter-spacing:.25px;
+  color:var(--text);
 }
 
-/* تفاعل لطيف */
+/* تفاعل */
 .dashboard button:active{
-  transform: scale(0.97);
+  transform:scale(.97);
 }
 
 /* تمييز زر السبحة (الهوية الرئيسية) */
@@ -204,17 +203,6 @@ header,footer{padding:14px}
   color: var(--purple);
 }
   
-  .dashboard button{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-
-.dashboard button span{
-  font-size:18px;     /* ✅ أكبر قليلًا */
-  font-weight:800;
-}
   
   .view{
   padding:14px;
