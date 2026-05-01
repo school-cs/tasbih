@@ -22,7 +22,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-512.png">
-<style>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;800;900&display=swap"
+  <style>
 :root{
   /* الأساس */
   --bg:#f4f6f8;
@@ -77,10 +78,40 @@ body{
   margin:0;
   background:var(--bg);
   color:var(--text);
-  font-family:Tahoma,Arial,sans-serif;
-  overflow-y:auto; /* ✅ يسمح بالتمرير */
+  font-family:'Tajawal', Tahoma, Arial, sans-serif;
+  font-weight:600;
 }
- /* =========================
+/* =========================
+   ✅ تنسيق موحّد لكل الأزرار
+   ========================= */
+
+button{
+  width:100%;
+  min-height:58px;              /* ✅ كبير ومريح */
+  padding:16px 18px;
+
+  border-radius:18px;
+  border:1px solid rgba(0,0,0,.08);
+  background:var(--card);
+
+  font-family:'Tajawal', sans-serif;
+  font-size:18px;               /* ✅ خط أكبر */
+  font-weight:900;              /* ✅ عريض جدًا */
+  letter-spacing:.3px;
+  color:var(--text);
+
+  cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+
+/* تأثير الضغط */
+button:active{
+  transform:scale(.96);
+}
+  body.night button{
+  border-color:rgba(255,255,255,.12);
+}
+  /* =========================
    ✅ تنسيق عام لكل الأزرار
    ========================= */
 
