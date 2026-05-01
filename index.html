@@ -612,7 +612,7 @@ body.night #tasbeehUI .touch{
 <div class="center">
   <div class="touch-wrapper">
     <div class="touch" onclick="handleMainTap()">
-   <div class="touch-count">👆 </div>
+      <div class="touch-count" id="prayerTouchCount">0 / 0</div>
       <div class="touch-label">للاستمرار</div>
     </div>
   </div>
@@ -868,26 +868,32 @@ let prayerCount = 0;
   }
 }
 
-    function showPrayerZikr() {
+ function showPrayerZikr() {
   prayerCount = 0;
   const z = azkarPrayer[prayerIndex];
 
   document.getElementById("prayerZikrBox").textContent =
     `${z.text}\n\n(${prayerCount} / ${z.repeat})`;
-}
 
+  const btnCount = document.getElementById("prayerTouchCount");
+  if (btnCount) btnCount.innerText = `${prayerCount} / ${z.repeat}`;
+}
     function handlePrayerTap() {
   const z = azkarPrayer[prayerIndex];
   prayerCount++;
 
-  // أثناء العد
-  if (prayerCount < z.repeat) {
-    document.getElementById("prayerZikrBox").textContent =
-      `${z.text}\n\n(${prayerCount} / ${z.repeat})`;
-    return;
-  }
+  // تحديث نص الذكر
+  document.getElementById("prayerZikrBox").textContent =
+    `${z.text}\n\n(${prayerCount} / ${z.repeat})`;
 
-  // ✅ عند اكتمال الذكر
+  // تحديث عدّاد الزر
+  const btnCount = document.getElementById("prayerTouchCount");
+  if (btnCount) btnCount.innerText = `${prayerCount} / ${z.repeat}`;
+
+  // أثناء العد
+  if (prayerCount < z.repeat) return;
+
+  // عند اكتمال الذكر
   if (navigator.vibrate) navigator.vibrate(200);
 
   prayerIndex++;
@@ -895,14 +901,12 @@ let prayerCount = 0;
   // الانتقال للذكر التالي
   if (prayerIndex < azkarPrayer.length) {
     showPrayerZikr();
-  } 
-  // 🟢 عند انتهاء أذكار الصلاة بالكامل
-  else {
+  } else {
     document.getElementById("prayerZikrBox").style.display = "none";
     document.getElementById("prayerFinishMsg").classList.remove("hidden");
     currentMode = "none";
   }
-}
+
  function openPrayer() {
   currentMode = "prayer";
   prayerIndex = 0;
