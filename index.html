@@ -1213,35 +1213,7 @@ const azkarPrayer = [
 ];
 
 // ===== التحكم في العرض =====
-let prayerIndex = 0;
 
-function showPrayerZikr() {
-  document.getElementById("prayerZikrBox").textContent =
-    azkarPrayer[prayerIndex];
-}
-
-function nextPrayerZikr() {
-  prayerIndex++;
-  if (prayerIndex < azkarPrayer.length) {
-    showPrayerZikr();
-  } else {
-    document.getElementById("prayerZikrBox").style.display = "none";
-    document.getElementById("prayerNextBtn").style.display = "none";
-    document.getElementById("prayerFinishMsg").classList.remove("hidden");
-  }
-}
-
-function openPrayer() {
-  currentMode = "prayer";
-  prayerIndex = 0;
-  prayerCount = 0;
-
-  document.getElementById("prayerZikrBox").style.display = "block";
-  document.getElementById("prayerFinishMsg").classList.add("hidden");
-
-  showPrayerZikr();
-  openView("prayer");
-}
   </script>
 
 <p style="display:none">
