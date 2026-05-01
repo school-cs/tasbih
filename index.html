@@ -896,7 +896,17 @@ let prayerCount = 0;
     currentMode = "none";
   }
 }
-    
+ function openPrayer() {
+  currentMode = "prayer";
+  prayerIndex = 0;
+  prayerCount = 0;
+
+  document.getElementById("prayerZikrBox").style.display = "block";
+  document.getElementById("prayerFinishMsg").classList.add("hidden");
+
+  showPrayerZikr();
+  openView("prayer");
+}   
     function playBeep(freq=600, duration=0.2){
   if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
   const o = audioCtx.createOscillator();
