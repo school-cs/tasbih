@@ -206,12 +206,9 @@ header,footer{padding:14px}
    🎨 ألوان تلقائية حسب القسم
    ========================= */
 
-/* 📖 القرآن الكريم */
-.dashboard button[onclick*="quran"]{
-  background: var(--blue-soft);
-}
-.dashboard button[onclick*="quran"] span{
-  color: var(--blue);
+/* ✅ توحيد لون النص */
+.dashboard button span{
+  color: var(--text);
 }
 
 /* 🌅🌙 الأذكار */
@@ -221,76 +218,24 @@ header,footer{padding:14px}
 .dashboard button[onclick*="prayer"]{
   background: var(--amber-soft);
 }
-.dashboard button[onclick*="morning"] span,
-.dashboard button[onclick*="evening"] span,
-.dashboard button[onclick*="sleep"] span,
-.dashboard button[onclick*="prayer"] span{
-  color: var(--amber);
-}
 
-/* 🤲 الدعاء */
-.dashboard button[onclick*="dua"]{
-  background: var(--purple-soft);
-}
-.dashboard button[onclick*="dua"] span{
-  color: var(--purple);
-}
-
-/* 📿 أسماء الله الحسنى */
-.dashboard button[onclick*="names"]{
-  background: var(--primary-soft);
-}
-.dashboard button[onclick*="names"] span{
-  color: var(--primary);
-}
-
-/* 🕰️ مواقيت الصلاة */
-.dashboard button[onclick*="prayersTime"]{
-  background: var(--blue-soft);
-}
-.dashboard button[onclick*="prayersTime"] span{
-  color: var(--blue);
-}
-
-/* ⭐ فضائل الأعمال */
-.dashboard button[onclick*="virtues"]{
-  background: var(--purple-soft);
-}
-.dashboard button[onclick*="virtues"] span{
-  color: var(--purple);
-}
-
-    /* ✅ توحيد ألوان النص في Dashboard */
-.dashboard button span{
-  color: var(--text);
-}
-
-/* أذكار */
-.dashboard button[onclick*="morning"],
-.dashboard button[onclick*="evening"],
-.dashboard button[onclick*="sleep"],
-.dashboard button[onclick*="prayer"]{
-  background: var(--amber-soft);
-}
-
-/* قرآن + مواقيت */
+/* 📖 القرآن + 🕰️ المواقيت */
 .dashboard button[onclick*="quran"],
 .dashboard button[onclick*="prayersTime"]{
   background: var(--blue-soft);
 }
 
-/* دعاء + فضائل */
+/* 🤲 الدعاء + ⭐ الفضائل */
 .dashboard button[onclick*="dua"],
 .dashboard button[onclick*="virtues"]{
   background: var(--purple-soft);
 }
 
-/* أسماء الله + سبحة */
+/* 📿 الأسماء + السبحة */
 .dashboard button[onclick*="names"],
 .dashboard .tasbeeh-btn{
   background: var(--primary-soft);
 }
-  
   .view{
   padding:14px;
 }
@@ -373,17 +318,11 @@ select{
 }
 
 /* أذكار الصلاة (وأي أذكار مستقبلًا) */
+/* أذكار الصلاة */
 #prayer .touch{
   background: var(--amber-soft);
 }
 #prayer .touch-count{
-  color: var(--amber);
-}
-    #prayer .touch {
-  background: var(--amber-soft);
-}
-
-#prayer .touch-count {
   color: var(--amber);
 }
 /* رسالة الاكتمال */
