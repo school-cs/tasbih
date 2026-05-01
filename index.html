@@ -598,7 +598,7 @@ body.night #tasbeehUI .touch{
   <h2>🕌 أذكار الصلاة</h2>
 
   <div class="zikrText" id="prayerZikrBox"></div>
-<div class="center">
+<div class="center" id="prayerCounter">
   <div class="touch-wrapper">
     <div class="touch" onclick="handleMainTap()">
       <div class="touch-count" id="prayerTouchCount">0 / 0</div>
@@ -887,11 +887,15 @@ if (completionMode === "vibrate" && navigator.vibrate) {
   prayerIndex++;
   if (prayerIndex < azkarPrayer.length) {
     showPrayerZikr();
-  } else {
-    document.getElementById("prayerZikrBox").style.display = "none";
-    document.getElementById("prayerFinishMsg").classList.remove("hidden");
-    currentMode = "none";
-  }
+ } else {
+  document.getElementById("prayerZikrBox").style.display = "none";
+  document.getElementById("prayerFinishMsg").classList.remove("hidden");
+
+  // ✅ إخفاء زر العداد بعد الانتهاء
+  document.getElementById("prayerCounter").style.display = "none";
+
+  currentMode = "none";
+}
 }
 
 function openPrayer() {
@@ -899,12 +903,13 @@ function openPrayer() {
   prayerIndex = 0;
   prayerCount = 0;
 
-  openView("prayer"); // ✅ أولاً نعرض الصفحة
+  openView("prayer");
 
+  document.getElementById("prayerCounter").style.display = "flex";
   document.getElementById("prayerZikrBox").style.display = "block";
   document.getElementById("prayerFinishMsg").classList.add("hidden");
 
-  showPrayerZikr(); // ✅ ثم نعرض الذكر
+  showPrayerZikr();
 }
     function playBeep(freq=600, duration=0.2){
   if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
