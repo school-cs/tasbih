@@ -537,35 +537,37 @@ body.night #tasbeehUI .touch{
 </div>
     <!-- ✅ الصفحة الرئيسية (Dashboard) -->
 <div id="home" class="dashboard">
+<div id="home" class="dashboard">
 
   <div style="grid-column:1/-1;text-align:center;font-weight:bold;font-size:16px;opacity:.75;">
     اختر القسم
   </div>
 
-  <button data-tone="blue" onclick="openView('quran')">
+  <button onclick="openView('quran')">
     <span>القرآن الكريم</span>
   </button>
 
-  <button data-tone="amber" onclick="openView('morning')">
+  <button onclick="openView('dua')">
+    <span>الدعاء</span>
+  </button>
+  
+  <button onclick="openView('morning')">
     <span>أذكار الصباح</span>
   </button>
 
-  <button data-tone="amber" onclick="openView('evening')">
+  <button onclick="openView('evening')">
     <span>أذكار المساء</span>
   </button>
 
+   <button onclick="openView('prayer')">
+    <span>أذكار الصلاة</span>
+  </button>
+  
   <button onclick="openView('sleep')">
     <span>أذكار النوم</span>
   </button>
 
-  <button onclick="openView('prayer')">
-    <span>أذكار الصلاة</span>
-  </button>
-
-  <button data-tone="purple" onclick="openView('dua')">
-    <span>الدعاء</span>
-  </button>
-
+ 
   <button onclick="openView('names')">
     <span>أسماء الله الحسنى</span>
   </button>
@@ -586,37 +588,37 @@ body.night #tasbeehUI .touch{
   
    <div id="quran" class="view hidden">
   <button onclick="backHome()">← رجوع</button>
-  <h2>📖 القرآن الكريم</h2>
+  <h2> القرآن الكريم</h2>
 </div>
 
 <div id="morning" class="view hidden">
   <button onclick="backHome()">← رجوع</button>
-  <h2>🌅 أذكار الصباح</h2>
+  <h2> أذكار الصباح</h2>
 </div>
 
 <div id="evening" class="view hidden">
   <button onclick="backHome()">← رجوع</button>
-  <h2>🌙 أذكار المساء</h2>
+  <h2> أذكار المساء</h2>
 </div>
 
 <div id="sleep" class="view hidden">
   <button onclick="backHome()">← رجوع</button>
-  <h2>😴 أذكار النوم</h2>
+  <h2> أذكار النوم</h2>
 </div>
 
 <div id="prayer" class="view hidden">
   <button onclick="backHome()">← رجوع</button>
-  <h2>🕌 أذكار الصلاة</h2>
+  <h2> أذكار الصلاة</h2>
 </div>
 
 <div id="dua" class="view hidden">
   <button onclick="backHome()">← رجوع</button>
-  <h2>🤲 الدعاء</h2>
+  <h2> الدعاء</h2>
 </div>
 
 <div id="names" class="view hidden">
   <button onclick="backHome()">← رجوع</button>
-  <h2>📿 أسماء الله الحسنى</h2>
+  <h2> أسماء الله الحسنى</h2>
 </div>
 
 <div id="tasbeeh" class="view hidden">
