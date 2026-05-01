@@ -334,7 +334,13 @@ select{
   font-weight:800;
   color:var(--accent);
 }
+#prayer .touch {
+  background: var(--amber-soft);
+}
 
+#prayer .touch-count {
+  color: var(--amber);
+}
 /* رسالة الاكتمال */
 .complete{
   color:#0f766e;
@@ -891,7 +897,9 @@ function handlePrayerTap() {
 
   if (prayerCount < z.repeat) return;
 
-  if (navigator.vibrate) navigator.vibrate(200);
+if (completionMode === "vibrate" && navigator.vibrate) {
+  navigator.vibrate(200);
+}
 
   prayerIndex++;
   if (prayerIndex < azkarPrayer.length) {
