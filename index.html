@@ -259,7 +259,37 @@ header,footer{padding:14px}
 .dashboard button[onclick*="virtues"] span{
   color: var(--purple);
 }
-  
+
+    /* ✅ توحيد ألوان النص في Dashboard */
+.dashboard button span{
+  color: var(--text);
+}
+
+/* أذكار */
+.dashboard button[onclick*="morning"],
+.dashboard button[onclick*="evening"],
+.dashboard button[onclick*="sleep"],
+.dashboard button[onclick*="prayer"]{
+  background: var(--amber-soft);
+}
+
+/* قرآن + مواقيت */
+.dashboard button[onclick*="quran"],
+.dashboard button[onclick*="prayersTime"]{
+  background: var(--blue-soft);
+}
+
+/* دعاء + فضائل */
+.dashboard button[onclick*="dua"],
+.dashboard button[onclick*="virtues"]{
+  background: var(--purple-soft);
+}
+
+/* أسماء الله + سبحة */
+.dashboard button[onclick*="names"],
+.dashboard .tasbeeh-btn{
+  background: var(--primary-soft);
+}
   
   .view{
   padding:14px;
@@ -334,7 +364,22 @@ select{
   font-weight:800;
   color:var(--accent);
 }
-#prayer .touch {
+/* السبحة (الهوية الأساسية) */
+#tasbeeh .touch{
+  background: var(--primary-soft);
+}
+#tasbeeh .touch-count{
+  color: var(--primary);
+}
+
+/* أذكار الصلاة (وأي أذكار مستقبلًا) */
+#prayer .touch{
+  background: var(--amber-soft);
+}
+#prayer .touch-count{
+  color: var(--amber);
+}
+    #prayer .touch {
   background: var(--amber-soft);
 }
 
