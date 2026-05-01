@@ -868,7 +868,7 @@ let prayerCount = 0;
   }
 }
 
- function showPrayerZikr() {
+function showPrayerZikr() {
   prayerCount = 0;
   const z = azkarPrayer[prayerIndex];
 
@@ -878,27 +878,22 @@ let prayerCount = 0;
   const btnCount = document.getElementById("prayerTouchCount");
   if (btnCount) btnCount.innerText = `${prayerCount} / ${z.repeat}`;
 }
-    function handlePrayerTap() {
+
+function handlePrayerTap() {
   const z = azkarPrayer[prayerIndex];
   prayerCount++;
 
-  // تحديث نص الذكر
   document.getElementById("prayerZikrBox").textContent =
     `${z.text}\n\n(${prayerCount} / ${z.repeat})`;
 
-  // تحديث عدّاد الزر
   const btnCount = document.getElementById("prayerTouchCount");
   if (btnCount) btnCount.innerText = `${prayerCount} / ${z.repeat}`;
 
-  // أثناء العد
   if (prayerCount < z.repeat) return;
 
-  // عند اكتمال الذكر
   if (navigator.vibrate) navigator.vibrate(200);
 
   prayerIndex++;
-
-  // الانتقال للذكر التالي
   if (prayerIndex < azkarPrayer.length) {
     showPrayerZikr();
   } else {
@@ -906,8 +901,9 @@ let prayerCount = 0;
     document.getElementById("prayerFinishMsg").classList.remove("hidden");
     currentMode = "none";
   }
+}
 
- function openPrayer() {
+function openPrayer() {
   currentMode = "prayer";
   prayerIndex = 0;
   prayerCount = 0;
@@ -917,7 +913,7 @@ let prayerCount = 0;
 
   showPrayerZikr();
   openView("prayer");
-}   
+}
     function playBeep(freq=600, duration=0.2){
   if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
   const o = audioCtx.createOscillator();
@@ -1148,12 +1144,7 @@ const azkarPrayer = [
     repeat: 1
   },
 
-  {
-    text: "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.\nاللهم لا مانع لما أعطيت، ولا معطي لما منعت، ولا ينفع ذا الجدّ منك الجدُّ.",
-    repeat: 3
-  },
-
-  
+ 
    {
   text: "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.",
   repeat: 3
