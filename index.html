@@ -610,9 +610,6 @@ body.night #tasbeehUI .touch{
 
   <div class="zikrText" id="prayerZikrBox"></div>
 
-  <button onclick="nextPrayerZikr()" id="prayerNextBtn">
-    الذكر التالي
-  </button>
 
   <div id="prayerFinishMsg" class="complete hidden">
     ✅ تم الانتهاء من أذكار الصلاة
@@ -685,7 +682,7 @@ body.night #tasbeehUI .touch{
 
     <div class="center">
       <div class="touch-wrapper">
-        <div class="touch" onclick="increment()">
+       <div class="touch" onclick="handleMainTap()">
           <div class="touch-count" id="touchCount">0</div>
           <div class="touch-label">للتسبيح</div>
         </div>
@@ -844,7 +841,63 @@ let count=0,currentZikr='';
 const today=new Date().toLocaleDateString();
 const stats=JSON.parse(localStorage.getItem('stats')||'{}');
 let audioCtx=null;
-  function playBeep(freq=600, duration=0.2){
+
+    let currentMode = "none";   // none | tasbeeh | prayer
+let prayerIndex = 0;
+let prayerCount = 0;
+
+    function handleMainTap() {
+
+  // 📿 وضع السبحة
+  if (currentMode === "tasbeeh") {
+    increment();
+    return;
+  }
+
+  // 🕌 وضع أذكار الصلاة
+  if (currentMode === "prayer") {
+    handlePrayerTap();
+    return;
+  }
+}
+
+    function showPrayerZikr() {
+  prayerCount = 0;
+  const z = azkarPrayer[prayerIndex];
+
+  document.getElementById("prayerZikrBox").textContent =
+    `${z.text}\n\n(${prayerCount} / ${z.repeat})`;
+}
+
+    function handlePrayerTap() {
+  const z = azkarPrayer[prayerIndex];
+  prayerCount++;
+
+  // أثناء العد
+  if (prayerCount < z.repeat) {
+    document.getElementById("prayerZikrBox").textContent =
+      `${z.text}\n\n(${prayerCount} / ${z.repeat})`;
+    return;
+  }
+
+  // ✅ عند اكتمال الذكر
+  if (navigator.vibrate) navigator.vibrate(200);
+
+  prayerIndex++;
+
+  // الانتقال للذكر التالي
+  if (prayerIndex < azkarPrayer.length) {
+    showPrayerZikr();
+  } 
+  // 🟢 عند انتهاء أذكار الصلاة بالكامل
+  else {
+    document.getElementById("prayerZikrBox").style.display = "none";
+    document.getElementById("prayerFinishMsg").classList.remove("hidden");
+    currentMode = "none";
+  }
+}
+    
+    function playBeep(freq=600, duration=0.2){
   if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
   const o = audioCtx.createOscillator();
   const g = audioCtx.createGain();
@@ -1035,20 +1088,25 @@ function openView(id){
 
   document.getElementById(id).classList.remove("hidden");
 
+  /* ✅ ضبط وضع التشغيل */
   if (id === "tasbeeh") {
+    currentMode = "tasbeeh";
+
+    // إعادة تهيئة السبحة
     currentZikr = '';
     count = 0;
     document.getElementById('zikr').value = '';
     document.getElementById('zikrText').innerText = '';
     document.getElementById('touchCount').innerText = '0';
     document.getElementById('count').innerText = '0';
-document.getElementById('tasbeehStats').innerHTML = '';
+    document.getElementById('tasbeehStats').innerHTML = '';
   }
 
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function backHome(){
+ currentMode = "none";
   document.querySelectorAll(".view").forEach(v=>{
     v.classList.add("hidden");
   });
@@ -1059,72 +1117,99 @@ function backHome(){
 // ✅ أذكار الصلاة (كاملة كما زوّدتِني بها)
 const azkarPrayer = [
 
-`اسْتَغْفَرَ اللَّهَ (3 مرات)
-اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ،
-تَبَارَكْتَ ذَا الجَلَالِ وَالإِكْرَامِ.`,
+  {
+    text: "أستغفر الله",
+    repeat: 3
+  },
 
-`لا إلَهَ إلَّا اللَّهُ وحْدَهُ لا شَرِيكَ له،
-له المُلْكُ، وله الحَمْدُ، وهو علَى كُلِّ شيءٍ قَدِيرٌ،
-اللَّهُمَّ لا مَانِعَ لِما أعْطَيْتَ،
-ولا مُعْطِيَ لِما مَنَعْتَ،
-ولا يَنْفَعُ ذَا الجَدِّ مِنْكَ الجَدُّ.`,
+  {
+    text: "اللهم أنت السلام، ومنك السلام، تباركت يا ذا الجلال والإكرام.",
+    repeat: 1
+  },
 
-`لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ،
-لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ،
-لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللهِ،
-لَا إِلَهَ إِلَّا اللهُ،
-وَلَا نَعْبُدُ إِلَّا إِيَّاهُ،
-لَهُ النِّعْمَةُ وَلَهُ الْفَضْلُ،
-وَلَهُ الثَّنَاءُ الْحَسَنُ،
-لَا إِلَهَ إِلَّا اللهُ مُخْلِصِينَ لَهُ الدِّينَ
-وَلَوْ كَرِهَ الْكَافِرُونَ.`,
+  {
+    text: "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.\nاللهم لا مانع لما أعطيت، ولا معطي لما منعت، ولا ينفع ذا الجدّ منك الجدُّ.",
+    repeat: 3
+  },
 
-`سُبْحَانَ اللهِ (33 مرة)
-الْحَمْدُ لِلَّهِ (33 مرة)
-اللهُ أَكْبَرُ (33 مرة)
-لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ،
-لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ
-وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.`,
+  {
+    text: "لا إله إلا الله وحده لا شريك له، له الملك، وله الحمد، وهو على كل شيء قدير.\nلا حول ولا قوة إلا بالله، ولا نعبد إلا إياه، له النعمة وله الفضل وله الثناء الحسن، لا إله إلا الله مخلصين له الدين ولو كره الكافرون.",
+    repeat: 1
+  },
 
-`بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
-﴿ قُلْ هُوَ اللَّهُ أَحَدٌ ۝ 1
-اللَّهُ الصَّمَدُ ۝ 2
-لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ 3
-وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ ۝ 4 ﴾`,
+  {
+    text: "سبحان الله\nالحمد لله\nالله أكبر",
+    repeat: 33
+  },
 
-`بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
-﴿ قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ 1
-مِن شَرِّ مَا خَلَقَ ۝ 2
-وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ 3
-وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ 4
-وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ ۝ 5 ﴾`,
+  {
+    text: "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.",
+    repeat: 1
+  },
 
-`بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
-﴿ قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ 1
-مَلِكِ النَّاسِ ۝ 2
-إِلَٰهِ النَّاسِ ۝ 3
-مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ 4
-الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ 5
-مِنَ الْجِنَّةِ وَالنَّاسِ ۝ 6 ﴾`,
+  {
+    text:
+`بسم الله الرحمن الرحيم
+قُلْ هُوَ اللَّهُ أَحَدٌ (1)
+اللَّهُ الصَّمَدُ (2)
+لَمْ يَلِدْ وَلَمْ يُولَدْ (3)
+وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ (4)`,
+    repeat: 1
+  },
 
-`﴿ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ
-لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ
-لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ
-مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ
-يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ
-وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ
-وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ
-وَلَا يَئُودُهُ حِفْظُهُمَا ۚ
-وَهُوَ الْعَلِيُّ الْعَظِيمُ ﴾`,
+  {
+    text:
+`بسم الله الرحمن الرحيم
+قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ (1)
+مِن شَرِّ مَا خَلَقَ (2)
+وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ (3)
+وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ (4)
+وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ (5)`,
+    repeat: 1
+  },
 
-`رَبِّ قِنِي عَذَابَكَ
-يَوْمَ تَبْعَثُ عِبَادَكَ.`,
+  {
+    text:
+`بسم الله الرحمن الرحيم
+قُلْ أَعُوذُ بِرَبِّ النَّاسِ (1)
+مَلِكِ النَّاسِ (2)
+إِلَٰهِ النَّاسِ (3)
+مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ (4)
+الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ (5)
+مِنَ الْجِنَّةِ وَالنَّاسِ (6)`,
+    repeat: 1
+  },
 
-`اللَّهُمَّ إِنِّي أَسْأَلُكَ
-عِلْمًا نَافِعًا،
-وَرِزْقًا طَيِّبًا،
-وَعَمَلًا مُتَقَبَّلًا.
-(بعد صلاة الفجر)`
+  {
+    text:
+`أعوذ بالله من الشيطان الرجيم
+اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ
+لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ
+لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ
+مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ
+يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ
+وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ
+وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ
+وَلَا يَئُودُهُ حِفْظُهُمَا
+وَهُوَ الْعَلِيُّ الْعَظِيمُ`,
+    repeat: 1
+  },
+
+  {
+    text: "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد يحيي ويميت وهو على كل شيء قدير.\n(بعد صلاة المغرب والصبح)",
+    repeat: 10
+  },
+
+  {
+    text: "ربِّ قني عذابك يوم تبعث عبادك.",
+    repeat: 1
+  },
+
+  {
+    text: "اللهم إني أسألك علمًا نافعًا، ورزقًا طيبًا، وعملاً متقبلًا.\n(بعد السلام من صلاة الفجر)",
+    repeat: 1
+  }
+
 ];
 
 // ===== التحكم في العرض =====
@@ -1147,10 +1232,13 @@ function nextPrayerZikr() {
 }
 
 function openPrayer() {
+  currentMode = "prayer";
   prayerIndex = 0;
+  prayerCount = 0;
+
   document.getElementById("prayerZikrBox").style.display = "block";
-  document.getElementById("prayerNextBtn").style.display = "block";
   document.getElementById("prayerFinishMsg").classList.add("hidden");
+
   showPrayerZikr();
   openView("prayer");
 }
