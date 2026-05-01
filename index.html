@@ -279,7 +279,18 @@ select{
 }
 .settings{display:flex;gap:8px;margin-top:10px}
 .settings button{flex:1}
-.zikrText{background:var(--card);border-radius:14px;padding:16px;margin-top:12px;font-size:15px;line-height:2;word-break:break-word;overflow-wrap:break-word;white-space:normal}
+.zikrText{
+  background:var(--card);
+  border-radius:14px;
+  padding:16px;
+  margin-top:12px;
+  font-size:15px;
+  line-height:2;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  white-space: pre-wrap;
+  max-height: none;   /* ✅ هنا */
+}
 
 /* منطقة زر التسبيح – المساحة العامة */
 .center{
@@ -1105,7 +1116,7 @@ const azkarPrayer = [
 وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ
 وَلَا يَئُودُهُ حِفْظُهُمَا ۚ
 وَهُوَ الْعَلِيُّ الْعَظِيمُ ﴾
-(عقب كل صلاة)`,
+
 
 `رَبِّ قِنِي عَذَابَكَ
 يَوْمَ تَبْعَثُ – أَوْ تَجْمَعُ – عِبَادَكَ.`,
