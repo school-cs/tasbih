@@ -201,25 +201,62 @@ header,footer{padding:14px}
   color: var(--primary);
 }
 
-/* تمييزات خفيفة اختيارية للأقسام (بدون أيقونات) */
-.dashboard button[data-tone="blue"]{
+
+/* =========================
+   🎨 ألوان تلقائية حسب القسم
+   ========================= */
+
+/* 📖 القرآن الكريم */
+.dashboard button[onclick*="quran"]{
   background: var(--blue-soft);
 }
-.dashboard button[data-tone="blue"] span{
+.dashboard button[onclick*="quran"] span{
   color: var(--blue);
 }
 
-.dashboard button[data-tone="amber"]{
+/* 🌅🌙 الأذكار */
+.dashboard button[onclick*="morning"],
+.dashboard button[onclick*="evening"],
+.dashboard button[onclick*="sleep"],
+.dashboard button[onclick*="prayer"]{
   background: var(--amber-soft);
 }
-.dashboard button[data-tone="amber"] span{
+.dashboard button[onclick*="morning"] span,
+.dashboard button[onclick*="evening"] span,
+.dashboard button[onclick*="sleep"] span,
+.dashboard button[onclick*="prayer"] span{
   color: var(--amber);
 }
 
-.dashboard button[data-tone="purple"]{
+/* 🤲 الدعاء */
+.dashboard button[onclick*="dua"]{
   background: var(--purple-soft);
 }
-.dashboard button[data-tone="purple"] span{
+.dashboard button[onclick*="dua"] span{
+  color: var(--purple);
+}
+
+/* 📿 أسماء الله الحسنى */
+.dashboard button[onclick*="names"]{
+  background: var(--primary-soft);
+}
+.dashboard button[onclick*="names"] span{
+  color: var(--primary);
+}
+
+/* 🕰️ مواقيت الصلاة */
+.dashboard button[onclick*="prayersTime"]{
+  background: var(--blue-soft);
+}
+.dashboard button[onclick*="prayersTime"] span{
+  color: var(--blue);
+}
+
+/* ⭐ فضائل الأعمال */
+.dashboard button[onclick*="virtues"]{
+  background: var(--purple-soft);
+}
+.dashboard button[onclick*="virtues"] span{
   color: var(--purple);
 }
   
