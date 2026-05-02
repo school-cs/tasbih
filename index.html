@@ -293,15 +293,21 @@ select{
 }
     
 
+
+}
 /* منطقة زر التسبيح – المساحة العامة */
 .center{
   flex:1;
   display:flex;
   padding:12px;
-  padding-bottom:140px;
-  align-items:stretch;   /* ✅ مهم */
+  padding-bottom:140px; /* ✅ القيمة العامة لكل الصفحات */
+  align-items:stretch;
 }
 
+/* ✅ استثناء صفحة التسبيح فقط */
+#tasbeehUI .center{
+  padding-bottom: 90px;
+}
 /* تحسين إحساس الزر قريب من الأسفل */
 .touch-wrapper{
   flex:1;
@@ -745,11 +751,15 @@ body.night #settings .card{
       </div>
     </div>
 
-    <footer>
-      <button onclick="clearCount()">مسح العدّادات</button>
-      
-<div id="tasbeehStats" class="stats"></div>
-    </footer>
+   <footer>
+  <button onclick="clearCount()">مسح العدّادات</button>
+
+  <!-- ✅ إجمالي الأذكار اليوم -->
+  <div id="todayTotal" class="stat-card" style="display:none;text-align:center;"></div>
+
+  <!-- ✅ بطاقات الإحصائيات -->
+  <div id="tasbeehStats" class="stats"></div>
+</footer>
 
   </div>
 
@@ -1133,19 +1143,25 @@ function clearCount(){
 
 function toggleNight(){document.body.classList.toggle('night');localStorage.setItem('night',document.body.classList.contains('night')?'1':'0')}
 function showStats(){
-const el = document.getElementById('tasbeehStats');
+  const el = document.getElementById('tasbeehStats');
+  const totalEl = document.getElementById('todayTotal');
   const todayStats = stats[today] || {};
 
+  // لا توجد إحصائيات
   if (!Object.keys(todayStats).length) {
+    totalEl.style.display = 'none';
     el.innerHTML = `
-      <div class="stat-card">
-        لا توجد إحصائيات اليوم
+      <div class="stat-card" style="text-align:center; opacity:.75;">
+        📿 لا توجد إحصائيات اليوم
       </div>`;
     return;
   }
 
   let html = '';
+  let total = 0;
+
   for (let z in todayStats) {
+    total += todayStats[z];
     html += `
       <div class="stat-card">
         <div class="stat-title">${z}</div>
@@ -1153,9 +1169,12 @@ const el = document.getElementById('tasbeehStats');
       </div>
     `;
   }
+
+  totalEl.style.display = 'block';
+  totalEl.innerHTML = `📿 إجمالي الأذكار اليوم: <strong>${total}</strong> مرة`;
+
   el.innerHTML = html;
 }
-
 window.onload = () => {
   const todayKey = new Date().toISOString().split('T')[0];
 const lastDay = localStorage.getItem('lastStatsDay');
@@ -1179,6 +1198,7 @@ if (modeSelect) {
   modeSelect.value = savedMode;
 }
 };
+
 
 function openView(id){
  isHomeActive = false;
