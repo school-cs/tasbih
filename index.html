@@ -731,9 +731,9 @@ body.night #settings .card{
 
       <div id="zikrText" class="zikrText"></div>
       <div id="count" class="counter">0</div>
-      <div style="text-align:center;font-size:14px">
-        الحد الحالي: <span id="maxLabel">100</span>
-      </div>
+     <div style="text-align:center;font-size:14px;margin-top:6px">
+  الحد الحالي: <span id="maxLabel">100</span>
+</div>
     </div>
 
     <div class="center">
@@ -1195,7 +1195,6 @@ if (lastDay !== todayKey) {
   );
 
   document.getElementById('maxLabel').innerText = max;
-  showStats();
   showAyahBar();
 // ✅ مزامنة إعداد تنبيه الاكتمال مع صفحة الإعدادات
 const savedMode = localStorage.getItem('completionMode') || 'none';
