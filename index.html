@@ -58,6 +58,7 @@
   --bottom-space:140px;
   --touch-min:220px;
 --btn-padding:16px 18px;
+--btn-font-size:18px;
 }
 body.night{
   /* الأساس */
@@ -105,22 +106,24 @@ h2, h3, summary{
    ========================= */
 
 button{
-  width:100%;
-  min-height:58px;              /* ✅ كبير ومريح */
-padding: var(--btn-padding);
+  width: 100%;
+  min-height: 58px;                 /* ✅ كبير ومريح */
+  padding: var(--btn-padding);
 
   border-radius: var(--radius-md);
-  border:1px solid rgba(0,0,0,.08);
-  background:var(--card);
+  border: 1px solid rgba(0,0,0,.08);
+  background: var(--card);
 
-  font-family:'Tajawal', sans-serif;
-  font-size:18px;               /* ✅ خط أكبر */
-  font-weight:900;              /* ✅ عريض جدًا */
-  letter-spacing:.3px;
-  color:var(--text);
+  font-family: 'Tajawal', Tahoma, Arial, sans-serif;
+  font-size: var(--btn-font-size);
+  font-weight: 900;                 /* ✅ غامق وواضح */
+  font-style: normal;               /* ✅ بدون ميلان */
+  text-decoration: none;            /* ✅ بدون زخرفة */
+  letter-spacing: .3px;
+  color: var(--text);
 
-  cursor:pointer;
-  transition:transform .15s ease, box-shadow .15s ease;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
 }
 header button{
   min-height:40px;
