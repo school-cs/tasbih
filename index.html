@@ -496,17 +496,19 @@ margin:16px 14px 24px; /* ✅ هنا */
 
 /* زر الرجوع داخل السبحة */
 #tasbeeh > button{
-  margin-bottom: 14px; /* ✅ مسافة واضحة ومريحة */
+  margin-bottom: 2px;   /* ✅ أقصر مسافة مريحة */
 }
 
 /* حاوية واجهة السبحة */
+
 #tasbeehUI{
-  margin-top: 16px; /* ✅ الفصل الحقيقي */
+  margin-top: 0;        /* ✅ إزالة الفراغ */
 }
+
 
 /* الجزء العلوي (اختر الذكر + الإعدادات) */
 #tasbeehUI .top-panel{
-  padding-top: 10px;  /* ✅ فراغ مريح تحت زر الرجوع */
+  padding-top: 2px;     /* ✅ لصق مريح مع زر الرجوع */
 }
 
 /* صندوق نص الذكر */
@@ -547,7 +549,12 @@ body.night #tasbeehUI .touch{
 }
 
 #tasbeeh footer{
-  margin-top: -12px;
+  margin-top: 2px;      /* ✅ تقصير المسافة بشكل آمن */
+  padding-top: 0;       /* ✅ إزالة أي فراغ داخلي */
+}
+
+#tasbeeh footer > button{
+  margin-top: 0;        /* ✅ لصق زر مسح العدّادات */
 }
 </style>
 </head>
@@ -1163,7 +1170,7 @@ if (ayahTimer) {
     document.getElementById('zikrText').innerText = '';
     document.getElementById('touchCount').innerText = '0';
     document.getElementById('count').innerText = '0';
-    document.getElementById('tasbeehStats').innerHTML = '';
+   
   }
 
   window.scrollTo({top:0,behavior:"smooth"});
