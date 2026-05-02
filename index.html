@@ -281,20 +281,17 @@ select{
   background: var(--card);
   border-radius: var(--zikr-radius, 14px);
   padding: var(--zikr-padding, 16px);
-
   font-size: 15px;
   line-height: 2;
-
   /* ✅ يعرض 8 أسطر تقريبًا */
   min-height: 240px;
   max-height: 240px;
-
   overflow-y: auto;   /* ✅ تمرير عند زيادة النص */
 }
     
 
 
-}
+
 /* منطقة زر التسبيح – المساحة العامة */
 .center{
   flex:1;
@@ -302,11 +299,6 @@ select{
   padding:12px;
   padding-bottom:140px; /* ✅ القيمة العامة لكل الصفحات */
   align-items:stretch;
-}
-
-/* ✅ استثناء صفحة التسبيح فقط */
-#tasbeehUI .center{
-  padding-bottom: 90px;
 }
 /* تحسين إحساس الزر قريب من الأسفل */
 .touch-wrapper{
