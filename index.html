@@ -522,10 +522,11 @@ margin:16px 14px 24px; /* ✅ هنا */
   overflow-y: auto;
 }
 
+
 /* زر التسبيح */
 #tasbeehUI .center{
   padding-top: 6px;
-  padding-bottom: 90px; /* ⬅️ كان 140 */
+  padding-bottom: 40px; /* ✅ تقليل المسافة بين زر التسبيح والفوتر */
 }
 
 /* الإحصائيات */
@@ -534,11 +535,12 @@ margin:16px 14px 24px; /* ✅ هنا */
 }
 
 /* زر مسح العدّادات */
-#tasbeeh footer{
-  margin-top: 4px;
-  padding-top: 0;
-}
 
+#tasbeeh footer{
+  margin-top: 0;
+  padding-top: 6px;
+}
+    
 #tasbeeh footer > button{
   margin-top: 0;
 }
@@ -1076,9 +1078,8 @@ function changeZikr(){
   document.getElementById('count').innerText = count;
   document.getElementById('touchCount').innerText = count;
   document.getElementById('zikrText').innerText = currentZikr;
-
-  showStats();
 }
+
 
 function increment(){
 
@@ -1121,13 +1122,16 @@ function increment(){
 }
 function clearCount(){
 
-  /* ✅ مسح إحصائيات اليوم فقط */
+  /* ✅ مسح إحصائيات اليوم */
   localStorage.removeItem('stats');
+
+  // ✅ مسح الذاكرة فورًا
+  for (let k in stats) delete stats[k];
 
   /* ✅ مسح العدّادات */
   const select = document.getElementById('zikr');
-  Array.from(select.options).forEach(opt => {
-    if (opt.value && opt.value.trim() !== '') {
+  Array.from(select.options).forEach(opt=>{
+    if(opt.value && opt.value.trim()!==''){
       localStorage.removeItem(opt.value);
     }
   });
@@ -1140,7 +1144,6 @@ function clearCount(){
   document.getElementById('count').innerText = '0';
   document.getElementById('touchCount').innerText = '0';
 
-  /* ✅ تحديث الإحصائيات (سيعرض رسالة "لا توجد إحصائيات اليوم" تلقائيًا) */
   showStats();
 }
 
