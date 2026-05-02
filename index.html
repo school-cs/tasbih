@@ -825,6 +825,9 @@ const rotatingTexts = [
 // ⏱️ الإعدادات
 const scrollDuration = 30000; // مدة حركة النص (30 ثانية)
 const pauseAfter = 5000;      // الفاصل قبل النص التالي (5 ثوانٍ)
+
+    let isHomeActive = true;   // هل الصفحة الرئيسية نشطة؟
+let ayahTimer = null;     // مؤقّت شريط الآيات
     
     let completionMode = localStorage.getItem('completionMode') || 'none';
 // القيم الممكنة: 'none' | 'vibrate' | 'sound'
@@ -923,6 +926,15 @@ function openPrayer() {
   o.stop(audioCtx.currentTime + duration);
 }
 function showAyahBar(){
+ // ✅ لا تعمل إلا في الصفحة الرئيسية
+if (!isHomeActive) {
+  if (ayahTimer) {
+    clearTimeout(ayahTimer);
+    ayahTimer = null;
+  }
+  return;
+}
+  
   const bar = document.getElementById('ayahBar');
   const textEl = document.getElementById('ayahText');
   if (!bar || !textEl) return;
@@ -960,8 +972,12 @@ if (item.type === 'ayah') {
   // الانتقال للنص التالي (دوران)
   rotateIndex = (rotateIndex + 1) % rotatingTexts.length;
 
-  // عرض النص التالي بعد الفاصل
-  setTimeout(showAyahBar, scrollDuration + pauseAfter);
+ if (ayahTimer) clearTimeout(ayahTimer);
+ayahTimer = setTimeout(
+  showAyahBar,
+  scrollDuration + pauseAfter
+);
+  
 }
 function setMax(v){max=v;localStorage.setItem('max',v);document.getElementById('maxLabel').innerText=v;playBeep(420)}
 function changeZikr(){
@@ -1093,6 +1109,12 @@ if (lastDay !== todayKey) {
 };
 
 function openView(id){
+ isHomeActive = false;
+
+if (ayahTimer) {
+  clearTimeout(ayahTimer);
+  ayahTimer = null;
+}
   document.getElementById("ayahBar").classList.add("hidden");
   document.getElementById("home").classList.add("hidden");
 
@@ -1224,7 +1246,8 @@ const azkarPrayer = [
     text: "اللهم إني أسألك علمًا نافعًا، ورزقًا طيبًا، وعملاً متقبلًا.\n(بعد السلام من صلاة الفجر)",
     repeat: 1
   }
-
+isHomeActive = true;
+showAyahBar();
 ];
 
 // ===== التحكم في العرض =====
@@ -1236,7 +1259,6 @@ const azkarPrayer = [
 يُستخدم كعداد تسبيح للجوال وبديل للسبحة التقليدية.
 </p>
 
-</div> <!-- ✅ هذا السطر هو إغلاق .app -->
 
 </body>
 </html>
