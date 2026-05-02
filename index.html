@@ -936,21 +936,15 @@ let prayerCount = 0;
 let morningIndex = 0;
 let morningCount = 0;
     
-   function handleMainTap(){
+ function handleMainTap() {
+  const actions = {
+    tasbeeh: increment,
+    prayer: handlePrayerTap,
+    morning: handleMorningTap,
+  };
 
-  if (currentMode === "tasbeeh") {
-    increment();
-    return;
-  }
-
-  if (currentMode === "prayer") {
-    handlePrayerTap();
-    return;
-  }
-
-  if (currentMode === "morning") {
-    handleMorningTap();
-    return;
+  if (actions[currentMode]) {
+    return actionscurrentMode;
   }
 }
 
