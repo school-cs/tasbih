@@ -422,8 +422,9 @@ body.night .stat-card{
 .ayah-bar.hidden{
   display:none;
 }
+/* تنسيق عام محايد للجزء العلوي */
 .top-panel{
-  padding:16px 14px 0;
+  padding: 8px 14px 0;   /* قيمة متوسطة وغير متخصصة */
 }
   .hidden{
   display:none;
@@ -485,7 +486,7 @@ margin:16px 14px 24px; /* ✅ هنا */
   margin-bottom:10px;
 }
 
-/* =========================
+
 /* =========================
    📿 تنسيقات صفحة السبحة – النسخة النهائية المضغوطة
    ========================= */
@@ -904,7 +905,7 @@ let ayahTimer = null;     // مؤقّت شريط الآيات
 }
 let max=parseInt(localStorage.getItem('max')||'100');
 let count=0,currentZikr='';
-const today=new Date().toLocaleDateString();
+const today = new Date().toISOString().split('T')[0];
 const stats=JSON.parse(localStorage.getItem('stats')||'{}');
 let audioCtx=null;
 
