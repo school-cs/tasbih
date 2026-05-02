@@ -957,12 +957,12 @@ function handleMainTap() {
     tasbeeh: increment,
     prayer: handlePrayerTap,
     morning: handleMorningTap,
-    evening: handleEveningTap,
-    sleep: handleSleepTap // لاحقًا
+    evening: handleEveningTap
   };
 
-  if (actions[currentMode]) {
-    return actionscurrentMode; // ✅ الصيغة الصحيحة الوحيدة
+  const action = actions[currentMode];
+  if (typeof action === "function") {
+    action(); // ✅ الاستدعاء الصحيح
   }
 }
 function showPrayerZikr() {
