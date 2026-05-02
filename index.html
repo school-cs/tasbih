@@ -1450,17 +1450,34 @@ if (ayahTimer) {
 
 function backHome(){
   currentMode = "none";
+
+  // ✅ تصفير الصباح
   morningIndex = 0;
   morningCount = 0;
 
-  document.querySelectorAll(".view").forEach(v=>{
+  // ✅ تصفير المساء
+  eveningIndex = 0;
+  eveningCount = 0;
+
+  // ✅ تصفير النوم
+  sleepIndex = 0;
+  sleepCount = 0;
+
+  // ✅ إخفاء جميع الصفحات
+  document.querySelectorAll(".view").forEach(v => {
     v.classList.add("hidden");
   });
 
+  // ✅ إظهار الصفحة الرئيسية
   document.getElementById("home").classList.remove("hidden");
+
+  // ✅ إظهار شريط الآيات
   document.getElementById("ayahBar").classList.remove("hidden");
 
+  // ✅ تفعيل وضع الصفحة الرئيسية
   isHomeActive = true;
+
+  // ✅ إعادة تشغيل شريط الآيات
   showAyahBar();
 }
 // ✅ أذكار الصلاة (كاملة كما زوّدتِني بها)
