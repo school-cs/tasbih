@@ -1049,7 +1049,18 @@ ayahTimer = setTimeout(
 );
   
 }
-function setMax(v){max=v;localStorage.setItem('max',v);document.getElementById('maxLabel').innerText=v;playBeep(420)}
+function setMax(v){
+  // ✅ حماية: منع القيم غير الصحيحة
+  if (v <= 0 || isNaN(v)) return;
+
+  max = v;
+  localStorage.setItem('max', v);
+
+  const label = document.getElementById('maxLabel');
+  if (label) label.innerText = v;
+
+  playBeep(420);
+}
 function changeZikr(){
   const s = document.getElementById('zikr');
 
