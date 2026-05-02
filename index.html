@@ -608,10 +608,10 @@ body.night #settings .card{
     <span>الدعاء</span>
   </button>
 
-  <button onclick="openView('morning')">
-    <span>أذكار الصباح</span>
-  </button>
-
+<button onclick="openMorning()">
+  <span>أذكار الصباح</span>
+</button>
+  
   <button onclick="openView('evening')">
     <span>أذكار المساء</span>
   </button>
@@ -672,10 +672,26 @@ body.night #settings .card{
   </div>
 </div>
 <div id="morning" class="view hidden">
-  <button onclick="backHome()">← رجوع</button>
-  <h2> أذكار الصباح</h2>
-</div>
 
+  <button onclick="backHome()">← رجوع</button>
+  <h2>🌅 أذكار الصباح</h2>
+
+  <div class="zikrText" id="morningZikrBox"></div>
+
+  <div class="center" id="morningCounter">
+    <div class="touch-wrapper">
+      <div class="touch" onclick="handleMainTap()">
+        <div class="touch-count" id="morningTouchCount">0 / 0</div>
+        <div class="touch-label">للتكرار</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="morningFinishMsg" class="complete hidden">
+    ✅ تم الانتهاء من أذكار الصباح
+  </div>
+
+</div>
 <div id="evening" class="view hidden">
   <button onclick="backHome()">← رجوع</button>
   <h2> أذكار المساء</h2>
@@ -916,18 +932,24 @@ let audioCtx=null;
     let currentMode = "none";   // none | tasbeeh | prayer
 let prayerIndex = 0;
 let prayerCount = 0;
+// ✅ متغيرات أذكار الصباح
+let morningIndex = 0;
+let morningCount = 0;
+    
+   function handleMainTap(){
 
-    function handleMainTap() {
-
-  // 📿 وضع السبحة
   if (currentMode === "tasbeeh") {
     increment();
     return;
   }
 
-  // 🕌 وضع أذكار الصلاة
   if (currentMode === "prayer") {
     handlePrayerTap();
+    return;
+  }
+
+  if (currentMode === "morning") {
+    handleMorningTap();
     return;
   }
 }
@@ -943,6 +965,16 @@ function showPrayerZikr() {
   if (btnCount) btnCount.innerText = `${prayerCount} / ${z.repeat}`;
 }
 
+    function showMorningZikr(){
+  morningCount = 0;
+  const z = azkarMorning[morningIndex];
+
+  document.getElementById("morningZikrBox").textContent =
+    `${z.text}\n\n(${morningCount} / ${z.repeat})`;
+
+  const btnCount = document.getElementById("morningTouchCount");
+  if (btnCount) btnCount.innerText = `${morningCount} / ${z.repeat}`;
+}
 function handlePrayerTap() {
   const z = azkarPrayer[prayerIndex];
   prayerCount++;
@@ -972,7 +1004,34 @@ if (completionMode === "vibrate" && navigator.vibrate) {
   currentMode = "none";
 }
 }
+function handleMorningTap(){
+  const z = azkarMorning[morningIndex];
+  morningCount++;
 
+  document.getElementById("morningZikrBox").textContent =
+    `${z.text}\n\n(${morningCount} / ${z.repeat})`;
+
+  const btnCount = document.getElementById("morningTouchCount");
+  if (btnCount) btnCount.innerText = `${morningCount} / ${z.repeat}`;
+
+  if (morningCount < z.repeat) return;
+
+  // 🔔 تنبيه الاكتمال
+  if (completionMode === "vibrate" && navigator.vibrate) {
+    navigator.vibrate(200);
+  }
+
+  morningIndex++;
+
+  if (morningIndex < azkarMorning.length) {
+    showMorningZikr();
+  } else {
+    document.getElementById("morningZikrBox").style.display = "none";
+    document.getElementById("morningFinishMsg").classList.remove("hidden");
+    document.getElementById("morningCounter").style.display = "none";
+    currentMode = "none";
+  }
+}
 function openPrayer() {
   currentMode = "prayer";
   prayerIndex = 0;
@@ -986,6 +1045,19 @@ function openPrayer() {
 
   showPrayerZikr();
 }
+ function openMorning(){
+  currentMode = "morning";
+  morningIndex = 0;
+  morningCount = 0;
+
+  openView("morning");
+
+  document.getElementById("morningCounter").style.display = "flex";
+  document.getElementById("morningZikrBox").style.display = "block";
+  document.getElementById("morningFinishMsg").classList.add("hidden");
+
+  showMorningZikr();
+} 
     function playBeep(freq=600, duration=0.2){
   if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
   const o = audioCtx.createOscillator();
@@ -1350,8 +1422,210 @@ const azkarPrayer = [
 
 ];
 
-// ===== التحكم في العرض =====
+// ✅ أذكار الصباح
+const azkarMorning = [
 
+  {
+    text: `أعوذ بالله من الشيطان الرجيم
+اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ
+لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ
+لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ
+مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ
+يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ
+وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ
+وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ
+وَلَا يَئُودُهُ حِفْظُهُمَا ۚ
+وَهُوَ الْعَلِيُّ الْعَظِيمُ`,
+    repeat: 1
+  },
+
+  {
+    text: `بسم الله الرحمن الرحيم
+قُلْ هُوَ اللَّهُ أَحَدٌ (1)
+اللَّهُ الصَّمَدُ (2)
+لَمْ يَلِدْ وَلَمْ يُولَدْ (3)
+وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ (4)`,
+    repeat: 3
+  },
+
+  {
+    text: `بسم الله الرحمن الرحيم
+قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ (1)
+مِن شَرِّ مَا خَلَقَ (2)
+وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ (3)
+وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ (4)
+وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ (5)`,
+    repeat: 3
+  },
+
+  {
+    text: `بسم الله الرحمن الرحيم
+قُلْ أَعُوذُ بِرَبِّ النَّاسِ (1)
+مَلِكِ النَّاسِ (2)
+إِلَٰهِ النَّاسِ (3)
+مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ (4)
+الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ (5)
+مِنَ الْجِنَّةِ وَالنَّاسِ (6)`,
+    repeat: 3
+  },
+
+  {
+    text: `أصبحنا وأصبح الملك لله، والحمد لله،
+لا إله إلا الله وحده لا شريك له،
+له الملك وله الحمد وهو على كل شيء قدير،
+ربّ أسألك خير ما في هذا اليوم وخير ما بعده،
+وأعوذ بك من شر ما في هذا اليوم وشر ما بعده،
+ربّ أعوذ بك من الكسل وسوء الكبر،
+ربّ أعوذ بك من عذاب النار وعذاب القبر.`,
+    repeat: 1
+  },
+
+  {
+    text: `اللهم بك أصبحنا وبك أمسينا وبك نحيا وبك نموت وإليك النشور.`,
+    repeat: 1
+  },
+
+  {
+    text: `اللهم أنت ربي لا إله إلا أنت،
+خلقتني وأنا عبدك،
+وأنا على عهدك ووعدك ما استطعت،
+أعوذ بك من شر ما صنعت،
+أبوء لك بنعمتك عليّ،
+وأبوء بذنبي فاغفر لي
+فإنه لا يغفر الذنوب إلا أنت.`,
+    repeat: 1
+  },
+
+  {
+    text: `اللهم إني أصبحتُ أُشهدك،
+وأُشهد حملة عرشك،
+وملائكتك وجميع خلقك،
+أنك أنت الله لا إله إلا أنت وحدك لا شريك لك،
+وأن محمدًا عبدك ورسولك.`,
+    repeat: 4
+  },
+
+  {
+    text: `اللهم ما أصبح بي من نعمة
+أو بأحدٍ من خلقك فمنك وحدك لا شريك لك،
+فلك الحمد ولك الشكر.`,
+    repeat: 1
+  },
+
+  {
+    text: `اللهم عافني في بدني،
+اللهم عافني في سمعي،
+اللهم عافني في بصري،
+لا إله إلا أنت.
+اللهم إني أعوذ بك من الكفر والفقر،
+وأعوذ بك من عذاب القبر،
+لا إله إلا أنت.`,
+    repeat: 3
+  },
+
+  {
+    text: `حسبي الله لا إله إلا هو
+عليه توكلت وهو رب العرش العظيم.`,
+    repeat: 7
+  },
+
+  {
+    text: `اللهم إني أسألك العفو والعافية في الدنيا والآخرة،
+اللهم إني أسألك العفو والعافية في ديني ودنياي
+وأهلي ومالي،
+اللهم استر عوراتي وآمن روعاتي،
+اللهم احفظني من بين يديّ ومن خلفي،
+وعن يميني وعن شمالي ومن فوقي،
+وأعوذ بعظمتك أن أُغتال من تحتي.`,
+    repeat: 1
+  },
+
+  {
+    text: `اللهم عالم الغيب والشهادة،
+فاطر السماوات والأرض،
+رب كل شيء ومليكه،
+أشهد أن لا إله إلا أنت،
+أعوذ بك من شر نفسي ومن شر الشيطان وشِركه،
+وأن أقترف على نفسي سوءًا أو أجرّه إلى مسلم.`,
+    repeat: 1
+  },
+
+  {
+    text: `بسم الله الذي لا يضر مع اسمه شيء
+في الأرض ولا في السماء
+وهو السميع العليم.`,
+    repeat: 3
+  },
+
+  {
+    text: `رضيت بالله ربًا،
+وبالإسلام دينًا،
+وبمحمد ﷺ نبيًا.`,
+    repeat: 3
+  },
+
+  {
+    text: `يا حي يا قيوم،
+برحمتك أستغيث،
+أصلح لي شأني كله،
+ولا تكلني إلى نفسي طرفة عين.`,
+    repeat: 1
+  },
+
+  {
+    text: `أصبحنا على فطرة الإسلام،
+وعلى كلمة الإخلاص،
+وعلى دين نبينا محمد ﷺ،
+وعلى ملة أبينا إبراهيم،
+حنيفًا مسلمًا وما كان من المشركين.`,
+    repeat: 1
+  },
+
+  {
+    text: `سبحان الله وبحمده.`,
+    repeat: 100
+  },
+
+  {
+    text: `لا إله إلا الله وحده لا شريك له،
+له الملك وله الحمد،
+وهو على كل شيء قدير.`,
+    repeat: 100
+  },
+
+  {
+    text: `سبحان الله وبحمده:
+عدد خلقه،
+ورضا نفسه،
+وزنة عرشه،
+ومداد كلماته.`,
+    repeat: 3
+  },
+
+  {
+    text: `اللهم إني أسألك علمًا نافعًا،
+ورزقًا طيبًا،
+وعملًا متقبلًا.`,
+    repeat: 1
+  },
+
+  {
+    text: `أستغفر الله وأتوب إليه.`,
+    repeat: 100
+  },
+
+  {
+    text: `أعوذ بكلمات الله التامات
+من شر ما خلق.`,
+    repeat: 3
+  },
+
+  {
+    text: `اللهم صلِّ وسلِّم على نبينا محمد ﷺ.`,
+    repeat: 10
+  }
+
+];
   </script>
 
 <p style="display:none">
