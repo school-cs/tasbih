@@ -50,15 +50,22 @@
   --purple:#7c3aed;
   --purple-soft:#ede9fe;
 
-  /* ✅ متغيرات المقاسات (الجديدة) */
   /* ✅ متغيرات المقاسات */
-  --radius-xl:32px;
-  --radius-md:18px;
- --radius-sm:16px;
-  --bottom-space:140px;
-  --touch-min:220px;
---btn-padding:16px 18px;
---btn-font-size:18px;
+--radius-xl: 32px;
+--radius-md: 18px;
+--radius-sm: 16px;
+
+/* ✅ المسافات والمقاسات العامة */
+--bottom-space: 140px;
+--touch-min: 220px;
+
+/* ✅ الأزرار */
+--btn-padding: 16px 18px;
+--btn-font-size: 18px;
+
+/* ✅ العدّادات والأذكار */
+--counter-size: 250px;     /* حجم زر العد (مثل التسبيح) */
+--zikr-box-height: 180px;  /* ارتفاع مربع عرض الأذكار */
 }
 body.night{
   /* الأساس */
@@ -269,16 +276,18 @@ select{
 .settings{display:flex;gap:8px;margin-top:10px}
 .settings button{flex:1}
 .zikrText{
-  background:var(--card);
-  border-radius:14px;
-  padding:16px;
-  margin-top:12px;
-  font-size:15px;
-  line-height:2;
-  word-break:break-word;
-  overflow-wrap:break-word;
-  white-space: pre-wrap;
-  max-height: none;   /* ✅ هنا */
+  background: var(--card);
+  border-radius: var(--zikr-radius, 14px);
+  padding: var(--zikr-padding, 16px);
+
+  font-size: var(--zikr-font, 15px);
+  line-height: 2;
+
+  /* ✅ تثبيت الحجم (لا يتغير مع طول الذكر) */
+  min-height: var(--zikr-box-height);
+  max-height: var(--zikr-box-height);
+
+  overflow-y: auto;   /* ✅ تمرير عند الزيادة */
 }
 
 /* منطقة زر التسبيح – المساحة العامة */
@@ -299,19 +308,20 @@ select{
 
 
 /* زر التسبيح */
-.touch{
-  width:100%;
-  flex:1;
-  min-height:220px;      /* ✅ يعطيه ثِقَل بصري */
-  border-radius:32px;
-  background:var(--touch);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-}
 
+.touch{
+  width: 100%;
+  flex: none;                          /* ✅ لا يتأثر بمربع الذكر */
+  min-height: var(--counter-size);     /* ✅ نفس حجم التسبيح */
+  border-radius: var(--radius-xl);
+
+  background: var(--touch);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
 /* تفاعل الضغط */
 .touch:active{
   transform: scale(0.97);
