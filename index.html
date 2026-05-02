@@ -1142,13 +1142,17 @@ if (ayahTimer) {
 }
 
 function backHome(){
- currentMode = "none";
+  currentMode = "none";
+
   document.querySelectorAll(".view").forEach(v=>{
     v.classList.add("hidden");
   });
 
   document.getElementById("home").classList.remove("hidden");
   document.getElementById("ayahBar").classList.remove("hidden");
+
+  isHomeActive = true;
+  showAyahBar();
 }
 // ✅ أذكار الصلاة (كاملة كما زوّدتِني بها)
 const azkarPrayer = [
@@ -1246,8 +1250,7 @@ const azkarPrayer = [
     text: "اللهم إني أسألك علمًا نافعًا، ورزقًا طيبًا، وعملاً متقبلًا.\n(بعد السلام من صلاة الفجر)",
     repeat: 1
   }
-isHomeActive = true;
-showAyahBar();
+
 ];
 
 // ===== التحكم في العرض =====
