@@ -49,6 +49,14 @@
 
   --purple:#7c3aed;
   --purple-soft:#ede9fe;
+
+  /* ✅ متغيرات المقاسات (الجديدة) */
+  /* ✅ متغيرات المقاسات */
+  --radius-xl:32px;
+  --radius-md:18px;
+ --radius-sm:16px;
+  --bottom-space:140px;
+  --touch-min:220px;
 }
 body.night{
   /* الأساس */
@@ -100,7 +108,7 @@ button{
   min-height:58px;              /* ✅ كبير ومريح */
   padding:16px 18px;
 
-  border-radius:18px;
+  border-radius: var(--radius-md);
   border:1px solid rgba(0,0,0,.08);
   background:var(--card);
 
@@ -168,7 +176,7 @@ header,footer{padding:14px}
 
 .dashboard button{
   background: var(--card);
-  border-radius:16px;
+border-radius: var(--radius-sm);
   padding:18px 14px;
   border:1px solid rgba(0,0,0,.06);
   cursor:pointer;
@@ -528,7 +536,7 @@ body.night #tasbeehUI .touch{
   <div class="header-wrap">
   <header>
 <strong> القرآن الكريم والسنة النبوية</strong>
-    <button onclick="toggleNight()">🌙 / ☀️</button>
+  <button onclick="toggleNight()" aria-label="تبديل الوضع الليلي">🌙 / ☀️</button>
   </header>
     <!-- ✅ شريط الآيات -->
   <div id="ayahBar" class="ayah-bar hidden">
