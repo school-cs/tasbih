@@ -958,9 +958,10 @@ function showPrayerZikr() {
   prayerCount = 0;
   const z = azkarPrayer[prayerIndex];
 
-  document.getElementById("prayerZikrBox").textContent =
-    `${z.text}\n\n(${prayerCount} / ${z.repeat})`;
+  // ✅ عرض نص الذكر فقط (بدون عدّ)
+  document.getElementById("prayerZikrBox").textContent = z.text;
 
+  // ✅ العدّ يظهر فقط في زر التسبيح
   const btnCount = document.getElementById("prayerTouchCount");
   if (btnCount) btnCount.innerText = `${prayerCount} / ${z.repeat}`;
 }
@@ -981,30 +982,30 @@ function handlePrayerTap() {
   const z = azkarPrayer[prayerIndex];
   prayerCount++;
 
-  document.getElementById("prayerZikrBox").textContent =
-    `${z.text}\n\n(${prayerCount} / ${z.repeat})`;
+  // ✅ مربع الذكر: نص فقط بدون عدّ
+  document.getElementById("prayerZikrBox").textContent = z.text;
 
+  // ✅ العدّ يظهر فقط في زر التسبيح
   const btnCount = document.getElementById("prayerTouchCount");
   if (btnCount) btnCount.innerText = `${prayerCount} / ${z.repeat}`;
 
   if (prayerCount < z.repeat) return;
 
-if (completionMode === "vibrate" && navigator.vibrate) {
-  navigator.vibrate(200);
-}
+  // 🔔 تنبيه الاكتمال
+  if (completionMode === "vibrate" && navigator.vibrate) {
+    navigator.vibrate(200);
+  }
 
   prayerIndex++;
+
   if (prayerIndex < azkarPrayer.length) {
     showPrayerZikr();
- } else {
-  document.getElementById("prayerZikrBox").style.display = "none";
-  document.getElementById("prayerFinishMsg").classList.remove("hidden");
-
-  // ✅ إخفاء زر العداد بعد الانتهاء
-  document.getElementById("prayerCounter").style.display = "none";
-
-  currentMode = "none";
-}
+  } else {
+    document.getElementById("prayerZikrBox").style.display = "none";
+    document.getElementById("prayerFinishMsg").classList.remove("hidden");
+    document.getElementById("prayerCounter").style.display = "none";
+    currentMode = "none";
+  }
 }
 function handleMorningTap(){
   const z = azkarMorning[morningIndex];
