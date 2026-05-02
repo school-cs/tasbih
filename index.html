@@ -965,16 +965,18 @@ function showPrayerZikr() {
   if (btnCount) btnCount.innerText = `${prayerCount} / ${z.repeat}`;
 }
 
-    function showMorningZikr(){
+   function showMorningZikr(){
   morningCount = 0;
   const z = azkarMorning[morningIndex];
 
-  document.getElementById("morningZikrBox").textContent =
-    `${z.text}\n\n(${morningCount} / ${z.repeat})`;
+  // ✅ عرض نص الذكر فقط (بدون عدّ)
+  document.getElementById("morningZikrBox").textContent = z.text;
 
+  // ✅ العدّ يظهر فقط في زر التسبيح
   const btnCount = document.getElementById("morningTouchCount");
   if (btnCount) btnCount.innerText = `${morningCount} / ${z.repeat}`;
 }
+
 function handlePrayerTap() {
   const z = azkarPrayer[prayerIndex];
   prayerCount++;
@@ -1008,9 +1010,10 @@ function handleMorningTap(){
   const z = azkarMorning[morningIndex];
   morningCount++;
 
-  document.getElementById("morningZikrBox").textContent =
-    `${z.text}\n\n(${morningCount} / ${z.repeat})`;
+  // ✅ مربع الذكر: نص فقط بدون عدّ
+  document.getElementById("morningZikrBox").textContent = z.text;
 
+  // ✅ العدّ يظهر فقط في زر التسبيح
   const btnCount = document.getElementById("morningTouchCount");
   if (btnCount) btnCount.innerText = `${morningCount} / ${z.repeat}`;
 
