@@ -957,14 +957,14 @@ function handleMainTap() {
     tasbeeh: increment,
     prayer: handlePrayerTap,
     morning: handleMorningTap,
-    evening: handleEveningTap
+    evening: handleEveningTap,
+    sleep: handleSleepTap // للمستقبل
   };
 
   if (actions[currentMode]) {
-    return actionscurrentMode;
+    return actionscurrentMode; // ✅ استدعاء صحيح
   }
 }
-
 function showPrayerZikr() {
   prayerCount = 0;
   const z = azkarPrayer[prayerIndex];
