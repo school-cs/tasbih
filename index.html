@@ -57,6 +57,7 @@
  --radius-sm:16px;
   --bottom-space:140px;
   --touch-min:220px;
+--btn-padding:16px 18px;
 }
 body.night{
   /* الأساس */
@@ -106,7 +107,7 @@ h2, h3, summary{
 button{
   width:100%;
   min-height:58px;              /* ✅ كبير ومريح */
-  padding:16px 18px;
+padding: var(--btn-padding);
 
   border-radius: var(--radius-md);
   border:1px solid rgba(0,0,0,.08);
