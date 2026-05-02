@@ -275,20 +275,23 @@ select{
 }
 .settings{display:flex;gap:8px;margin-top:10px}
 .settings button{flex:1}
-.zikrText{
+
+
+    .zikrText{
   background: var(--card);
   border-radius: var(--zikr-radius, 14px);
   padding: var(--zikr-padding, 16px);
 
-  font-size: var(--zikr-font, 15px);
+  font-size: 15px;
   line-height: 2;
 
-  /* ✅ تثبيت الحجم (لا يتغير مع طول الذكر) */
-  min-height: var(--zikr-box-height);
-  max-height: var(--zikr-box-height);
+  /* ✅ يعرض 8 أسطر تقريبًا */
+  min-height: 240px;
+  max-height: 240px;
 
-  overflow-y: auto;   /* ✅ تمرير عند الزيادة */
+  overflow-y: auto;   /* ✅ تمرير عند زيادة النص */
 }
+    
 
 /* منطقة زر التسبيح – المساحة العامة */
 .center{
