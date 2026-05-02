@@ -486,7 +486,8 @@ margin:16px 14px 24px; /* ✅ هنا */
 }
 
 /* =========================
-   📿 تنسيقات صفحة السبحة
+/* =========================
+   📿 تنسيقات صفحة السبحة – النسخة النهائية المضغوطة
    ========================= */
 
 /* صفحة السبحة */
@@ -494,66 +495,89 @@ margin:16px 14px 24px; /* ✅ هنا */
   padding-bottom: 0;
 }
 
-/* زر الرجوع داخل السبحة */
+/* زر الرجوع */
 #tasbeeh > button{
-  margin-bottom: 2px;   /* ✅ أقصر مسافة مريحة */
+  margin-bottom: 4px;
 }
 
-/* حاوية واجهة السبحة */
-
+/* واجهة التسبيح */
 #tasbeehUI{
-  margin-top: 0;        /* ✅ إزالة الفراغ */
+  margin-top: 0;
 }
 
-
-/* الجزء العلوي (اختر الذكر + الإعدادات) */
+/* الجزء العلوي */
 #tasbeehUI .top-panel{
-  padding-top: 2px;     /* ✅ لصق مريح مع زر الرجوع */
+  padding-top: 2px;
 }
 
-/* صندوق نص الذكر */
+/* اختر الذكر */
+#tasbeehUI select{
+  margin-top: 6px;   /* ⬅️ كان 12 */
+}
+
+/* ✅ مربع الذكر – 5 أسطر */
 #tasbeehUI .zikrText{
-  margin-top: 12px;
+  margin-top: 6px;
+  min-height: 150px;
+  max-height: 150px;
+  overflow-y: auto;
 }
 
-/* منطقة الزر الكبير */
+/* زر التسبيح */
 #tasbeehUI .center{
-  padding-top: 10px;
-  padding-bottom: 140px;
+  padding-top: 6px;
+  padding-bottom: 90px; /* ⬅️ كان 140 */
 }
 
-
-
-/* العداد */
-#tasbeehUI .touch-count{
-  font-size: 64px;
-  font-weight: 800;
-}
-
-/* إحصائيات السبحة */
+/* الإحصائيات */
 #tasbeehUI .stats{
-  margin-top: 12px;
+  margin-top: 8px;   /* ⬅️ كان 12 */
 }
 
-/* الوضع الليلي الخاص بالسبحة */
-body.night #tasbeehUI .touch{
-  background: var(--touch);
-}
-/* ✅ حل نهائي لتلاصق زر الرجوع مع اختر الذكر */
-#tasbeehUI select {
-  margin-top: 12px;
-}
-
-
+/* زر مسح العدّادات */
 #tasbeeh footer{
-  margin-top: 2px;      /* ✅ تقصير المسافة بشكل آمن */
-  padding-top: 0;       /* ✅ إزالة أي فراغ داخلي */
+  margin-top: 4px;
+  padding-top: 0;
 }
 
 #tasbeeh footer > button{
-  margin-top: 0;        /* ✅ لصق زر مسح العدّادات */
+  margin-top: 0;
 }
-</style>
+
+/* الوضع الليلي */
+body.night #tasbeehUI .touch{
+  background: var(--touch);
+}
+  /* =========================
+   ⚙️ تنسيقات صفحة الإعدادات
+   ========================= */
+
+#settings.view{
+  padding: 14px;
+}
+
+#settings .card{
+  background: var(--card);
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 16px;
+  border: 1px solid rgba(0,0,0,.06);
+}
+
+body.night #settings .card{
+  border-color:#0f172a;
+}
+
+#settings label{
+  display:block;
+  margin-bottom:8px;
+  font-weight:700;
+  font-size:15px;
+}
+
+  
+  
+  </style>
 </head>
 <body>
   <div class="app">
@@ -612,9 +636,12 @@ body.night #tasbeehUI .touch{
   </button>
 
   <button onclick="openView('prayersTime')">
-    <span>مواقيت الصلاة</span>
-  </button>
+  <span>مواقيت الصلاة</span>
+</button>
 
+<button onclick="openView('settings')">
+  <span>⚙️ الإعدادات</span>
+</button>
 </div>
    <div id="quran" class="view hidden">
   <button onclick="backHome()">← رجوع</button>
@@ -719,16 +746,7 @@ body.night #tasbeehUI .touch{
 
     <footer>
       <button onclick="clearCount()">مسح العدّادات</button>
-      <div class="settings">
-        <label>
-          الاكتمال:
-          <select onchange="setCompletionMode(this.value)">
-            <option value="none">بدون تنبيه</option>
-            <option value="vibrate">اهتزاز</option>
-            <option value="sound">صوت</option>
-          </select>
-        </label>
-      </div>
+      
 <div id="tasbeehStats" class="stats"></div>
     </footer>
 
@@ -746,7 +764,24 @@ body.night #tasbeehUI .touch{
   <button onclick="backHome()">← رجوع</button>
   <h2>🕰️ مواقيت الصلاة</h2>
 </div>
+<div id="settings" class="view hidden">
+  <button onclick="backHome()">← رجوع</button>
+  <h2>⚙️ الإعدادات</h2>
+
+  <div class="settings">
+    <label for="completionMode">
+      🔔 تنبيه الاكتمال
+    </label>
+
+    <select id="completionMode" onchange="setCompletionMode(this.value)">
+      <option value="none">بدون تنبيه</option>
+      <option value="vibrate">اهتزاز</option>
+      <option value="sound">صوت</option>
+    </select>
+  </div>
 </div>
+  
+  </div>
 
 
 
@@ -1072,11 +1107,10 @@ function increment(){
 }
 function clearCount(){
 
-  /* ✅ مسح إحصائيات اليوم */
+  /* ✅ مسح إحصائيات اليوم فقط */
   localStorage.removeItem('stats');
-  localStorage.removeItem('lastStatsDay');
 
-  /* ✅ مسح جميع عدّادات الأذكار المخزّنة */
+  /* ✅ مسح العدّادات */
   const select = document.getElementById('zikr');
   Array.from(select.options).forEach(opt => {
     if (opt.value && opt.value.trim() !== '') {
@@ -1084,18 +1118,17 @@ function clearCount(){
     }
   });
 
-  /* ✅ تصفير القيم الحالية */
   count = 0;
   currentZikr = '';
 
-  /* ✅ تحديث الواجهة */
   document.getElementById('zikr').value = '';
   document.getElementById('zikrText').innerText = '';
   document.getElementById('count').innerText = '0';
   document.getElementById('touchCount').innerText = '0';
-  document.getElementById('tasbeehStats').innerHTML = '';
-}
 
+  /* ✅ تحديث الإحصائيات (سيعرض رسالة "لا توجد إحصائيات اليوم" تلقائيًا) */
+  showStats();
+}
 
 function toggleNight(){document.body.classList.toggle('night');localStorage.setItem('night',document.body.classList.contains('night')?'1':'0')}
 function showStats(){
@@ -1138,6 +1171,12 @@ if (lastDay !== todayKey) {
   document.getElementById('maxLabel').innerText = max;
   showStats();
   showAyahBar();
+// ✅ مزامنة إعداد تنبيه الاكتمال مع صفحة الإعدادات
+const savedMode = localStorage.getItem('completionMode') || 'none';
+const modeSelect = document.getElementById('completionMode');
+if (modeSelect) {
+  modeSelect.value = savedMode;
+}
 };
 
 function openView(id){
