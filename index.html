@@ -1045,7 +1045,7 @@ function openPrayer() {
 
   showPrayerZikr();
 }
- function openMorning(){
+function openMorning(){
   currentMode = "morning";
   morningIndex = 0;
   morningCount = 0;
@@ -1056,8 +1056,11 @@ function openPrayer() {
   document.getElementById("morningZikrBox").style.display = "block";
   document.getElementById("morningFinishMsg").classList.add("hidden");
 
+  // ✅ هنا بالضبط
+  document.getElementById("morningZikrBox").innerText = "";
+
   showMorningZikr();
-} 
+}
     function playBeep(freq=600, duration=0.2){
   if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
   const o = audioCtx.createOscillator();
@@ -1312,6 +1315,8 @@ if (ayahTimer) {
 
 function backHome(){
   currentMode = "none";
+  morningIndex = 0;
+  morningCount = 0;
 
   document.querySelectorAll(".view").forEach(v=>{
     v.classList.add("hidden");
