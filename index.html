@@ -2277,10 +2277,9 @@ const azkarMorning = [
 ];
 function loadAsma(){
   const select = document.getElementById("asmaSelect");
-
-  // حماية: لو الصفحة غير موجودة
   if (!select) return;
 
+  // إعادة التهيئة
   select.innerHTML = '<option value="">اختر اسمًا</option>';
 
   asmaAllah.forEach((item, index) => {
@@ -2289,7 +2288,23 @@ function loadAsma(){
     option.textContent = item.name;
     select.appendChild(option);
   });
+
+  // ✅ ربط التغيير هنا
+  select.onchange = function(){
+    if (this.value === "") return;
+    showAsmaDetails(this.value);
+  };
 }
+  
+  function showAsmaDetails(index){
+  const data = asmaAllah[index];
+  if (!data) return;
+
+  document.getElementById("asmaName").textContent = data.name;
+  document.getElementById("asmaDesc").textContent = data.description;
+  document.getElementById("asmaSource").textContent = "المصدر: " + data.source;
+}
+  
   </script>
 
 <p style="display:none">
