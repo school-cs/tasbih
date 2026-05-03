@@ -1515,10 +1515,25 @@ function backHome(){
 
 /* ✅ هنا بالضبط */
 function backLibrary(){
+  // ✅ الخروج من أي وضع تشغيل
+  currentMode = "none";
+
+  // ✅ المكتبة ليست الصفحة الرئيسية
+  isHomeActive = false;
+
+  // ✅ إخفاء شريط الآيات إن كان ظاهرًا
+  const ayahBar = document.getElementById("ayahBar");
+  if (ayahBar) ayahBar.classList.add("hidden");
+
+  // ✅ إخفاء جميع الصفحات
   document.querySelectorAll(".view").forEach(v => {
     v.classList.add("hidden");
   });
+
+  // ✅ إظهار المكتبة
   document.getElementById("library").classList.remove("hidden");
+
+  // ✅ العودة لأعلى
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
