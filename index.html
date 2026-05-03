@@ -589,7 +589,6 @@ body.night #settings .card{
   border-radius: 18px;
   padding: 14px;
   margin-bottom: 16px;
-
   border: 1px solid rgba(0,0,0,.05);
   box-shadow: 0 4px 10px rgba(0,0,0,.06);
 }
@@ -607,6 +606,10 @@ body.night #settings .card{
   font-size: 15px;
 }
 
+/* =========================
+   🎛️ أزرار البطاقة
+   ========================= */
+
 .asma-actions{
   display: flex;
   gap: 8px;
@@ -618,10 +621,21 @@ body.night #settings .card{
   min-height: 42px;
   font-size: 14px;
   font-weight: 800;
+  border-radius: 14px;
+}
 
-  background: var(--primary-soft);
-  color: var(--primary);
+/* زر الصورة (أساسي) */
+.asma-actions button:first-child{
+  background: var(--primary);
+  color: #fff;
   border: none;
+}
+
+/* زر النص (ثانوي) */
+.asma-actions button:last-child{
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
 }
 
 /* =========================
@@ -634,18 +648,18 @@ body.night #settings .card{
   left: 50%;
   transform: translateX(-50%);
   background: var(--primary);
-  color: white;
+  color: #fff;
   padding: 10px 16px;
   border-radius: 12px;
   font-size: 14px;
   opacity: 0;
-  transition: .3s;
+  transition: opacity .3s;
   z-index: 9999;
 }
+
 .toast.show{
   opacity: 1;
 }
-  
   </style>
 </head>
 <body>
@@ -852,7 +866,15 @@ body.night #settings .card{
   <button onclick="backHome()">🏠 الرئيسية</button>
   <h2>كتب مختارة</h2>
 </div>
-    
+
+    <!-- Toast -->
+<div id="toast" class="toast">✅ تم النسخ</div>
+
+<!-- Canvas مخفي لإنشاء صورة المشاركة -->
+<canvas id="asmaCanvas" style="display
+
+
+  
 <!-- 📿 السبحة -->
 <div id="tasbeeh" class="view hidden">
  <button onclick="backHome()">🏠 الرئيسية</button>
@@ -2358,12 +2380,15 @@ function renderAsmaCards(){
       </div>
 
       <div class="asma-actions">
-        <button onclick="copyAsma('${escapeQuotes(item.name)}','${escapeQuotes(item.description)}')">
-          📋 نسخ
-        </button>
-        <button onclick="shareAsma('${escapeQuotes(item.name)}','${escapeQuotes(item.description)}')">
-          📤 مشاركة
-        </button>
+        <button onclick="shareAsmaImage(
+          '${escapeQuotes(item.name)}',
+          '${escapeQuotes(item.description)}'
+        )">📸 صورة</button>
+
+        <button onclick="shareAsma(
+          '${escapeQuotes(item.name)}',
+          '${escapeQuotes(item.description)}'
+        )">📤 نص</button>
       </div>
     `;
 
@@ -2379,10 +2404,6 @@ function copyAsma(name, text){
   navigator.clipboard.writeText(`${name}\n\n${text}`);
   showToast("✅ تم نسخ الاسم والشرح");
 }
-
-/* =========================
-   📤 مشاركة
-   ========================= */
 
 function shareAsma(name, text){
   if (navigator.share) {
@@ -2411,9 +2432,100 @@ function showToast(msg){
    ========================= */
 
 function escapeQuotes(str){
-  return str.replace(/'/g, "\\'");
+  return str
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/\n/g, "\\n");
 }
-   
+ function wrapText(ctx, text, maxWidth){
+  const words = text.split(" ");
+  let line = "";
+  const lines = [];
+
+  words.forEach(word => {
+    const testLine = line + word + " ";
+    const w = ctx.measureText(testLine).width;
+
+    if (w > maxWidth && line !== "") {
+      lines.push(line);
+      line = word + " ";
+    } else {
+      line = testLine;
+    }
+  });
+
+  lines.push(line);
+  return lines;
+}
+    function shareAsmaImage(name, text){
+  const canvas = document.getElementById("asmaCanvas");
+  const ctx = canvas.getContext("2d");
+
+  const width = 1080;
+  const padding = 80;
+  const lineHeight = 42;
+
+  canvas.width = width;
+  ctx.font = "32px Tajawal";
+
+  const lines = wrapText(ctx, text, width - padding * 2);
+
+  const height =
+    padding * 2 + 70 + 30 + lines.length * lineHeight + 80;
+
+  canvas.height = height;
+
+  // خلفية
+  const grad = ctx.createLinearGradient(0, 0, 0, height);
+  grad.addColorStop(0, "#ecfeff");
+  grad.addColorStop(1, "#f0fdfa");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, width, height);
+
+  // الاسم
+  ctx.fillStyle = "#0f766e";
+  ctx.font = "bold 56px Tajawal";
+  ctx.textAlign = "center";
+  ctx.fillText(name, width / 2, padding);
+
+  // خط فاصل
+  ctx.strokeStyle = "#0f766e33";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(padding, padding + 20);
+  ctx.lineTo(width - padding, padding + 20);
+  ctx.stroke();
+
+  // الشرح
+  ctx.fillStyle = "#083344";
+  ctx.font = "32px Tajawal";
+  ctx.textAlign = "right";
+
+  let y = padding + 80;
+  lines.forEach(line => {
+    ctx.fillText(line, width - padding, y);
+    y += lineHeight;
+  });
+
+  // تذييل
+  ctx.font = "24px Tajawal";
+  ctx.fillStyle = "#475569";
+  ctx.textAlign = "center";
+  ctx.fillText(
+    "أسماء الله الحسنى – تطبيق القرآن الكريم والسنة النبوية",
+    width / 2,
+    height - 30
+  );
+
+  canvas.toBlob(blob => {
+    const file = new File([blob], "asma.png", { type: "image/png" });
+    if (navigator.share) {
+      navigator.share({ files: [file], title: name, text: name });
+    } else {
+      window.open(URL.createObjectURL(blob));
+    }
+  });
+}
   </script>
 
 <p style="display:none">
