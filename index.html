@@ -624,10 +624,10 @@ body.night #settings .card{
   <span>أذكار النوم</span>
 </button>
 
-  <button onclick="openView('names')">
-    <span>أسماء الله الحسنى</span>
-  </button>
-
+<button onclick="openView('library')">
+  <span>📚 المكتبة</span>
+</button>
+  
   <button class="tasbeeh-btn" onclick="openView('tasbeeh')">
     <span>السبحة</span>
   </button>
@@ -645,16 +645,16 @@ body.night #settings .card{
 </button>
 </div>
    <div id="quran" class="view hidden">
-  <button onclick="backHome()">← رجوع</button>
+<button onclick="backHome()">🏠 الرئيسية</button>
   <h2> القرآن الكريم</h2>
 </div>
 <div id="dua" class="view hidden">
-  <button onclick="backHome()">← رجوع</button>
+<button onclick="backHome()">🏠 الرئيسية</button>
   <h2> الدعاء</h2>
 </div>
 
     <div id="prayer" class="view hidden">
-  <button onclick="backHome()">← رجوع</button>
+ <button onclick="backHome()">🏠 الرئيسية</button>
   <h2>🕌 أذكار الصلاة</h2>
 
   <div class="zikrText" id="prayerZikrBox"></div>
@@ -673,7 +673,7 @@ body.night #settings .card{
 </div>
 <div id="morning" class="view hidden">
 
-  <button onclick="backHome()">← رجوع</button>
+<button onclick="backHome()">🏠 الرئيسية</button>
   <h2>🌅 أذكار الصباح</h2>
 
   <div class="zikrText" id="morningZikrBox"></div>
@@ -693,7 +693,7 @@ body.night #settings .card{
 
 </div>
 <div id="evening" class="view hidden">
-  <button onclick="backHome()">← رجوع</button>
+<button onclick="backHome()">🏠 الرئيسية</button>
   <h2>🌙 أذكار المساء</h2>
 
   <div class="zikrText" id="eveningZikrBox"></div>
@@ -713,7 +713,7 @@ body.night #settings .card{
 </div>
 
 <div id="sleep" class="view hidden">
-  <button onclick="backHome()">← رجوع</button>
+<button onclick="backHome()">🏠 الرئيسية</button>
   <h2> أذكار النوم</h2>
 
   <div class="zikrText" id="sleepZikrBox"></div>
@@ -734,15 +734,33 @@ body.night #settings .card{
 
 
 
+<div id="library" class="dashboard hidden">
 
+  <div style="grid-column:1/-1;text-align:center;font-weight:bold;font-size:16px;opacity:.75;">
+    اختر من المكتبة
+  </div>
+
+  <button onclick="openView('names')">
+    <span>أسماء الله الحسنى</span>
+  </button>
+
+</div>
 <div id="names" class="view hidden">
-  <button onclick="backHome()">← رجوع</button>
-  <h2> أسماء الله الحسنى</h2>
+  <button onclick="backHome()">🏠 الرئيسية</button>
+  <h2>أسماء الله الحسنى</h2>
+
+  <!--
+    هنا سيتم إضافة:
+    - القائمة المنسدلة لأسماء الله الحسنى
+    - عرض الاسم
+    - الشرح المختصر
+  -->
+
 </div>
 
 <div id="tasbeeh" class="view hidden">
 
-  <button onclick="backHome()">← رجوع</button>
+ <button onclick="backHome()">🏠 الرئيسية</button>
 
   <div id="tasbeehUI">
 
@@ -806,16 +824,16 @@ body.night #settings .card{
 
 
 <div id="virtues" class="view hidden">
-  <button onclick="backHome()">← رجوع</button>
+<button onclick="backHome()">🏠 الرئيسية</button>
   <h2>⭐ فضائل الأعمال</h2>
 </div>
 
 <div id="prayersTime" class="view hidden">
-  <button onclick="backHome()">← رجوع</button>
+<button onclick="backHome()">🏠 الرئيسية</button>
   <h2>🕰️ مواقيت الصلاة</h2>
 </div>
 <div id="settings" class="view hidden">
-  <button onclick="backHome()">← رجوع</button>
+<button onclick="backHome()">🏠 الرئيسية</button>
   <h2>⚙️ الإعدادات</h2>
 
   <div class="settings">
