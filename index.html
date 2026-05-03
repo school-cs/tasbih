@@ -584,15 +584,13 @@ body.night #settings .card{
    📖 بطاقات أسماء الله الحسنى
    ========================= */
 
-..asma-card{
+.asma-card{
   background: var(--card);
   border-radius: 18px;
   padding: 14px;
   margin-bottom: 16px;
 
   border: 1px solid rgba(0,0,0,.05);
-
-  /* ✅ ظل ناعم */
   box-shadow: 0 4px 10px rgba(0,0,0,.06);
 }
 
@@ -600,11 +598,13 @@ body.night #settings .card{
   margin: 0 0 6px;
   font-size: 20px;
   font-weight: 900;
+  letter-spacing: .3px;
 }
 
 .asma-desc{
   margin-top: 6px;
   line-height: 2;
+  font-size: 15px;
 }
 
 .asma-actions{
@@ -615,10 +615,36 @@ body.night #settings .card{
 
 .asma-actions button{
   flex: 1;
-  min-height: 44px;
+  min-height: 42px;
   font-size: 14px;
   font-weight: 800;
-}  
+
+  background: var(--primary-soft);
+  color: var(--primary);
+  border: none;
+}
+
+/* =========================
+   ✅ Toast تنبيه النسخ
+   ========================= */
+
+.toast{
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  opacity: 0;
+  transition: .3s;
+  z-index: 9999;
+}
+.toast.show{
+  opacity: 1;
+}
   
   </style>
 </head>
@@ -808,9 +834,12 @@ body.night #settings .card{
   <button onclick="backLibrary()">⬅ المكتبة</button>
   <h2>أسماء الله الحسنى</h2>
 
-  <!-- ✅ حاوية البطاقات -->
+  <!-- بطاقات الأسماء -->
   <div id="asmaContainer"></div>
 </div>
+
+<!-- Toast للتنبيه -->
+<div id="toast" class="toast">✅ تم النسخ</div>
 
 <!-- 📘 أسماء الله الحسنى (شرح آخر) -->
 <div id="asma2" class="view hidden">
@@ -2285,7 +2314,11 @@ const azkarMorning = [
   }
 
 ];
- const asmaAllah = [
+/* =========================
+   📖 بيانات أسماء الله الحسنى (مثال)
+   ========================= */
+
+const asmaAllah = [
   {
     name: "الرب",
     description: "هو المربي جميع عباده بالتدبير وأصناف النعم، وأخص من هذا تربيته لأصفيائه بإصلاح قلوبهم وأرواحهم وأخلاقهم.",
@@ -2302,6 +2335,11 @@ const azkarMorning = [
     source: "السعدي"
   }
 ];
+
+/* =========================
+   🎨 توليد البطاقات
+   ========================= */
+
 function renderAsmaCards(){
   const container = document.getElementById("asmaContainer");
   if (!container) return;
@@ -2332,10 +2370,19 @@ function renderAsmaCards(){
     container.appendChild(card);
   });
 }
-    function copyAsma(name, text){
+
+/* =========================
+   📋 نسخ + Toast
+   ========================= */
+
+function copyAsma(name, text){
   navigator.clipboard.writeText(`${name}\n\n${text}`);
-  alert("✅ تم نسخ الاسم والشرح");
+  showToast("✅ تم نسخ الاسم والشرح");
 }
+
+/* =========================
+   📤 مشاركة
+   ========================= */
 
 function shareAsma(name, text){
   if (navigator.share) {
@@ -2348,7 +2395,21 @@ function shareAsma(name, text){
   }
 }
 
-/* ✅ حماية من علامات الاقتباس */
+/* =========================
+   🔔 Toast
+   ========================= */
+
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2000);
+}
+
+/* =========================
+   ✅ حماية من علامات الاقتباس
+   ========================= */
+
 function escapeQuotes(str){
   return str.replace(/'/g, "\\'");
 }
