@@ -735,8 +735,7 @@ body.night #settings .card{
     ✅ تم الانتهاء من أذكار النوم
   </div>
 </div>
-<div id="library" class="dashboard hidden">
-
+<div id="library" class="dashboard view hidden">
   <div style="grid-column:1/-1;text-align:center;
               font-weight:bold;font-size:16px;opacity:.75;">
     اختر من المكتبة
@@ -1496,38 +1495,33 @@ if (ayahTimer) {
 function backHome(){
   currentMode = "none";
 
-  // ✅ تصفير الصباح
   morningIndex = 0;
   morningCount = 0;
-
-  // ✅ تصفير المساء
   eveningIndex = 0;
   eveningCount = 0;
-
-  // ✅ تصفير النوم
   sleepIndex = 0;
   sleepCount = 0;
 
-  // ✅ إخفاء جميع الصفحات
   document.querySelectorAll(".view").forEach(v => {
     v.classList.add("hidden");
   });
 
-  // ✅ إظهار الصفحة الرئيسية
   document.getElementById("home").classList.remove("hidden");
-
-  // ✅ إظهار شريط الآيات
   document.getElementById("ayahBar").classList.remove("hidden");
-
-  // ✅ تفعيل وضع الصفحة الرئيسية
   isHomeActive = true;
-
-  // ✅ إعادة تشغيل شريط الآيات
   showAyahBar();
-
-  // ✅ العودة لأعلى الصفحة
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
+
+/* ✅ هنا بالضبط */
+function backLibrary(){
+  document.querySelectorAll(".view").forEach(v => {
+    v.classList.add("hidden");
+  });
+  document.getElementById("library").classList.remove("hidden");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 // ✅ أذكار الصلاة (كاملة كما زوّدتِني بها)
 const azkarPrayer = [
 
