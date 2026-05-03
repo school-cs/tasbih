@@ -768,8 +768,23 @@ body.night #settings .card{
 
 <!-- 📖 أسماء الله الحسنى -->
 <div id="names" class="view hidden">
-  <button onclick="backHome()">🏠 الرئيسية</button>
+  <button onclick="backLibrary()">⬅ المكتبة</button>
+
   <h2>أسماء الله الحسنى</h2>
+
+  <!-- اختيار الاسم -->
+  <select id="asmaSelect">
+    <option value="">اختر اسمًا</option>
+  </select>
+
+  <!-- عرض الاسم -->
+  <h3 id="asmaName" style="margin-top:12px;"></h3>
+
+  <!-- الشرح -->
+  <div id="asmaDesc" class="zikrText"></div>
+
+  <!-- المصدر -->
+  <div id="asmaSource" style="margin-top:6px;font-size:13px;opacity:.7;"></div>
 </div>
 
 <!-- 📘 أسماء الله الحسنى (شرح آخر) -->
@@ -1460,36 +1475,46 @@ if (modeSelect) {
 
 
 function openView(id){
- isHomeActive = false;
+  // ✅ خارج الصفحة الرئيسية
+  isHomeActive = false;
 
-if (ayahTimer) {
-  clearTimeout(ayahTimer);
-  ayahTimer = null;
-}
-  document.getElementById("ayahBar").classList.add("hidden");
+  // ✅ إيقاف شريط الآيات
+  if (ayahTimer) {
+    clearTimeout(ayahTimer);
+    ayahTimer = null;
+  }
+
+  const ayahBar = document.getElementById("ayahBar");
+  if (ayahBar) ayahBar.classList.add("hidden");
+
+  // ✅ إخفاء الصفحة الرئيسية
   document.getElementById("home").classList.add("hidden");
 
-  document.querySelectorAll(".view").forEach(v=>{
+  // ✅ إخفاء جميع الصفحات
+  document.querySelectorAll(".view").forEach(v => {
     v.classList.add("hidden");
   });
 
+  // ✅ إظهار الصفحة المطلوبة
   document.getElementById(id).classList.remove("hidden");
 
-  /* ✅ ضبط وضع التشغيل */
+  // ✅ أسماء الله الحسنى
+  if (id === "names") {
+    loadAsma();
+  }
+
+  // ✅ السبحة
   if (id === "tasbeeh") {
     currentMode = "tasbeeh";
-
-    // إعادة تهيئة السبحة
     currentZikr = '';
     count = 0;
     document.getElementById('zikr').value = '';
     document.getElementById('zikrText').innerText = '';
     document.getElementById('touchCount').innerText = '0';
     document.getElementById('count').innerText = '0';
-   
   }
 
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function backHome(){
@@ -2233,6 +2258,38 @@ const azkarMorning = [
   }
 
 ];
+ const asmaAllah = [
+  {
+    name: "الرب",
+    description: "هو المربي جميع عباده بالتدبير وأصناف النعم، وأخص من هذا تربيته لأصفيائه بإصلاح قلوبهم وأرواحهم وأخلاقهم.",
+    source: "السعدي"
+  },
+  {
+    name: "الله",
+    description: "هو المألوه المعبود، ذو الألوهية والعبودية على خلقه أجمعين، لما اتصف به من صفات الألوهية التي هي صفات الكمال.",
+    source: "السعدي"
+  },
+  {
+    name: "الملك، المالك",
+    description: "الذي له الملك، فله التصرف المطلق في الخلق والأمر والجزاء، وكل الخلق عبيد له.",
+    source: "السعدي"
+  }
+];
+function loadAsma(){
+  const select = document.getElementById("asmaSelect");
+
+  // حماية: لو الصفحة غير موجودة
+  if (!select) return;
+
+  select.innerHTML = '<option value="">اختر اسمًا</option>';
+
+  asmaAllah.forEach((item, index) => {
+    const option = document.createElement("option");
+    option.value = index;
+    option.textContent = item.name;
+    select.appendChild(option);
+  });
+}
   </script>
 
 <p style="display:none">
