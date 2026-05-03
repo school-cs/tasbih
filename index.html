@@ -1581,16 +1581,20 @@ if (id === "names") {
   renderAsmaCards();
 }
 
-  // ✅ السبحة
-  if (id === "tasbeeh") {
-    currentMode = "tasbeeh";
-    currentZikr = '';
-    count = 0;
-    document.getElementById('zikr').value = '';
-    document.getElementById('zikrText').innerText = '';
-    document.getElementById('touchCount').innerText = '0';
-    document.getElementById('count').innerText = '0';
+ if (id === "tasbeeh") {
+  currentMode = "tasbeeh";
+
+  // ✅ إعادة عرض الحالة الحالية فقط (كما كان قبل تعديل أسماء الله)
+  document.getElementById('zikrText').innerText = currentZikr || '';
+  document.getElementById('touchCount').innerText = count || '0';
+  document.getElementById('count').innerText = count || '0';
+
+  // ✅ مزامنة القائمة المنسدلة مع الذكر الحالي
+  const zikrSelect = document.getElementById('zikr');
+  if (zikrSelect && currentZikr) {
+    zikrSelect.value = currentZikr;
   }
+}
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
