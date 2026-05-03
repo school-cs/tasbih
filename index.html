@@ -252,10 +252,14 @@ header,footer{padding:14px}
   background: var(--purple-soft);
 }
 
-/* 📿 الأسماء + السبحة */
-.dashboard button[onclick*="names"],
-.dashboard .tasbeeh-btn{
+/* 📚 أسماء الله الحسنى – داخل المكتبة فقط */
+#library button[onclick*="names"]{
   background: var(--primary-soft);
+  border-color: var(--primary);
+}
+
+#library button[onclick*="names"] span{
+  color: var(--primary);
 }
   .view{
   padding:14px;
