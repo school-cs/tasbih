@@ -2741,69 +2741,6 @@ function copyAsma(name, text){
   showToast("✅ تم نسخ الاسم والشرح");
 }
 
-function shareAsma(name, text, source){
-  const fullText =
-`${name}
-
-${text}
-
-━━━━━━━━━━━━
-📖 المصدر
-${source}
-━━━━━━━━━━━━`;
-
-  if (navigator.share) {
-    navigator.share({
-      title: name,
-      text: fullText
-    });
-  } else {
-    navigator.clipboard.writeText(fullText);
-    showToast("✅ تم النسخ مع المصدر");
-  }
-}
-
-/* =========================
-   🔔 Toast
-   ========================= */
-
-function showToast(msg){
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  setTimeout(() => t.classList.remove("show"), 2000);
-}
-
-/* =========================
-   ✅ حماية من علامات الاقتباس
-   ========================= */
-
-function escapeQuotes(str){
-  return str
-    .replace(/\\/g, "\\\\")
-    .replace(/'/g, "\\'")
-    .replace(/\n/g, "\\n");
-}
- function wrapText(ctx, text, maxWidth){
-  const words = text.split(" ");
-  let line = "";
-  const lines = [];
-
-  words.forEach(word => {
-    const testLine = line + word + " ";
-    const w = ctx.measureText(testLine).width;
-
-    if (w > maxWidth && line !== "") {
-      lines.push(line);
-      line = word + " ";
-    } else {
-      line = testLine;
-    }
-  });
-
-  lines.push(line);
-  return lines;
-}
 function shareAsmaImage(name, text, source) {
   const canvas = document.getElementById("asmaCanvas");
   const ctx = canvas.getContext("2d");
@@ -2813,55 +2750,46 @@ function shareAsmaImage(name, text, source) {
   const boxHeight = 70;
 
   ctx.font = "28px Tajawal";
-  const textLines = wrapText(ctx, text, 760);
 
-  /* =====================
-     حساب الارتفاع الحقيقي للمحتوى
-     ===================== */
-  let yCursor = 0;
+  /* حساب مؤقت لطول النص */
+  const tempLines = wrapText(ctx, text, 700);
 
-  const nameBlock = 90;                     // اسم + فاصل
-  const textBlock = textLines.length * lineHeight;
+  const nameBlock = 90;
+  const textBlock = tempLines.length * lineHeight;
   const footerBlock = boxHeight + 24;
 
   const contentHeight =
-    padding +           // أعلى
+    padding +
     nameBlock +
-    28 +
     textBlock +
     footerBlock +
-    padding;            // أسفل
+    padding;
 
-  /* =====================
-     تطبيق نسبة ذهبية (غير مربعة قليلًا)
-     ===================== */
   const height = Math.ceil(contentHeight);
-  const width = Math.ceil(height * 0.85);  // ✅ نسبة ذهبية لطيفة
+  const width = Math.ceil(height * 0.85);
 
   canvas.width = width;
   canvas.height = height;
 
-  /* =====================
-     الخلفية
-     ===================== */
+  /* حساب النص بالعرض الحقيقي */
+  const maxTextWidth = width - padding * 2;
+  const textLines = wrapText(ctx, text, maxTextWidth);
+
+  /* الخلفية */
   const grad = ctx.createLinearGradient(0, 0, 0, height);
   grad.addColorStop(0, "#ecfeff");
   grad.addColorStop(1, "#f0fdfa");
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, width, height);
 
-  /* =====================
-     إطار خارجي
-     ===================== */
+  /* إطار خارجي */
   ctx.strokeStyle = "#0f766e33";
   ctx.lineWidth = 3;
   ctx.strokeRect(8, 8, width - 16, height - 16);
 
-  yCursor = padding;
+  let yCursor = padding;
 
-  /* =====================
-     اسم الله
-     ===================== */
+  /* اسم الله */
   ctx.font = "bold 48px Tajawal";
   ctx.fillStyle = "#0f766e";
   ctx.textAlign = "center";
@@ -2876,9 +2804,7 @@ function shareAsmaImage(name, text, source) {
 
   yCursor += 36;
 
-  /* =====================
-     الشرح
-     ===================== */
+  /* الشرح */
   ctx.font = "28px Tajawal";
   ctx.fillStyle = "#083344";
   ctx.textAlign = "right";
@@ -2890,9 +2816,7 @@ function shareAsmaImage(name, text, source) {
 
   yCursor += 20;
 
-  /* =====================
-     إطار المصدر (ملاصق – بدون فراغ)
-     ===================== */
+  /* إطار المصدر */
   const boxX = padding;
   const boxY = yCursor;
   const boxWidth = width - padding * 2;
@@ -2929,7 +2853,7 @@ function shareAsmaImage(name, text, source) {
     ctx.fillText(line, width / 2, boxY + 24 + i * 16);
   });
 
-  /* اسم التطبيق (ملتصق تقريبًا) */
+  /* اسم التطبيق */
   ctx.font = "12px Tajawal";
   ctx.fillStyle = "#64748b";
   ctx.fillText(
@@ -2938,9 +2862,7 @@ function shareAsmaImage(name, text, source) {
     boxY + boxHeight - 14
   );
 
-  /* =====================
-     تصدير الصورة
-     ===================== */
+  /* التصدير */
   canvas.toBlob(blob => {
     const file = new File([blob], "asma.png", { type: "image/png" });
     if (navigator.share) {
