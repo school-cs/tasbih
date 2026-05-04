@@ -2804,7 +2804,7 @@ function escapeQuotes(str){
   lines.push(line);
   return lines;
 }
-  function shareAsmaImage(name, text, source){
+ function shareAsmaImage(name, text, source){
   const canvas = document.getElementById("asmaCanvas");
   const ctx = canvas.getContext("2d");
 
@@ -2817,7 +2817,7 @@ function escapeQuotes(str){
 
   const lines = wrapText(ctx, text, width - padding * 2);
 
-  // ✅ زيادة الارتفاع لاستيعاب الإطار السفلي
+  // ارتفاع محسوب مع مساحة كافية للإطار
   const height =
     padding * 2 + 70 + 30 + lines.length * lineHeight + 180;
 
@@ -2867,7 +2867,7 @@ function escapeQuotes(str){
 
   const boxX = padding;
   const boxWidth = width - padding * 2;
-  const boxHeight = 120;
+  const boxHeight = 110;
   const boxY = height - boxHeight - 20;
   const radius = 28;
 
@@ -2897,21 +2897,12 @@ function escapeQuotes(str){
   ctx.stroke();
 
   /* =====================
-     نص المصدر + التطبيق
+     نص المصدر + التطبيق (مضغوط)
      ===================== */
   ctx.textAlign = "center";
 
-  // عنوان المصدر
-  ctx.font = "22px Tajawal";
-  ctx.fillStyle = "#0f766e";
-  ctx.fillText(
-    "شرح أسماء الله الحسنى",
-    width / 2,
-    boxY + 32
-  );
-
-  // المصدر (يلتف تلقائيًا)
-  ctx.font = "18px Tajawal";
+  // المصدر (خط أصغر + مسافات أقل)
+  ctx.font = "16px Tajawal";
   ctx.fillStyle = "#334155";
 
   const sourceLines = wrapText(ctx, source, boxWidth - 40);
@@ -2919,12 +2910,12 @@ function escapeQuotes(str){
     ctx.fillText(
       line,
       width / 2,
-      boxY + 58 + i * 22
+      boxY + 32 + i * 18
     );
   });
 
   // اسم التطبيق
-  ctx.font = "16px Tajawal";
+  ctx.font = "14px Tajawal";
   ctx.fillStyle = "#64748b";
   ctx.fillText(
     "تطبيق القرآن الكريم والسنة النبوية",
