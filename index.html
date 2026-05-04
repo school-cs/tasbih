@@ -2817,14 +2817,14 @@ function escapeQuotes(str){
 
   const lines = wrapText(ctx, text, width - padding * 2);
 
-  // ارتفاع محسوب مع مساحة كافية للإطار
+  // ارتفاع محسوب مع إطار أصغر
   const height =
-    padding * 2 + 70 + 30 + lines.length * lineHeight + 180;
+    padding * 2 + 70 + 30 + lines.length * lineHeight + 140;
 
   canvas.height = height;
 
   /* =====================
-     الخلفية العامة
+     الخلفية
      ===================== */
   const grad = ctx.createLinearGradient(0, 0, 0, height);
   grad.addColorStop(0, "#ecfeff");
@@ -2862,16 +2862,14 @@ function escapeQuotes(str){
   });
 
   /* =====================
-     الإطار الدائري للمصدر
+     إطار المصدر (أصغر ومضغوط)
      ===================== */
-
   const boxX = padding;
   const boxWidth = width - padding * 2;
-  const boxHeight = 110;
-  const boxY = height - boxHeight - 20;
-  const radius = 28;
+  const boxHeight = 82;           // ✅ أصغر
+  const boxY = height - boxHeight - 18;
+  const radius = 22;              // ✅ أنعم
 
-  // دالة رسم مستطيل بحواف دائرية
   function roundedRect(ctx, x, y, w, h, r) {
     ctx.beginPath();
     ctx.moveTo(x + r, y);
@@ -2893,34 +2891,34 @@ function escapeQuotes(str){
 
   // حد ناعم
   ctx.strokeStyle = "#0f766e33";
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 1.5;
   ctx.stroke();
 
   /* =====================
-     نص المصدر + التطبيق (مضغوط)
+     نص المصدر (مكثف)
      ===================== */
   ctx.textAlign = "center";
 
-  // المصدر (خط أصغر + مسافات أقل)
-  ctx.font = "16px Tajawal";
+  // سطر المصدر (سطر واحد غالبًا)
+  ctx.font = "15px Tajawal";
   ctx.fillStyle = "#334155";
+  const srcLines = wrapText(ctx, source, boxWidth - 60).slice(0, 2);
 
-  const sourceLines = wrapText(ctx, source, boxWidth - 40);
-  sourceLines.forEach((line, i) => {
+  srcLines.forEach((line, i) => {
     ctx.fillText(
       line,
       width / 2,
-      boxY + 32 + i * 18
+      boxY + 24 + i * 16
     );
   });
 
-  // اسم التطبيق
-  ctx.font = "14px Tajawal";
+  // اسم التطبيق (ملتصق تقريبًا بالمصدر)
+  ctx.font = "13px Tajawal";
   ctx.fillStyle = "#64748b";
   ctx.fillText(
     "تطبيق القرآن الكريم والسنة النبوية",
     width / 2,
-    boxY + boxHeight - 14
+    boxY + boxHeight - 12
   );
 
   /* =====================
@@ -2935,6 +2933,7 @@ function escapeQuotes(str){
     }
   });
 }
+
   </script>
 
 <p style="display:none">
