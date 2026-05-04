@@ -2804,73 +2804,99 @@ function escapeQuotes(str){
   lines.push(line);
   return lines;
 }
- function shareAsmaImage(name, text, source){
+function shareAsmaImage(name, text, source) {
   const canvas = document.getElementById("asmaCanvas");
   const ctx = canvas.getContext("2d");
 
-  const size = 1080;           // صورة مربعة
-  const padding = 80;
-  const lineHeight = 40;
+  const padding = 56;
+  const lineHeight = 36;
+  const boxHeight = 70;
 
-  canvas.width = size;
-  canvas.height = size;
+  ctx.font = "28px Tajawal";
+  const textLines = wrapText(ctx, text, 760);
+
+  /* =====================
+     حساب الارتفاع الحقيقي للمحتوى
+     ===================== */
+  let yCursor = 0;
+
+  const nameBlock = 90;                     // اسم + فاصل
+  const textBlock = textLines.length * lineHeight;
+  const footerBlock = boxHeight + 24;
+
+  const contentHeight =
+    padding +           // أعلى
+    nameBlock +
+    28 +
+    textBlock +
+    footerBlock +
+    padding;            // أسفل
+
+  /* =====================
+     تطبيق نسبة ذهبية (غير مربعة قليلًا)
+     ===================== */
+  const height = Math.ceil(contentHeight);
+  const width = Math.ceil(height * 0.85);  // ✅ نسبة ذهبية لطيفة
+
+  canvas.width = width;
+  canvas.height = height;
 
   /* =====================
      الخلفية
      ===================== */
-  const grad = ctx.createLinearGradient(0, 0, 0, size);
+  const grad = ctx.createLinearGradient(0, 0, 0, height);
   grad.addColorStop(0, "#ecfeff");
   grad.addColorStop(1, "#f0fdfa");
   ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, size, size);
+  ctx.fillRect(0, 0, width, height);
 
   /* =====================
-     الإطار الخارجي
+     إطار خارجي
      ===================== */
   ctx.strokeStyle = "#0f766e33";
-  ctx.lineWidth = 6;
-  ctx.strokeRect(12, 12, size - 24, size - 24);
+  ctx.lineWidth = 3;
+  ctx.strokeRect(8, 8, width - 16, height - 16);
+
+  yCursor = padding;
 
   /* =====================
      اسم الله
      ===================== */
-  ctx.font = "bold 56px Tajawal";
+  ctx.font = "bold 48px Tajawal";
   ctx.fillStyle = "#0f766e";
   ctx.textAlign = "center";
-  ctx.fillText(name, size / 2, padding + 20);
+  ctx.fillText(name, width / 2, yCursor);
 
-  /* خط فاصل */
+  yCursor += 34;
+
   ctx.beginPath();
-  ctx.moveTo(padding, padding + 55);
-  ctx.lineTo(size - padding, padding + 55);
+  ctx.moveTo(padding, yCursor);
+  ctx.lineTo(width - padding, yCursor);
   ctx.stroke();
 
+  yCursor += 36;
+
   /* =====================
-     الشرح (في المنتصف)
+     الشرح
      ===================== */
-  ctx.font = "32px Tajawal";
+  ctx.font = "28px Tajawal";
   ctx.fillStyle = "#083344";
   ctx.textAlign = "right";
 
-  const maxTextWidth = size - padding * 2;
-  const lines = wrapText(ctx, text, maxTextWidth);
-
-  const textBlockHeight = lines.length * lineHeight;
-  let y = (size - textBlockHeight) / 2;
-
-  lines.forEach(line => {
-    ctx.fillText(line, size - padding, y);
-    y += lineHeight;
+  textLines.forEach(line => {
+    ctx.fillText(line, width - padding, yCursor);
+    yCursor += lineHeight;
   });
 
+  yCursor += 20;
+
   /* =====================
-     إطار المصدر (صغير ومضغوط)
+     إطار المصدر (ملاصق – بدون فراغ)
      ===================== */
-  const boxHeight = 82;
-  const boxY = size - boxHeight - 40;
   const boxX = padding;
-  const boxWidth = size - padding * 2;
-  const radius = 22;
+  const boxY = yCursor;
+  const boxWidth = width - padding * 2;
+  const radius = 16;
 
   function roundedRect(ctx, x, y, w, h, r) {
     ctx.beginPath();
@@ -2886,39 +2912,30 @@ function escapeQuotes(str){
     ctx.closePath();
   }
 
-  // خلفية الإطار
   roundedRect(ctx, boxX, boxY, boxWidth, boxHeight, radius);
   ctx.fillStyle = "#ecfeff";
   ctx.fill();
-
-  // حد ناعم
   ctx.strokeStyle = "#0f766e33";
-  ctx.lineWidth = 1.5;
+  ctx.lineWidth = 1.3;
   ctx.stroke();
 
-  /* =====================
-     نص المصدر (مكثف جدًا)
-     ===================== */
+  /* نص المصدر */
   ctx.textAlign = "center";
-  ctx.font = "15px Tajawal";
+  ctx.font = "14px Tajawal";
   ctx.fillStyle = "#334155";
 
-  const srcLines = wrapText(ctx, source, boxWidth - 60).slice(0, 2);
+  const srcLines = wrapText(ctx, source, boxWidth - 40).slice(0, 2);
   srcLines.forEach((line, i) => {
-    ctx.fillText(
-      line,
-      size / 2,
-      boxY + 24 + i * 16
-    );
+    ctx.fillText(line, width / 2, boxY + 24 + i * 16);
   });
 
-  /* اسم التطبيق – أقرب للمصدر */
-  ctx.font = "13px Tajawal";
+  /* اسم التطبيق (ملتصق تقريبًا) */
+  ctx.font = "12px Tajawal";
   ctx.fillStyle = "#64748b";
   ctx.fillText(
     "تطبيق القرآن الكريم والسنة النبوية",
-    size / 2,
-    boxY + boxHeight - 20
+    width / 2,
+    boxY + boxHeight - 14
   );
 
   /* =====================
