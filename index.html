@@ -2766,53 +2766,47 @@ function renderAsmaCards() {
    مشاركة نصية
    ========================= */
 
-function shareAsma(name, text, source) {
-  const fullText = `${name}\n\n${text}${source ? `\n\n${source}` : ""}`;
-  if (navigator.share) {
-    navigator.share({ title: name, text: fullText });
-  } else {
-    navigator.clipboard.writeText(fullText);
-    alert("✅ تم نسخ النص");
-  }
-}
-
-/* =========================
-   مشاركة صورة (Canvas)
-   ========================= */
-
 function shareAsmaImage(name, text, source) {
   const canvas = document.getElementById("asmaCanvas");
-  if (!canvas) return;
   const ctx = canvas.getContext("2d");
 
   const padding = 56;
   const lineHeight = 36;
   const boxHeight = 70;
 
-  // إعداد الخط قبل القياس
+  /* =========================
+     1) نحدد العرض أولًا (نسبة ذهبية تقريبية)
+     ========================= */
+  const baseWidth = 720;           // عرض مبدئي مريح
+  const width = Math.floor(baseWidth);
+
   ctx.font = "28px Tajawal";
 
-  // قياس مبدئي للطول
-  const tempLines = wrapText(ctx, text, 700);
-  const contentHeight =
-    padding +
-    90 + // الاسم + الفاصل
-    tempLines.length * lineHeight +
-    boxHeight +
-    padding;
+  /* =========================
+     2) لفّ النص بالعرض الحقيقي
+     ========================= */
+  const maxTextWidth = width - padding * 2;
+  const textLines = wrapText(ctx, text, maxTextWidth);
 
-  // نسبة ذهبية تقريبية
+  /* =========================
+     3) حساب الارتفاع الحقيقي
+     ========================= */
+  const contentHeight =
+    padding +               // أعلى
+    90 +                    // الاسم + الخط الفاصل
+    textLines.length * lineHeight +
+    20 +                    // مسافة قبل المصدر
+    boxHeight +             // إطار المصدر
+    padding;                // أسفل
+
   const height = Math.ceil(contentHeight);
-  const width = Math.ceil(height * 0.85);
 
   canvas.width = width;
   canvas.height = height;
 
-  // إعادة لف النص بالعرض الحقيقي
-  const maxTextWidth = width - padding * 2;
-  const textLines = wrapText(ctx, text, maxTextWidth);
-
-  /* خلفية */
+  /* =========================
+     4) الخلفية
+     ========================= */
   const grad = ctx.createLinearGradient(0, 0, 0, height);
   grad.addColorStop(0, "#ecfeff");
   grad.addColorStop(1, "#f0fdfa");
@@ -2826,13 +2820,16 @@ function shareAsmaImage(name, text, source) {
 
   let y = padding;
 
-  /* الاسم */
+  /* =========================
+     اسم الله
+     ========================= */
   ctx.font = "bold 48px Tajawal";
   ctx.fillStyle = "#0f766e";
   ctx.textAlign = "center";
   ctx.fillText(name, width / 2, y);
 
-  y += 36;
+  y += 34;
+
   ctx.beginPath();
   ctx.moveTo(padding, y);
   ctx.lineTo(width - padding, y);
@@ -2840,7 +2837,9 @@ function shareAsmaImage(name, text, source) {
 
   y += 40;
 
-  /* الشرح */
+  /* =========================
+     الشرح (السبب السابق للقَص)
+     ========================= */
   ctx.font = "28px Tajawal";
   ctx.fillStyle = "#083344";
   ctx.textAlign = "right";
@@ -2852,7 +2851,9 @@ function shareAsmaImage(name, text, source) {
 
   y += 20;
 
-  /* إطار المصدر */
+  /* =========================
+     إطار المصدر
+     ========================= */
   const boxX = padding;
   const boxY = y;
   const boxW = width - padding * 2;
@@ -2872,6 +2873,7 @@ function shareAsmaImage(name, text, source) {
 
   ctx.fillStyle = "#ecfeff";
   ctx.fill();
+  ctx.strokeStyle = "#0f766e33";
   ctx.stroke();
 
   /* نص المصدر */
@@ -2882,9 +2884,9 @@ function shareAsmaImage(name, text, source) {
   if (source) {
     wrapText(ctx, source, boxW - 40)
       .slice(0, 2)
-      .forEach((l, i) =>
-        ctx.fillText(l, width / 2, boxY + 24 + i * 16)
-      );
+      .forEach((l, i) => {
+        ctx.fillText(l, width / 2, boxY + 24 + i * 16);
+      });
   }
 
   /* اسم التطبيق */
@@ -2896,7 +2898,9 @@ function shareAsmaImage(name, text, source) {
     boxY + boxHeight - 14
   );
 
-  /* التصدير */
+  /* =========================
+     التصدير
+     ========================= */
   canvas.toBlob(blob => {
     const file = new File([blob], "asma.png", { type: "image/png" });
     if (navigator.share) {
@@ -2906,14 +2910,6 @@ function shareAsmaImage(name, text, source) {
     }
   });
 }
-
-/* =========================
-   تشغيل التطبيق
-   ========================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-  renderAsmaCards();
-});
   </script>
 
 <p style="display:none">
