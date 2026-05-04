@@ -2806,6 +2806,7 @@ ${source || ""}`.trim();
 
 function shareAsmaImage(name, text, source) {
   const canvas = document.getElementById("asmaCanvas");
+  if (!canvas) return;
   const ctx = canvas.getContext("2d");
 
   const width = 720;
@@ -2816,18 +2817,21 @@ function shareAsmaImage(name, text, source) {
   const lines = wrapText(ctx, text, width - padding * 2);
 
   const height =
-    padding + 80 + lines.length * lineHeight + 80;
+    padding +
+    80 +
+    lines.length * lineHeight +
+    120;
 
   canvas.width = width;
   canvas.height = height;
 
-  // خلفية
+  /* الخلفية */
   ctx.fillStyle = "#f0fdfa";
   ctx.fillRect(0, 0, width, height);
 
   let y = padding;
 
-  // الاسم
+  /* اسم الله */
   ctx.font = "bold 44px Tajawal";
   ctx.textAlign = "center";
   ctx.fillStyle = "#0f766e";
@@ -2835,7 +2839,7 @@ function shareAsmaImage(name, text, source) {
 
   y += 40;
 
-  // الشرح
+  /* الشرح */
   ctx.font = "26px Tajawal";
   ctx.textAlign = "right";
   ctx.fillStyle = "#083344";
@@ -2845,12 +2849,48 @@ function shareAsmaImage(name, text, source) {
     y += lineHeight;
   });
 
+  y += 30;
+
+  /* المصدر */
+  if (source) {
+    ctx.font = "14px Tajawal";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#475569";
+    ctx.fillText(source, width / 2, y);
+    y += 22;
+  }
+
+  /* اسم التطبيق */
+  ctx.font = "13px Tajawal";
+  ctx.fillStyle = "#64748b";
+  ctx.fillText(
+    "تطبيق القرآن الكريم والسنة النبوية",
+    width / 2,
+    y
+  );
+
+  /* ✅ المشاركة الصحيحة */
   canvas.toBlob(blob => {
-    const url = URL.createObjectURL(blob);
-    window.open(url);
+    const file = new File(
+      [blob],
+      "asma-allah.png",
+      { type: "image/png" }
+    );
+
+    if (navigator.share) {
+      navigator.share({
+        title: name,
+        text: `📖 أسماء الله الحسنى\n${name}\n\n${source || ""}`,
+        files: [file]
+      });
+    } else {
+      // احتياط للمتصفحات القديمة
+      const url = URL.createObjectURL(blob);
+      window.open(url);
+    }
   });
 }
-
+``
   </script>
 
 <p style="display:none">
