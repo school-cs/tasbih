@@ -2723,14 +2723,12 @@ function wrapText(ctx, text, maxWidth) {
 }
 
 /* =========================
-   نسخ النص (يعمل دائمًا)
+   نسخ النص (صامت بدون أي رسالة)
    ========================= */
 
 function copyToClipboard(text) {
   if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text)
-      .then(() => alert("✅ تم نسخ النص"))
-      .catch(() => fallbackCopy(text));
+    navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
   } else {
     fallbackCopy(text);
   }
@@ -2741,17 +2739,11 @@ function fallbackCopy(text) {
   textarea.value = text;
   textarea.style.position = "fixed";
   textarea.style.opacity = "0";
+  textarea.style.left = "-9999px";
   document.body.appendChild(textarea);
   textarea.focus();
   textarea.select();
-
-  try {
-    document.execCommand("copy");
-    alert("✅ تم نسخ النص");
-  } catch {
-    alert("❌ لم يتم النسخ");
-  }
-
+  document.execCommand("copy");
   document.body.removeChild(textarea);
 }
 
@@ -2784,7 +2776,7 @@ function renderAsmaCards() {
           '${escapeQuotes(item.name)}',
           '${escapeQuotes(item.description)}',
           '${escapeQuotes(item.source || "")}'
-        )">📤 نسخ</button>
+        )">📋 نسخ</button>
       </div>
     `;
 
@@ -2793,7 +2785,7 @@ function renderAsmaCards() {
 }
 
 /* =========================
-   مشاركة / نسخ نص
+   نسخ النص فقط (بدون مشاركة)
    ========================= */
 
 function shareAsma(name, text, source) {
@@ -2804,16 +2796,11 @@ ${text}
 
 ${source || ""}`.trim();
 
-  if (navigator.share) {
-    navigator.share({ title: name, text: fullText })
-      .catch(() => copyToClipboard(fullText));
-  } else {
-    copyToClipboard(fullText);
-  }
+  copyToClipboard(fullText);
 }
 
 /* =========================
-   مشاركة صورة (Canvas)
+   مشاركة صورة (بدون navigator.share)
    ========================= */
 
 function shareAsmaImage(name, text, source) {
@@ -2842,21 +2829,18 @@ function shareAsmaImage(name, text, source) {
   canvas.width = width;
   canvas.height = Math.ceil(height);
 
-  // خلفية
   const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
   grad.addColorStop(0, "#ecfeff");
   grad.addColorStop(1, "#f0fdfa");
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, width, canvas.height);
 
-  // إطار خارجي
   ctx.strokeStyle = "#0f766e33";
   ctx.lineWidth = 3;
   ctx.strokeRect(8, 8, width - 16, canvas.height - 16);
 
   let y = padding;
 
-  // اسم الله
   ctx.font = "bold 48px Tajawal";
   ctx.fillStyle = "#0f766e";
   ctx.textAlign = "center";
@@ -2870,7 +2854,6 @@ function shareAsmaImage(name, text, source) {
 
   y += 40;
 
-  // الشرح
   ctx.font = "28px Tajawal";
   ctx.fillStyle = "#083344";
   ctx.textAlign = "right";
@@ -2882,10 +2865,9 @@ function shareAsmaImage(name, text, source) {
 
   y += 20;
 
-  // إطار المصدر
   const boxX = padding;
-  const boxY = y;
   const boxW = width - padding * 2;
+  const boxY = y;
   const r = 16;
 
   ctx.beginPath();
@@ -2904,36 +2886,9 @@ function shareAsmaImage(name, text, source) {
   ctx.fill();
   ctx.stroke();
 
-  // نص المصدر
-  ctx.textAlign = "center";
-  ctx.font = "13px Tajawal";
-  ctx.fillStyle = "#334155";
-
-  if (source) {
-    wrapText(ctx, source, boxW - 40)
-      .slice(0, 2)
-      .forEach((l, i) => {
-        ctx.fillText(l, width / 2, boxY + 24 + i * 16);
-      });
-  }
-
-  // اسم التطبيق
-  ctx.font = "12px Tajawal";
-  ctx.fillStyle = "#64748b";
-  ctx.fillText(
-    "تطبيق القرآن الكريم والسنة النبوية",
-    width / 2,
-    boxY + boxHeight - 14
-  );
-
-  // تصدير
   canvas.toBlob(blob => {
-    const file = new File([blob], "asma.png", { type: "image/png" });
-    if (navigator.share) {
-      navigator.share({ files: [file], title: name });
-    } else {
-      window.open(URL.createObjectURL(blob));
-    }
+    const url = URL.createObjectURL(blob);
+    window.open(url);
   });
 }
 
