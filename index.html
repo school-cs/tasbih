@@ -2693,10 +2693,6 @@ const asmaAllah = [
   /* ✅ بقية الأسماء تستمر بنفس النمط حتى اسم (الحق) كما في نصك تمامًا */
 ];
 /* =========================
-   🎨 توليد البطاقات
-   ========================= */
-
-/* =========================
    أدوات مساعدة
    ========================= */
 
@@ -2727,6 +2723,39 @@ function wrapText(ctx, text, maxWidth) {
 }
 
 /* =========================
+   نسخ النص (يعمل دائمًا)
+   ========================= */
+
+function copyToClipboard(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text)
+      .then(() => alert("✅ تم نسخ النص"))
+      .catch(() => fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.style.position = "fixed";
+  textarea.style.opacity = "0";
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+
+  try {
+    document.execCommand("copy");
+    alert("✅ تم نسخ النص");
+  } catch {
+    alert("❌ لم يتم النسخ");
+  }
+
+  document.body.removeChild(textarea);
+}
+
+/* =========================
    عرض أسماء الله الحسنى
    ========================= */
 
@@ -2743,6 +2772,7 @@ function renderAsmaCards() {
     card.innerHTML = `
       <h3>${item.name}</h3>
       <div class="zikrText asma-desc">${item.description}</div>
+
       <div class="asma-actions">
         <button onclick="shareAsmaImage(
           '${escapeQuotes(item.name)}',
@@ -2754,7 +2784,7 @@ function renderAsmaCards() {
           '${escapeQuotes(item.name)}',
           '${escapeQuotes(item.description)}',
           '${escapeQuotes(item.source || "")}'
-        )">📤 نص</button>
+        )">📤 نسخ</button>
       </div>
     `;
 
@@ -2763,73 +2793,76 @@ function renderAsmaCards() {
 }
 
 /* =========================
-   مشاركة نصية
+   مشاركة / نسخ نص
+   ========================= */
+
+function shareAsma(name, text, source) {
+  const fullText =
+`${name}
+
+${text}
+
+${source || ""}`.trim();
+
+  if (navigator.share) {
+    navigator.share({ title: name, text: fullText })
+      .catch(() => copyToClipboard(fullText));
+  } else {
+    copyToClipboard(fullText);
+  }
+}
+
+/* =========================
+   مشاركة صورة (Canvas)
    ========================= */
 
 function shareAsmaImage(name, text, source) {
   const canvas = document.getElementById("asmaCanvas");
+  if (!canvas) return;
   const ctx = canvas.getContext("2d");
 
+  const width = 720;
   const padding = 56;
   const lineHeight = 36;
   const boxHeight = 70;
 
-  /* =========================
-     1) نحدد العرض أولًا (نسبة ذهبية تقريبية)
-     ========================= */
-  const baseWidth = 720;           // عرض مبدئي مريح
-  const width = Math.floor(baseWidth);
-
   ctx.font = "28px Tajawal";
 
-  /* =========================
-     2) لفّ النص بالعرض الحقيقي
-     ========================= */
   const maxTextWidth = width - padding * 2;
   const textLines = wrapText(ctx, text, maxTextWidth);
 
-  /* =========================
-     3) حساب الارتفاع الحقيقي
-     ========================= */
-  const contentHeight =
-    padding +               // أعلى
-    90 +                    // الاسم + الخط الفاصل
+  const height =
+    padding +
+    90 +
     textLines.length * lineHeight +
-    20 +                    // مسافة قبل المصدر
-    boxHeight +             // إطار المصدر
-    padding;                // أسفل
-
-  const height = Math.ceil(contentHeight);
+    20 +
+    boxHeight +
+    padding;
 
   canvas.width = width;
-  canvas.height = height;
+  canvas.height = Math.ceil(height);
 
-  /* =========================
-     4) الخلفية
-     ========================= */
-  const grad = ctx.createLinearGradient(0, 0, 0, height);
+  // خلفية
+  const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
   grad.addColorStop(0, "#ecfeff");
   grad.addColorStop(1, "#f0fdfa");
   ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, width, height);
+  ctx.fillRect(0, 0, width, canvas.height);
 
-  /* إطار خارجي */
+  // إطار خارجي
   ctx.strokeStyle = "#0f766e33";
   ctx.lineWidth = 3;
-  ctx.strokeRect(8, 8, width - 16, height - 16);
+  ctx.strokeRect(8, 8, width - 16, canvas.height - 16);
 
   let y = padding;
 
-  /* =========================
-     اسم الله
-     ========================= */
+  // اسم الله
   ctx.font = "bold 48px Tajawal";
   ctx.fillStyle = "#0f766e";
   ctx.textAlign = "center";
   ctx.fillText(name, width / 2, y);
 
   y += 34;
-
   ctx.beginPath();
   ctx.moveTo(padding, y);
   ctx.lineTo(width - padding, y);
@@ -2837,9 +2870,7 @@ function shareAsmaImage(name, text, source) {
 
   y += 40;
 
-  /* =========================
-     الشرح (السبب السابق للقَص)
-     ========================= */
+  // الشرح
   ctx.font = "28px Tajawal";
   ctx.fillStyle = "#083344";
   ctx.textAlign = "right";
@@ -2851,9 +2882,7 @@ function shareAsmaImage(name, text, source) {
 
   y += 20;
 
-  /* =========================
-     إطار المصدر
-     ========================= */
+  // إطار المصدر
   const boxX = padding;
   const boxY = y;
   const boxW = width - padding * 2;
@@ -2873,10 +2902,9 @@ function shareAsmaImage(name, text, source) {
 
   ctx.fillStyle = "#ecfeff";
   ctx.fill();
-  ctx.strokeStyle = "#0f766e33";
   ctx.stroke();
 
-  /* نص المصدر */
+  // نص المصدر
   ctx.textAlign = "center";
   ctx.font = "13px Tajawal";
   ctx.fillStyle = "#334155";
@@ -2889,7 +2917,7 @@ function shareAsmaImage(name, text, source) {
       });
   }
 
-  /* اسم التطبيق */
+  // اسم التطبيق
   ctx.font = "12px Tajawal";
   ctx.fillStyle = "#64748b";
   ctx.fillText(
@@ -2898,9 +2926,7 @@ function shareAsmaImage(name, text, source) {
     boxY + boxHeight - 14
   );
 
-  /* =========================
-     التصدير
-     ========================= */
+  // تصدير
   canvas.toBlob(blob => {
     const file = new File([blob], "asma.png", { type: "image/png" });
     if (navigator.share) {
@@ -2910,6 +2936,14 @@ function shareAsmaImage(name, text, source) {
     }
   });
 }
+
+/* =========================
+   تشغيل التطبيق
+   ========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderAsmaCards();
+});
   </script>
 
 <p style="display:none">
