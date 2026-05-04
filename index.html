@@ -667,7 +667,7 @@ body.night #settings .card{
   <button onclick="toggleNight()" aria-label="تبديل الوضع الليلي">🌙 / ☀️</button>
   </header>
     <!-- ✅ شريط الآيات -->
-  <div id="ayahBar" class="ayah-bar hidden">
+<div id="ayahBar" class="ayah-bar">
     <div id="ayahText" class="ayah-text"></div>
   </div>
 </div>
@@ -1734,25 +1734,21 @@ function backHome(){
 }
 /* ✅ هنا بالضبط */
 function backLibrary(){
-  // ✅ الخروج من أي وضع تشغيل
   currentMode = "none";
-
-  // ✅ المكتبة ليست الصفحة الرئيسية
   isHomeActive = false;
 
-  // ✅ إخفاء شريط الآيات إن كان ظاهرًا
+  // ✅ إخفاء شريط الآيات بالطريقة الصحيحة
   const ayahBar = document.getElementById("ayahBar");
-  if (ayahBar) ayahBar.classList.add("hidden");
+  if (ayahBar) ayahBar.style.display = "none";
 
-  // ✅ إخفاء جميع الصفحات
+  // ✅ إخفاء كل الصفحات
   document.querySelectorAll(".view").forEach(v => {
     v.classList.add("hidden");
   });
 
-  // ✅ إظهار المكتبة
+  // ✅ إظهار المكتبة فقط
   document.getElementById("library").classList.remove("hidden");
 
-  // ✅ العودة لأعلى
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
