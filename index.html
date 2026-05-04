@@ -2715,14 +2715,16 @@ function renderAsmaCards(){
 
       <div class="asma-actions">
         <button onclick="shareAsmaImage(
-          '${escapeQuotes(item.name)}',
-          '${escapeQuotes(item.description)}'
-        )">📸 صورة</button>
+  '${escapeQuotes(item.name)}',
+  '${escapeQuotes(item.description)}',
+  '${escapeQuotes(item.source)}'
+)">📸 صورة</button>
 
-        <button onclick="shareAsma(
-          '${escapeQuotes(item.name)}',
-          '${escapeQuotes(item.description)}'
-        )">📤 نص</button>
+<button onclick="shareAsma(
+  '${escapeQuotes(item.name)}',
+  '${escapeQuotes(item.description)}',
+  '${escapeQuotes(item.source)}'
+)">📤 نص</button>
       </div>
     `;
 
@@ -2739,14 +2741,25 @@ function copyAsma(name, text){
   showToast("✅ تم نسخ الاسم والشرح");
 }
 
-function shareAsma(name, text){
+function shareAsma(name, text, source){
+  const fullText =
+`${name}
+
+${text}
+
+━━━━━━━━━━━━
+📖 المصدر
+${source}
+━━━━━━━━━━━━`;
+
   if (navigator.share) {
     navigator.share({
       title: name,
-      text: `${name}\n\n${text}`
+      text: fullText
     });
   } else {
-    copyAsma(name, text);
+    navigator.clipboard.writeText(fullText);
+    showToast("✅ تم النسخ مع المصدر");
   }
 }
 
@@ -2791,7 +2804,7 @@ function escapeQuotes(str){
   lines.push(line);
   return lines;
 }
-    function shareAsmaImage(name, text){
+  function shareAsmaImage(name, text, source){
   const canvas = document.getElementById("asmaCanvas");
   const ctx = canvas.getContext("2d");
 
@@ -2804,25 +2817,30 @@ function escapeQuotes(str){
 
   const lines = wrapText(ctx, text, width - padding * 2);
 
+  // ✅ زيادة الارتفاع لاستيعاب الإطار السفلي
   const height =
-    padding * 2 + 70 + 30 + lines.length * lineHeight + 80;
+    padding * 2 + 70 + 30 + lines.length * lineHeight + 180;
 
   canvas.height = height;
 
-  // خلفية
+  /* =====================
+     الخلفية العامة
+     ===================== */
   const grad = ctx.createLinearGradient(0, 0, 0, height);
   grad.addColorStop(0, "#ecfeff");
   grad.addColorStop(1, "#f0fdfa");
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, width, height);
 
-  // الاسم
+  /* =====================
+     اسم الله
+     ===================== */
   ctx.fillStyle = "#0f766e";
   ctx.font = "bold 56px Tajawal";
   ctx.textAlign = "center";
   ctx.fillText(name, width / 2, padding);
 
-  // خط فاصل
+  /* خط فاصل */
   ctx.strokeStyle = "#0f766e33";
   ctx.lineWidth = 2;
   ctx.beginPath();
@@ -2830,7 +2848,9 @@ function escapeQuotes(str){
   ctx.lineTo(width - padding, padding + 20);
   ctx.stroke();
 
-  // الشرح
+  /* =====================
+     الشرح
+     ===================== */
   ctx.fillStyle = "#083344";
   ctx.font = "32px Tajawal";
   ctx.textAlign = "right";
@@ -2841,16 +2861,80 @@ function escapeQuotes(str){
     y += lineHeight;
   });
 
-  // تذييل
-  ctx.font = "24px Tajawal";
-  ctx.fillStyle = "#475569";
+  /* =====================
+     الإطار الدائري للمصدر
+     ===================== */
+
+  const boxX = padding;
+  const boxWidth = width - padding * 2;
+  const boxHeight = 120;
+  const boxY = height - boxHeight - 20;
+  const radius = 28;
+
+  // دالة رسم مستطيل بحواف دائرية
+  function roundedRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // خلفية الإطار
+  roundedRect(ctx, boxX, boxY, boxWidth, boxHeight, radius);
+  ctx.fillStyle = "#ecfeff";
+  ctx.fill();
+
+  // حد ناعم
+  ctx.strokeStyle = "#0f766e33";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  /* =====================
+     نص المصدر + التطبيق
+     ===================== */
   ctx.textAlign = "center";
+
+  // عنوان المصدر
+  ctx.font = "22px Tajawal";
+  ctx.fillStyle = "#0f766e";
   ctx.fillText(
-    "أسماء الله الحسنى – تطبيق القرآن الكريم والسنة النبوية",
+    "شرح أسماء الله الحسنى",
     width / 2,
-    height - 30
+    boxY + 32
   );
 
+  // المصدر (يلتف تلقائيًا)
+  ctx.font = "18px Tajawal";
+  ctx.fillStyle = "#334155";
+
+  const sourceLines = wrapText(ctx, source, boxWidth - 40);
+  sourceLines.forEach((line, i) => {
+    ctx.fillText(
+      line,
+      width / 2,
+      boxY + 58 + i * 22
+    );
+  });
+
+  // اسم التطبيق
+  ctx.font = "16px Tajawal";
+  ctx.fillStyle = "#64748b";
+  ctx.fillText(
+    "تطبيق القرآن الكريم والسنة النبوية",
+    width / 2,
+    boxY + boxHeight - 14
+  );
+
+  /* =====================
+     تصدير الصورة
+     ===================== */
   canvas.toBlob(blob => {
     const file = new File([blob], "asma.png", { type: "image/png" });
     if (navigator.share) {
