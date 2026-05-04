@@ -844,13 +844,17 @@ body.night #settings .card{
 </div>
 
 
+<!-- صفحة أسماء الله الحسنى -->
 <div id="names" class="view hidden">
   <button onclick="backLibrary()">⬅ المكتبة</button>
   <h2>أسماء الله الحسنى</h2>
 
-  <!-- بطاقات الأسماء -->
+  <!-- ✅ هنا تُعرض البطاقات -->
   <div id="asmaContainer"></div>
 </div>
+
+<!-- ✅ Canvas لإنشاء الصورة (مخفي) -->
+<canvas id="asmaCanvas" style="display:none"></canvas>
 
 
 
@@ -2709,12 +2713,12 @@ function wrapText(ctx, text, maxWidth) {
   let line = "";
 
   words.forEach(word => {
-    const testLine = line + word + " ";
-    if (ctx.measureText(testLine).width > maxWidth && line) {
+    const test = line + word + " ";
+    if (ctx.measureText(test).width > maxWidth && line) {
       lines.push(line.trim());
       line = word + " ";
     } else {
-      line = testLine;
+      line = test;
     }
   });
 
@@ -2723,28 +2727,22 @@ function wrapText(ctx, text, maxWidth) {
 }
 
 /* =========================
-   نسخ النص (صامت بدون أي رسالة)
+   نسخ نص (صامت تمامًا)
    ========================= */
 
 function copyToClipboard(text) {
   if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+    navigator.clipboard.writeText(text);
   } else {
-    fallbackCopy(text);
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
   }
-}
-
-function fallbackCopy(text) {
-  const textarea = document.createElement("textarea");
-  textarea.value = text;
-  textarea.style.position = "fixed";
-  textarea.style.opacity = "0";
-  textarea.style.left = "-9999px";
-  document.body.appendChild(textarea);
-  textarea.focus();
-  textarea.select();
-  document.execCommand("copy");
-  document.body.removeChild(textarea);
 }
 
 /* =========================
@@ -2763,7 +2761,10 @@ function renderAsmaCards() {
 
     card.innerHTML = `
       <h3>${item.name}</h3>
-      <div class="zikrText asma-desc">${item.description}</div>
+
+      <div class="asma-desc">
+        ${item.description}
+      </div>
 
       <div class="asma-actions">
         <button onclick="shareAsmaImage(
@@ -2772,7 +2773,7 @@ function renderAsmaCards() {
           '${escapeQuotes(item.source || "")}'
         )">📸 صورة</button>
 
-        <button onclick="shareAsma(
+        <button onclick="copyAsmaText(
           '${escapeQuotes(item.name)}',
           '${escapeQuotes(item.description)}',
           '${escapeQuotes(item.source || "")}'
@@ -2785,10 +2786,10 @@ function renderAsmaCards() {
 }
 
 /* =========================
-   نسخ النص فقط (بدون مشاركة)
+   نسخ النص (بدون اسم موقع)
    ========================= */
 
-function shareAsma(name, text, source) {
+function copyAsmaText(name, text, source) {
   const fullText =
 `${name}
 
@@ -2800,91 +2801,49 @@ ${source || ""}`.trim();
 }
 
 /* =========================
-   مشاركة صورة (بدون navigator.share)
+   صورة Canvas (مختصرة)
    ========================= */
 
 function shareAsmaImage(name, text, source) {
   const canvas = document.getElementById("asmaCanvas");
-  if (!canvas) return;
   const ctx = canvas.getContext("2d");
 
   const width = 720;
-  const padding = 56;
-  const lineHeight = 36;
-  const boxHeight = 70;
+  const padding = 50;
+  const lineHeight = 34;
 
-  ctx.font = "28px Tajawal";
-
-  const maxTextWidth = width - padding * 2;
-  const textLines = wrapText(ctx, text, maxTextWidth);
+  ctx.font = "26px Tajawal";
+  const lines = wrapText(ctx, text, width - padding * 2);
 
   const height =
-    padding +
-    90 +
-    textLines.length * lineHeight +
-    20 +
-    boxHeight +
-    padding;
+    padding + 80 + lines.length * lineHeight + 80;
 
   canvas.width = width;
-  canvas.height = Math.ceil(height);
+  canvas.height = height;
 
-  const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-  grad.addColorStop(0, "#ecfeff");
-  grad.addColorStop(1, "#f0fdfa");
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, width, canvas.height);
-
-  ctx.strokeStyle = "#0f766e33";
-  ctx.lineWidth = 3;
-  ctx.strokeRect(8, 8, width - 16, canvas.height - 16);
+  // خلفية
+  ctx.fillStyle = "#f0fdfa";
+  ctx.fillRect(0, 0, width, height);
 
   let y = padding;
 
-  ctx.font = "bold 48px Tajawal";
-  ctx.fillStyle = "#0f766e";
+  // الاسم
+  ctx.font = "bold 44px Tajawal";
   ctx.textAlign = "center";
+  ctx.fillStyle = "#0f766e";
   ctx.fillText(name, width / 2, y);
-
-  y += 34;
-  ctx.beginPath();
-  ctx.moveTo(padding, y);
-  ctx.lineTo(width - padding, y);
-  ctx.stroke();
 
   y += 40;
 
-  ctx.font = "28px Tajawal";
-  ctx.fillStyle = "#083344";
+  // الشرح
+  ctx.font = "26px Tajawal";
   ctx.textAlign = "right";
+  ctx.fillStyle = "#083344";
 
-  textLines.forEach(line => {
-    ctx.fillText(line, width - padding, y);
+  lines.forEach(l => {
+    ctx.fillText(l, width - padding, y);
     y += lineHeight;
   });
-
-  y += 20;
-
-  const boxX = padding;
-  const boxW = width - padding * 2;
-  const boxY = y;
-  const r = 16;
-
-  ctx.beginPath();
-  ctx.moveTo(boxX + r, boxY);
-  ctx.lineTo(boxX + boxW - r, boxY);
-  ctx.quadraticCurveTo(boxX + boxW, boxY, boxX + boxW, boxY + r);
-  ctx.lineTo(boxX + boxW, boxY + boxHeight - r);
-  ctx.quadraticCurveTo(boxX + boxW, boxY + boxHeight, boxX + boxW - r, boxY + boxHeight);
-  ctx.lineTo(boxX + r, boxY + boxHeight);
-  ctx.quadraticCurveTo(boxX, boxY + boxHeight, boxX, boxY + boxHeight - r);
-  ctx.lineTo(boxX, boxY + r);
-  ctx.quadraticCurveTo(boxX, boxY, boxX + r, boxY);
-  ctx.closePath();
-
-  ctx.fillStyle = "#ecfeff";
-  ctx.fill();
-  ctx.stroke();
 
   canvas.toBlob(blob => {
     const url = URL.createObjectURL(blob);
@@ -2892,13 +2851,6 @@ function shareAsmaImage(name, text, source) {
   });
 }
 
-/* =========================
-   تشغيل التطبيق
-   ========================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-  renderAsmaCards();
-});
   </script>
 
 <p style="display:none">
