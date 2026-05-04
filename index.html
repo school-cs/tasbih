@@ -2808,67 +2808,69 @@ function escapeQuotes(str){
   const canvas = document.getElementById("asmaCanvas");
   const ctx = canvas.getContext("2d");
 
-  const width = 1080;
+  const size = 1080;           // صورة مربعة
   const padding = 80;
-  const lineHeight = 42;
+  const lineHeight = 40;
 
-  canvas.width = width;
-  ctx.font = "32px Tajawal";
-
-  const lines = wrapText(ctx, text, width - padding * 2);
-
-  // ارتفاع محسوب مع إطار أصغر
-  const height =
-    padding * 2 + 70 + 30 + lines.length * lineHeight + 140;
-
-  canvas.height = height;
+  canvas.width = size;
+  canvas.height = size;
 
   /* =====================
      الخلفية
      ===================== */
-  const grad = ctx.createLinearGradient(0, 0, 0, height);
+  const grad = ctx.createLinearGradient(0, 0, 0, size);
   grad.addColorStop(0, "#ecfeff");
   grad.addColorStop(1, "#f0fdfa");
   ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, width, height);
+  ctx.fillRect(0, 0, size, size);
+
+  /* =====================
+     الإطار الخارجي
+     ===================== */
+  ctx.strokeStyle = "#0f766e33";
+  ctx.lineWidth = 6;
+  ctx.strokeRect(12, 12, size - 24, size - 24);
 
   /* =====================
      اسم الله
      ===================== */
-  ctx.fillStyle = "#0f766e";
   ctx.font = "bold 56px Tajawal";
+  ctx.fillStyle = "#0f766e";
   ctx.textAlign = "center";
-  ctx.fillText(name, width / 2, padding);
+  ctx.fillText(name, size / 2, padding + 20);
 
   /* خط فاصل */
-  ctx.strokeStyle = "#0f766e33";
-  ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(padding, padding + 20);
-  ctx.lineTo(width - padding, padding + 20);
+  ctx.moveTo(padding, padding + 55);
+  ctx.lineTo(size - padding, padding + 55);
   ctx.stroke();
 
   /* =====================
-     الشرح
+     الشرح (في المنتصف)
      ===================== */
-  ctx.fillStyle = "#083344";
   ctx.font = "32px Tajawal";
+  ctx.fillStyle = "#083344";
   ctx.textAlign = "right";
 
-  let y = padding + 80;
+  const maxTextWidth = size - padding * 2;
+  const lines = wrapText(ctx, text, maxTextWidth);
+
+  const textBlockHeight = lines.length * lineHeight;
+  let y = (size - textBlockHeight) / 2;
+
   lines.forEach(line => {
-    ctx.fillText(line, width - padding, y);
+    ctx.fillText(line, size - padding, y);
     y += lineHeight;
   });
 
   /* =====================
-     إطار المصدر (أصغر ومضغوط)
+     إطار المصدر (صغير ومضغوط)
      ===================== */
+  const boxHeight = 82;
+  const boxY = size - boxHeight - 40;
   const boxX = padding;
-  const boxWidth = width - padding * 2;
-  const boxHeight = 82;           // ✅ أصغر
-  const boxY = height - boxHeight - 18;
-  const radius = 22;              // ✅ أنعم
+  const boxWidth = size - padding * 2;
+  const radius = 22;
 
   function roundedRect(ctx, x, y, w, h, r) {
     ctx.beginPath();
@@ -2895,30 +2897,28 @@ function escapeQuotes(str){
   ctx.stroke();
 
   /* =====================
-     نص المصدر (مكثف)
+     نص المصدر (مكثف جدًا)
      ===================== */
   ctx.textAlign = "center";
-
-  // سطر المصدر (سطر واحد غالبًا)
   ctx.font = "15px Tajawal";
   ctx.fillStyle = "#334155";
-  const srcLines = wrapText(ctx, source, boxWidth - 60).slice(0, 2);
 
+  const srcLines = wrapText(ctx, source, boxWidth - 60).slice(0, 2);
   srcLines.forEach((line, i) => {
     ctx.fillText(
       line,
-      width / 2,
+      size / 2,
       boxY + 24 + i * 16
     );
   });
 
-  // اسم التطبيق (ملتصق تقريبًا بالمصدر)
+  /* اسم التطبيق – أقرب للمصدر */
   ctx.font = "13px Tajawal";
   ctx.fillStyle = "#64748b";
   ctx.fillText(
     "تطبيق القرآن الكريم والسنة النبوية",
-    width / 2,
-    boxY + boxHeight - 12
+    size / 2,
+    boxY + boxHeight - 20
   );
 
   /* =====================
@@ -2933,7 +2933,6 @@ function escapeQuotes(str){
     }
   });
 }
-
   </script>
 
 <p style="display:none">
