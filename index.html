@@ -2696,9 +2696,43 @@ const asmaAllah = [
    🎨 توليد البطاقات
    ========================= */
 
-function renderAsmaCards(){
+/* =========================
+   أدوات مساعدة
+   ========================= */
+
+function escapeQuotes(str) {
+  return String(str)
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/"/g, '\\"');
+}
+
+function wrapText(ctx, text, maxWidth) {
+  const words = String(text).split(" ");
+  const lines = [];
+  let line = "";
+
+  words.forEach(word => {
+    const testLine = line + word + " ";
+    if (ctx.measureText(testLine).width > maxWidth && line) {
+      lines.push(line.trim());
+      line = word + " ";
+    } else {
+      line = testLine;
+    }
+  });
+
+  if (line) lines.push(line.trim());
+  return lines;
+}
+
+/* =========================
+   عرض أسماء الله الحسنى
+   ========================= */
+
+function renderAsmaCards() {
   const container = document.getElementById("asmaContainer");
-  if (!container) return;
+  if (!container || !Array.isArray(asmaAllah)) return;
 
   container.innerHTML = "";
 
@@ -2708,23 +2742,19 @@ function renderAsmaCards(){
 
     card.innerHTML = `
       <h3>${item.name}</h3>
-
-      <div class="zikrText asma-desc" style="min-height:auto;max-height:none">
-        ${item.description}
-      </div>
-
+      <div class="zikrText asma-desc">${item.description}</div>
       <div class="asma-actions">
         <button onclick="shareAsmaImage(
-  '${escapeQuotes(item.name)}',
-  '${escapeQuotes(item.description)}',
-  '${escapeQuotes(item.source)}'
-)">📸 صورة</button>
+          '${escapeQuotes(item.name)}',
+          '${escapeQuotes(item.description)}',
+          '${escapeQuotes(item.source || "")}'
+        )">📸 صورة</button>
 
-<button onclick="shareAsma(
-  '${escapeQuotes(item.name)}',
-  '${escapeQuotes(item.description)}',
-  '${escapeQuotes(item.source)}'
-)">📤 نص</button>
+        <button onclick="shareAsma(
+          '${escapeQuotes(item.name)}',
+          '${escapeQuotes(item.description)}',
+          '${escapeQuotes(item.source || "")}'
+        )">📤 نص</button>
       </div>
     `;
 
@@ -2733,49 +2763,56 @@ function renderAsmaCards(){
 }
 
 /* =========================
-   📋 نسخ + Toast
+   مشاركة نصية
    ========================= */
 
-function copyAsma(name, text){
-  navigator.clipboard.writeText(`${name}\n\n${text}`);
-  showToast("✅ تم نسخ الاسم والشرح");
+function shareAsma(name, text, source) {
+  const fullText = `${name}\n\n${text}${source ? `\n\n${source}` : ""}`;
+  if (navigator.share) {
+    navigator.share({ title: name, text: fullText });
+  } else {
+    navigator.clipboard.writeText(fullText);
+    alert("✅ تم نسخ النص");
+  }
 }
+
+/* =========================
+   مشاركة صورة (Canvas)
+   ========================= */
 
 function shareAsmaImage(name, text, source) {
   const canvas = document.getElementById("asmaCanvas");
+  if (!canvas) return;
   const ctx = canvas.getContext("2d");
 
   const padding = 56;
   const lineHeight = 36;
   const boxHeight = 70;
 
+  // إعداد الخط قبل القياس
   ctx.font = "28px Tajawal";
 
-  /* حساب مؤقت لطول النص */
+  // قياس مبدئي للطول
   const tempLines = wrapText(ctx, text, 700);
-
-  const nameBlock = 90;
-  const textBlock = tempLines.length * lineHeight;
-  const footerBlock = boxHeight + 24;
-
   const contentHeight =
     padding +
-    nameBlock +
-    textBlock +
-    footerBlock +
+    90 + // الاسم + الفاصل
+    tempLines.length * lineHeight +
+    boxHeight +
     padding;
 
+  // نسبة ذهبية تقريبية
   const height = Math.ceil(contentHeight);
   const width = Math.ceil(height * 0.85);
 
   canvas.width = width;
   canvas.height = height;
 
-  /* حساب النص بالعرض الحقيقي */
+  // إعادة لف النص بالعرض الحقيقي
   const maxTextWidth = width - padding * 2;
   const textLines = wrapText(ctx, text, maxTextWidth);
 
-  /* الخلفية */
+  /* خلفية */
   const grad = ctx.createLinearGradient(0, 0, 0, height);
   grad.addColorStop(0, "#ecfeff");
   grad.addColorStop(1, "#f0fdfa");
@@ -2787,22 +2824,21 @@ function shareAsmaImage(name, text, source) {
   ctx.lineWidth = 3;
   ctx.strokeRect(8, 8, width - 16, height - 16);
 
-  let yCursor = padding;
+  let y = padding;
 
-  /* اسم الله */
+  /* الاسم */
   ctx.font = "bold 48px Tajawal";
   ctx.fillStyle = "#0f766e";
   ctx.textAlign = "center";
-  ctx.fillText(name, width / 2, yCursor);
+  ctx.fillText(name, width / 2, y);
 
-  yCursor += 34;
-
+  y += 36;
   ctx.beginPath();
-  ctx.moveTo(padding, yCursor);
-  ctx.lineTo(width - padding, yCursor);
+  ctx.moveTo(padding, y);
+  ctx.lineTo(width - padding, y);
   ctx.stroke();
 
-  yCursor += 36;
+  y += 40;
 
   /* الشرح */
   ctx.font = "28px Tajawal";
@@ -2810,48 +2846,46 @@ function shareAsmaImage(name, text, source) {
   ctx.textAlign = "right";
 
   textLines.forEach(line => {
-    ctx.fillText(line, width - padding, yCursor);
-    yCursor += lineHeight;
+    ctx.fillText(line, width - padding, y);
+    y += lineHeight;
   });
 
-  yCursor += 20;
+  y += 20;
 
   /* إطار المصدر */
   const boxX = padding;
-  const boxY = yCursor;
-  const boxWidth = width - padding * 2;
-  const radius = 16;
+  const boxY = y;
+  const boxW = width - padding * 2;
+  const r = 16;
 
-  function roundedRect(ctx, x, y, w, h, r) {
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.lineTo(x + w - r, y);
-    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-    ctx.lineTo(x + w, y + h - r);
-    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-    ctx.lineTo(x + r, y + h);
-    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-    ctx.lineTo(x, y + r);
-    ctx.quadraticCurveTo(x, y, x + r, y);
-    ctx.closePath();
-  }
+  ctx.beginPath();
+  ctx.moveTo(boxX + r, boxY);
+  ctx.lineTo(boxX + boxW - r, boxY);
+  ctx.quadraticCurveTo(boxX + boxW, boxY, boxX + boxW, boxY + r);
+  ctx.lineTo(boxX + boxW, boxY + boxHeight - r);
+  ctx.quadraticCurveTo(boxX + boxW, boxY + boxHeight, boxX + boxW - r, boxY + boxHeight);
+  ctx.lineTo(boxX + r, boxY + boxHeight);
+  ctx.quadraticCurveTo(boxX, boxY + boxHeight, boxX, boxY + boxHeight - r);
+  ctx.lineTo(boxX, boxY + r);
+  ctx.quadraticCurveTo(boxX, boxY, boxX + r, boxY);
+  ctx.closePath();
 
-  roundedRect(ctx, boxX, boxY, boxWidth, boxHeight, radius);
   ctx.fillStyle = "#ecfeff";
   ctx.fill();
-  ctx.strokeStyle = "#0f766e33";
-  ctx.lineWidth = 1.3;
   ctx.stroke();
 
   /* نص المصدر */
   ctx.textAlign = "center";
-  ctx.font = "14px Tajawal";
+  ctx.font = "13px Tajawal";
   ctx.fillStyle = "#334155";
 
-  const srcLines = wrapText(ctx, source, boxWidth - 40).slice(0, 2);
-  srcLines.forEach((line, i) => {
-    ctx.fillText(line, width / 2, boxY + 24 + i * 16);
-  });
+  if (source) {
+    wrapText(ctx, source, boxW - 40)
+      .slice(0, 2)
+      .forEach((l, i) =>
+        ctx.fillText(l, width / 2, boxY + 24 + i * 16)
+      );
+  }
 
   /* اسم التطبيق */
   ctx.font = "12px Tajawal";
@@ -2866,12 +2900,20 @@ function shareAsmaImage(name, text, source) {
   canvas.toBlob(blob => {
     const file = new File([blob], "asma.png", { type: "image/png" });
     if (navigator.share) {
-      navigator.share({ files: [file], title: name, text: name });
+      navigator.share({ files: [file], title: name });
     } else {
       window.open(URL.createObjectURL(blob));
     }
   });
 }
+
+/* =========================
+   تشغيل التطبيق
+   ========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderAsmaCards();
+});
   </script>
 
 <p style="display:none">
