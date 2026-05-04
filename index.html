@@ -440,92 +440,51 @@ body.night .stat-card{
   margin: 10px auto;
   display: block;
 }
-/* شريط الآيات – داخل التدفق (حل احترافي بدون تداخل) */
+
+/* ✅ شريط الآيات — ثابت داخل الصفحة الرئيسية */
 .ayah-bar{
-  position:relative;              /* ✅ داخل التدفق */
-  margin:8px auto 0;
-  width:calc(100% - 28px);
-  max-width:520px;
-  height:48px;
+  position: relative;          /* ✅ داخل التدفق مثل الأيقونات */
+  margin: 8px auto 12px;
+  width: calc(100% - 28px);
+  max-width: 520px;
+  height: 48px;
 
-  display:flex;
-  align-items:center;
-  background:#f8fafc;
-  border-radius:12px;
-  padding:0 12px;
-  overflow:hidden;
-  white-space:nowrap;
+  display: flex;               /* ✅ مرئي دائمًا عند تفعيله من JS */
+  align-items: center;
 
-  transition:opacity .3s ease, transform .3s ease;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 0 12px;
+
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.ayah-bar.hidden{
-  display:none;
-}
-/* تنسيق عام محايد للجزء العلوي */
-.top-panel{
-  padding: 8px 14px 0;   /* قيمة متوسطة وغير متخصصة */
-}
-  .hidden{
-  display:none;
-}
-
-/* النص المتحرك */
+/* ✅ النص المتحرك */
 .ayah-text{
-  display:inline-block;
-  padding-right:100%;
-  font-size:15px;
-  line-height:1.8;
-  white-space:nowrap;
-  font-weight:700; /* ✅ خط غامق */
-}
-/* زر التسبيح والعدّ داخله */
-
-
-
-.touch-label{
-  font-size:16px;
-  opacity:.75;
+  display: inline-block;
+  padding-right: 100%;
+  font-size: 15px;
+  line-height: 1.8;
+  white-space: nowrap;
+  font-weight: 700;
 }
 
-/* حركة النص */
+/* ✅ حركة النص */
 @keyframes scrollAyah{
   from{
-    transform:translateX(-100%);
+    transform: translateX(-100%);
   }
   to{
-    transform:translateX(100%);
+    transform: translateX(100%);
   }
 }
 
-/* زخرفة الأقواس القرآنية */
+/* ✅ زخرفة الأقواس */
 .ayah-bracket{
-  color:#c4a24a;
-  font-weight:bold;
+  color: #c4a24a;
+  font-weight: bold;
 }
-.counter{
-  display:none;
-}
-.info-section{
-  padding:16px;
-  font-size:15px;
-  line-height:1.9;
-  background:var(--card);
-  border-radius:14px;
-margin:16px 14px 24px; /* ✅ هنا */
-  flex-shrink:0; 
-}
-.info-section summary{
-  cursor:pointer;
-  font-weight:bold;
-  font-size:16px;
-  outline:none;
-}
-
-.info-section details[open] summary{
-  margin-bottom:10px;
-}
-
 
 /* =========================
    📿 تنسيقات صفحة السبحة – النسخة النهائية المضغوطة
@@ -1503,59 +1462,38 @@ function openMorning(){
   o.start();
   o.stop(audioCtx.currentTime + duration);
 }
-function showAyahBar(){
- // ✅ لا تعمل إلا في الصفحة الرئيسية
-if (!isHomeActive) {
-  if (ayahTimer) {
-    clearTimeout(ayahTimer);
-    ayahTimer = null;
+function showAyahBar() {
+  // ✅ يعمل فقط في الصفحة الرئيسية
+  if (!isHomeActive) return;
+
+  const textEl = document.getElementById("ayahText");
+  if (!textEl) return;
+
+  const item = rotatingTexts[rotateIndex];
+  const cleanText = item.text.replace(/\s*\n\s*/g, " ");
+
+  if (item.type === "ayah") {
+    textEl.innerHTML =
+      '<span style="margin-left:6px;">قال الله تعالى</span>' +
+      '<span class="ayah-bracket">﴿</span>' +
+      cleanText +
+      '<span class="ayah-bracket">﴾</span>';
+  } else {
+    textEl.innerHTML =
+      '<span class="hadith-text">' + cleanText + '</span>';
   }
-  return;
-}
-  
-  const bar = document.getElementById('ayahBar');
-  const textEl = document.getElementById('ayahText');
-  if (!bar || !textEl) return;
 
-  // وضع النص الحالي
-const item = rotatingTexts[rotateIndex];
-let cleanText = item.text.replace(/\s*\n\s*/g, ' ');
+  // ✅ إعادة تشغيل حركة المرور
+  textEl.style.animation = "none";
+  textEl.offsetHeight;
+  textEl.style.animation =
+    "scrollAyah " + (scrollDuration / 1000) + "s linear";
 
-if (item.type === 'ayah') {
-  textEl.innerHTML =
-    `<span style="margin-left:6px;"> قال الله تعالى </span>
-     <span class="ayah-bracket">﴿</span>
-     ${cleanText}
-     <span class="ayah-bracket">﴾</span>`;
-  textEl.classList.remove('hadith-text');
-} else {
-  textEl.innerHTML =
-    `<span class="hadith-text"> ${cleanText}</span>`;
-}
-
-
-  // إعادة تشغيل الحركة
-  textEl.style.animation = 'none';
-  textEl.offsetHeight; // إعادة الحساب
-  textEl.style.animation = `scrollAyah ${scrollDuration/1000}s linear forwards`;
-
-  // إظهار الشريط
-  bar.classList.remove('hidden');
-
-  // إخفاؤه بعد انتهاء الحركة
-  setTimeout(() => {
-    bar.classList.add('hidden');
-  }, scrollDuration);
-
-  // الانتقال للنص التالي (دوران)
+  // ✅ النص التالي
   rotateIndex = (rotateIndex + 1) % rotatingTexts.length;
 
- if (ayahTimer) clearTimeout(ayahTimer);
-ayahTimer = setTimeout(
-  showAyahBar,
-  scrollDuration + pauseAfter
-);
-  
+  // ✅ التكرار المستمر
+  setTimeout(showAyahBar, scrollDuration + pauseAfter);
 }
 function setMax(v){
   // ✅ حماية: منع القيم غير الصحيحة
@@ -1712,17 +1650,18 @@ if (modeSelect) {
 
 
 function openView(id){
-  // ✅ خارج الصفحة الرئيسية
+  // ✅ الخروج من الصفحة الرئيسية
   isHomeActive = false;
 
-  // ✅ إيقاف شريط الآيات
+  // ✅ إخفاء شريط الآيات (لأننا لم نعد نستخدم hidden)
+  const ayahBar = document.getElementById("ayahBar");
+  if (ayahBar) ayahBar.style.display = "none";
+
+  // ✅ إيقاف أي جدولة سابقة للنص
   if (ayahTimer) {
     clearTimeout(ayahTimer);
     ayahTimer = null;
   }
-
-  const ayahBar = document.getElementById("ayahBar");
-  if (ayahBar) ayahBar.classList.add("hidden");
 
   // ✅ إخفاء الصفحة الرئيسية
   document.getElementById("home").classList.add("hidden");
@@ -1735,34 +1674,36 @@ function openView(id){
   // ✅ إظهار الصفحة المطلوبة
   document.getElementById(id).classList.remove("hidden");
 
-// ✅ أسماء الله الحسنى
-if (id === "names") {
-  const c = document.getElementById("asmaContainer");
-  if (c) c.innerHTML = "";
-  renderAsmaCards();
-}
-
- if (id === "tasbeeh") {
-  currentMode = "tasbeeh";
-
-  // ✅ إعادة عرض الحالة الحالية فقط (كما كان قبل تعديل أسماء الله)
-  document.getElementById('zikrText').innerText = currentZikr || '';
-  document.getElementById('touchCount').innerText = count || '0';
-  document.getElementById('count').innerText = count || '0';
-
-  // ✅ مزامنة القائمة المنسدلة مع الذكر الحالي
-  const zikrSelect = document.getElementById('zikr');
-  if (zikrSelect && currentZikr) {
-    zikrSelect.value = currentZikr;
+  // ✅ أسماء الله الحسنى
+  if (id === "names") {
+    const c = document.getElementById("asmaContainer");
+    if (c) c.innerHTML = "";
+    renderAsmaCards();
   }
-}
 
+  // ✅ السبحة
+  if (id === "tasbeeh") {
+    currentMode = "tasbeeh";
+
+    document.getElementById("zikrText").innerText = currentZikr || "";
+    document.getElementById("touchCount").innerText = count || "0";
+    document.getElementById("count").innerText = count || "0";
+
+    // مزامنة القائمة
+    const zikrSelect = document.getElementById("zikr");
+    if (zikrSelect && currentZikr) {
+      zikrSelect.value = currentZikr;
+    }
+  }
+
+  // ✅ الرجوع لأعلى الصفحة
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function backHome(){
   currentMode = "none";
 
+  // ✅ إعادة تهيئة مؤشرات الأذكار
   morningIndex = 0;
   morningCount = 0;
   eveningIndex = 0;
@@ -1770,17 +1711,27 @@ function backHome(){
   sleepIndex = 0;
   sleepCount = 0;
 
+  // ✅ إخفاء جميع الصفحات
   document.querySelectorAll(".view").forEach(v => {
     v.classList.add("hidden");
   });
 
+  // ✅ إظهار الصفحة الرئيسية
   document.getElementById("home").classList.remove("hidden");
-  document.getElementById("ayahBar").classList.remove("hidden");
+
+  // ✅ إظهار شريط الآيات (ثابت مثل الأيقونات)
+  const ayahBar = document.getElementById("ayahBar");
+  if (ayahBar) ayahBar.style.display = "flex";
+
+  // ✅ تفعيل وضع الصفحة الرئيسية
   isHomeActive = true;
+
+  // ✅ تشغيل دوران الآيات
   showAyahBar();
+
+  // ✅ الرجوع لأعلى الصفحة
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
-
 /* ✅ هنا بالضبط */
 function backLibrary(){
   // ✅ الخروج من أي وضع تشغيل
