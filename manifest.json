@@ -1,13 +1,17 @@
 {
-  "name": "السبحة الإلكترونية",
+  "name": "القرآن الكريم والسنة النبوية",
   "short_name": "السبحة",
-  "start_url": "index.html",
+  "start_url": "/?pwa=1",
   "display": "standalone",
-  "background_color": "#0f766e",
+  "background_color": "#ffffff",
   "theme_color": "#0f766e",
   "lang": "ar",
   "dir": "rtl",
   "icons": [
-    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"}
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
   ]
 }
