@@ -959,36 +959,33 @@ body.night #settings .card{
     ✅ تم الانتهاء من أذكار النوم
   </div>
 </div>
+<!-- 📚 المكتبة -->
 <div id="library" class="dashboard view hidden">
   <div style="grid-column:1/-1;text-align:center;
               font-weight:bold;font-size:16px;opacity:.75;">
     اختر من المكتبة
   </div>
 
-  <!-- 📖 أسماء الله الحسنى -->
   <button onclick="openView('names')">
     <span>أسماء الله الحسنى</span>
   </button>
 
-  <!-- 📘 أسماء الله الحسنى (شرح آخر) -->
   <button onclick="openView('asma2')">
     <span>أسماء الله الحسنى (شرح آخر)</span>
   </button>
 
-
-<!-- ⭐ فضائل الأعمال -->
-<button onclick="openView('virtues')">
-  <span>فضائل الأعمال</span>
-</button>
-  <!-- ⏳ محتوى مستقبلي -->
-  <!--
-  <button disabled>
-    <span>قريبًا</span>
+  <button onclick="openView('virtues')">
+    <span>فضائل الأعمال</span>
   </button>
-  -->
-
 </div>
+`
+<!-- ⭐ صفحة فضائل الأعمال -->
+<div id="virtues" class="view hidden">
+  <button onclick="backLibrary()">⬅ المكتبة</button>
+  <h2>⭐ فضائل الأعمال</h2>
 
+  <!-- ✅ بطاقات الفضائل ستُنشأ هنا تلقائيًا -->
+</div>
 
 <!-- صفحة أسماء الله الحسنى -->
 <div id="names" class="view hidden">
