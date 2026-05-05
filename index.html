@@ -3,11 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <title>القرآن الكريم والسنة النبوية</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "القرآن الكريم والسنة النبوية",
+  "applicationCategory": "ReligiousApplication",
+  "operatingSystem": "All"
+}
+</script>
 
 <meta name="description" content="القرآن الكريم والسنة النبوية موقع إسلامي شامل يضم القرآن، الأحاديث النبوية، الأذكار، الدعاء، وأداة سبحة إلكترونية، يعمل بدون إنترنت ومتوافق مع الجوال.">
 
-
-<meta name="keywords" content="
+<meta property="og:title" content="القرآن الكريم والسنة النبوية">
+<meta property="og:description" content="تطبيق إسلامي شامل يعمل بدون إنترنت">
+<meta property="og:image" content="/icon-512.png">
+  <meta name="keywords" content="
 القرآن الكريم,
 السنة النبوية,
 أحاديث نبوية,
@@ -663,6 +674,9 @@ body.night #settings .card{
   </style>
 </head>
 <body>
+<h1 style="display:none">
+القرآن الكريم والسنة النبوية – تطبيق إسلامي بدون إنترنت
+</h1>
   <div class="app">
   <div class="header-wrap">
   <header>
@@ -1649,6 +1663,7 @@ if (modeSelect) {
 
 
 function openView(id){
+if (!document.getElementById(id)) return;
   // ✅ الخروج من الصفحة الرئيسية
   isHomeActive = false;
 
@@ -3040,6 +3055,11 @@ function showToast(){
 يُستخدم كعداد تسبيح للجوال وبديل للسبحة التقليدية.
 </p>
 
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
 
 </body>
 </html>
