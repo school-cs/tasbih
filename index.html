@@ -1805,11 +1805,10 @@ const jawamiDua = [
   { text: "اللهم صل على محمد وعلى آل محمد، كما صليت على إبراهيم، وعلى آل إبراهيم، إنك حميد مجيد، اللهم بارك على محمد، وعلى آل محمد كما باركت على إبراهيم، وعلى آل إبراهيم إنك حميد مجيد." }
 
 ];
-   function renderJawamiDua() {
+  // ✅ الأفضل لمشروعك
+function renderJawamiDua() {
   const container = document.getElementById("jawamiDuaContent");
-  if (!container) return;
-
-  container.innerHTML = "";
+  if (!container || container.childElementCount) return;
 
   jawamiDua.forEach(dua => {
     const p = document.createElement("p");
