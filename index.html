@@ -1823,7 +1823,8 @@ const jawamiDua = [
   // ✅ الأفضل لمشروعك
 function renderJawamiDua() {
   const container = document.getElementById("jawamiDuaContent");
-  if (!container || container.childElementCount) return;
+  if (!container) return;
+
 
   jawamiDua.forEach(dua => {
     const p = document.createElement("p");
@@ -1833,11 +1834,13 @@ function renderJawamiDua() {
   });
 }
 
-  function openView(id){
- 
-if (typeof setMode === "function") setMode();
+ function openView(id){
 
-   if (!document.getElementById(id)) return;
+  // ✅ تصفير أي وضع سابق
+  setMode();
+
+  // ✅ حماية: التأكد من وجود الصفحة
+  if (!document.getElementById(id)) return;
 
   // ✅ الخروج من الصفحة الرئيسية
   isHomeActive = false;
@@ -1846,7 +1849,7 @@ if (typeof setMode === "function") setMode();
   const ayahBar = document.getElementById("ayahBar");
   if (ayahBar) ayahBar.style.display = "none";
 
-  // ✅ إيقاف مؤقّت الآيات
+  // ✅ إيقاف مؤقت شريط الآيات
   if (ayahTimer) {
     clearTimeout(ayahTimer);
     ayahTimer = null;
@@ -1864,8 +1867,10 @@ if (typeof setMode === "function") setMode();
   // ✅ إظهار الصفحة المطلوبة
   document.getElementById(id).classList.remove("hidden");
 
-  // ✅ 🤲 جوامع الدعاء
+  // ✅ 🤲 جوامع الدعاء (إعادة تحميل نظيفة)
   if (id === "jawamiDua") {
+    const box = document.getElementById("jawamiDuaContent");
+    if (box) box.innerHTML = "";
     renderJawamiDua();
   }
 
@@ -1876,7 +1881,7 @@ if (typeof setMode === "function") setMode();
     renderAsmaCards();
   }
 
-  // ✅ 📿 السبحة
+  // ✅ 📿 صفحة السبحة
   if (id === "tasbeeh") {
     setMode("tasbeeh");
 
@@ -1890,11 +1895,19 @@ if (typeof setMode === "function") setMode();
     }
   }
 
-  // ✅ الرجوع لأعلى الصفحة
+  // ✅ الرجوع لأعلى
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 function backHome(){
+
+  // ✅ تصفير الوضع
   setMode();
+
+  // ✅ إيقاف مؤقت الآيات القديم (مهم جدًا)
+  if (ayahTimer) {
+    clearTimeout(ayahTimer);
+    ayahTimer = null;
+  }
 
   // ✅ إعادة تهيئة مؤشرات الأذكار
   morningIndex = 0;
@@ -1916,17 +1929,17 @@ function backHome(){
   const ayahBar = document.getElementById("ayahBar");
   if (ayahBar) ayahBar.style.display = "flex";
 
-  // ✅ تفعيل وضع الصفحة الرئيسية
+  // ✅ تفعيل الصفحة الرئيسية
   isHomeActive = true;
 
-  // ✅ ⭐ إعادة تهيئة حركة الآيات (مهم)
+  // ✅ إعادة تهيئة حركة الآيات
   const textEl = document.getElementById("ayahText");
   if (textEl) textEl.style.animation = "none";
 
-  // ✅ تشغيل دوران الآيات
+  // ✅ تشغيل شريط الآيات من البداية
   showAyahBar();
 
-  // ✅ الرجوع لأعلى الصفحة
+  // ✅ الرجوع لأعلى
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 function backLibrary(){
