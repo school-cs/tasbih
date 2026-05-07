@@ -852,14 +852,26 @@ body.night .virtue-card{
 
   <div class="zikrText" id="morningZikrBox"></div>
 
-  <div class="center" id="morningCounter">
-    <div class="touch-wrapper">
-      <div class="touch" onclick="handleMainTap()">
-        <div class="touch-count" id="morningTouchCount">0 / 0</div>
-        <div class="touch-label">للتكرار</div>
+<div class="center" id="morningCounter">
+  <div class="touch-wrapper">
+    <div class="touch"
+         role="button"
+         tabindex="0"
+         aria-label="اضغط لتكرار الذكر"
+         onclick="handleMainTap()"
+         onkeydown="if(event.key === 'Enter' || event.key === ' ') handleMainTap();">
+
+      <div class="touch-count" id="morningTouchCount" aria-live="polite">
+        0 / 0
       </div>
+
+      <div class="touch-label">
+        للتكرار
+      </div>
+
     </div>
   </div>
+</div>
 
   <div id="morningFinishMsg" class="complete hidden">
     ✅ تم الانتهاء من أذكار الصباح
@@ -872,14 +884,26 @@ body.night .virtue-card{
 
   <div class="zikrText" id="eveningZikrBox"></div>
 
-  <div class="center" id="eveningCounter">
-    <div class="touch-wrapper">
-      <div class="touch" onclick="handleMainTap()">
-        <div class="touch-count" id="eveningTouchCount">0 / 0</div>
-        <div class="touch-label">للتكرار</div>
+ <div class="center" id="eveningCounter">
+  <div class="touch-wrapper">
+    <div class="touch"
+         role="button"
+         tabindex="0"
+         aria-label="اضغط لتكرار الذكر"
+         onclick="handleMainTap()"
+         onkeydown="if(event.key === 'Enter' || event.key === ' ') handleMainTap();">
+
+      <div class="touch-count" id="eveningTouchCount" aria-live="polite">
+        0 / 0
       </div>
+
+      <div class="touch-label">
+        للتكرار
+      </div>
+
     </div>
   </div>
+</div>
 
   <div id="eveningFinishMsg" class="complete hidden">
     ✅ تم الانتهاء من أذكار المساء
@@ -891,15 +915,27 @@ body.night .virtue-card{
   <h2> أذكار النوم</h2>
 
   <div class="zikrText" id="sleepZikrBox"></div>
+<div class="center" id="sleepCounter">
+  <div class="touch-wrapper">
+    <div class="touch"
+         role="button"
+         tabindex="0"
+         aria-label="اضغط لتكرار الذكر"
+         onclick="handleMainTap()"
+         onkeydown="if(event.key === 'Enter' || event.key === ' ') handleMainTap();">
 
-  <div class="center" id="sleepCounter">
-    <div class="touch-wrapper">
-      <div class="touch" onclick="handleMainTap()">
-        <div class="touch-count" id="sleepTouchCount">0 / 0</div>
-        <div class="touch-label">للتكرار</div>
+      <div class="touch-count" id="sleepTouchCount" aria-live="polite">
+        0 / 0
       </div>
+
+      <div class="touch-label">
+        للتكرار
+      </div>
+
     </div>
   </div>
+</div>
+
 
   <div id="sleepFinishMsg" class="complete hidden">
     ✅ تم الانتهاء من أذكار النوم
@@ -1002,14 +1038,27 @@ body.night .virtue-card{
 </div>
     </div>
 
-    <div class="center">
-      <div class="touch-wrapper">
-       <div class="touch" onclick="handleMainTap()">
-          <div class="touch-count" id="touchCount">0</div>
-          <div class="touch-label">للتسبيح</div>
-        </div>
+   <div class="center">
+  <div class="touch-wrapper">
+    <div class="touch"
+         role="button"
+         tabindex="0"
+         aria-label="اضغط للتسبيح"
+         onclick="handleMainTap()"
+         onkeydown="if(event.key === 'Enter' || event.key === ' ') handleMainTap();">
+
+      <div class="touch-count" id="touchCount" aria-live="polite">
+        0
       </div>
+
+      <div class="touch-label">
+        للتسبيح
+      </div>
+
     </div>
+  </div>
+</div>
+
 
    <footer>
   <button onclick="clearCount()">مسح العدّادات</button>
@@ -1155,8 +1204,13 @@ const today = new Date().toISOString().split('T')[0];
 const stats=JSON.parse(localStorage.getItem('stats')||'{}');
 let audioCtx=null;
 
+   
     let currentMode = "none";   // none | tasbeeh | prayer
-let prayerIndex = 0;
+function setMode(mode){
+  currentMode = mode || "none";
+}
+
+   let prayerIndex = 0;
 let prayerCount = 0;
 // ✅ متغيرات أذكار الصباح
 let morningIndex = 0;
@@ -1341,7 +1395,7 @@ function handleEveningTap(){
 }
     
     function openPrayer() {
-  currentMode = "prayer";
+setMode("prayer");
   prayerIndex = 0;
   prayerCount = 0;
 
@@ -1354,7 +1408,8 @@ function handleEveningTap(){
   showPrayerZikr();
 }
 function openMorning(){
-  currentMode = "morning";
+  setMode("morning");
+
   morningIndex = 0;
   morningCount = 0;
 
@@ -1367,7 +1422,7 @@ function openMorning(){
   showMorningZikr();
 }
  function openEvening(){
-  currentMode = "evening";
+  setMode("evening");
   eveningIndex = 0;
   eveningCount = 0;
 
@@ -1380,7 +1435,7 @@ function openMorning(){
   showEveningZikr();
 }   
  function openSleep(){
-  currentMode = "sleep";
+ setMode("sleep");
   sleepIndex = 0;
   sleepCount = 0;
 
@@ -1405,6 +1460,10 @@ function openMorning(){
   o.stop(audioCtx.currentTime + duration);
 }
 function showAyahBar() {
+
+  // ✅ إيقاف أي مؤقّت قديم (منع التراكب)
+  if (ayahTimer) clearTimeout(ayahTimer);
+
   // ✅ يعمل فقط في الصفحة الرئيسية
   if (!isHomeActive) return;
 
@@ -1428,14 +1487,14 @@ function showAyahBar() {
 
   // ✅ إعادة تشغيل حركة التمرير
   textEl.style.animation = "none";
-  textEl.offsetHeight; // إعادة تهيئة
+  textEl.offsetHeight; // إعادة التهيئة
   textEl.style.animation =
     "scrollAyah " + (scrollDuration / 1000) + "s linear";
 
   // ✅ الانتقال للنص التالي
   rotateIndex = (rotateIndex + 1) % rotatingTexts.length;
 
-  // ✅ حفظ المؤقّت
+  // ✅ إنشاء مؤقّت جديد
   ayahTimer = setTimeout(
     showAyahBar,
     scrollDuration + pauseAfter
@@ -1576,9 +1635,19 @@ window.onload = () => {
 const lastDay = localStorage.getItem('lastStatsDay');
 
 if (lastDay !== todayKey) {
-  localStorage.removeItem('stats'); // ✅ تصفير تلقائي بعد يوم
+
+  // ✅ حذف الإحصائيات المخزنة
+  localStorage.removeItem('stats');
+
+  // ✅ مسح النسخة الموجودة في الذاكرة
+  for (let k in stats) {
+    delete stats[k];
+  }
+
+  // ✅ حفظ تاريخ اليوم
   localStorage.setItem('lastStatsDay', todayKey);
 }
+
   document.body.classList.toggle(
     'night',
     localStorage.getItem('night') === '1'
@@ -1868,7 +1937,7 @@ function renderJawamiDua() {
 
   // ✅ 📿 السبحة
   if (id === "tasbeeh") {
-    currentMode = "tasbeeh";
+  setMode("tasbeeh");
 
     document.getElementById("zikrText").innerText = currentZikr || "";
     document.getElementById("touchCount").innerText = count || "0";
@@ -1884,7 +1953,7 @@ function renderJawamiDua() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 function backHome(){
-  currentMode = "none";
+ setMode();
 
   // ✅ إعادة تهيئة مؤشرات الأذكار
   morningIndex = 0;
@@ -1917,7 +1986,7 @@ function backHome(){
 }
 /* ✅ هنا بالضبط */
 function backLibrary(){
-  currentMode = "none";
+  setMode();
   isHomeActive = false;
 
   // ✅ إخفاء شريط الآيات بالطريقة الصحيحة
@@ -3188,27 +3257,22 @@ function shareAsmaImage(name, text, source) {
 
 function handleDuaCopy(text){
 
-  // ✅ مشاركة (للهواتف)
+  // ✅ محاولة المشاركة أولًا
   if (navigator.share) {
     navigator.share({
       title: "دعاء",
       text: text
-    }).catch(()=>{});
+    }).catch(() => {
+      // ✅ إذا فشلت المشاركة → نسخ تلقائي
+      copyToClipboard(text);
+      showToast();
+    });
     return;
   }
 
-  // ✅ نسخ
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(showToast);
-  } else {
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    document.body.removeChild(ta);
-    showToast();
-  }
+  // ✅ نسخ مباشر (للمتصفحات التي لا تدعم المشاركة)
+  copyToClipboard(text);
+  showToast();
 }
 
 function showToast(){
