@@ -715,7 +715,7 @@ body.night .virtue-card{
 <h1 style="display:none">
 القرآن الكريم والسنة النبوية – تطبيق إسلامي بدون إنترنت
 </h1>
-  <div class="app">
+<div class="app" role="main">
   <div class="header-wrap">
   <header>
 <strong> القرآن الكريم والسنة النبوية</strong>
@@ -1400,60 +1400,79 @@ function handleEveningTap(){
   }
 }
     
-    function openPrayer() {
-setMode("prayer");
+function openPrayer() {
+  // ✅ تفعيل وضع أذكار الصلاة
+  setMode("prayer");
+
+  // ✅ إعادة تهيئة المؤشرات
   prayerIndex = 0;
   prayerCount = 0;
 
+  // ✅ فتح صفحة أذكار الصلاة
   openView("prayer");
 
-  document.getElementById("prayerCounter").style.display = "flex";
+  // ✅ إظهار عناصر الصفحة الأساسية
   document.getElementById("prayerZikrBox").style.display = "block";
   document.getElementById("prayerFinishMsg").classList.add("hidden");
 
+  // ✅ عرض أول ذكر
   showPrayerZikr();
 }
-function openMorning(){
+
+function openMorning() {
+  // ✅ تفعيل وضع أذكار الصباح
   setMode("morning");
 
+  // ✅ إعادة التهيئة
   morningIndex = 0;
   morningCount = 0;
 
+  // ✅ فتح الصفحة
   openView("morning");
 
-  document.getElementById("morningCounter").style.display = "flex";
+  // ✅ إظهار العناصر الأساسية
   document.getElementById("morningZikrBox").style.display = "block";
   document.getElementById("morningFinishMsg").classList.add("hidden");
 
+  // ✅ عرض أول ذكر
   showMorningZikr();
 }
- function openEvening(){
+ function openEvening() {
+  // ✅ تفعيل وضع أذكار المساء
   setMode("evening");
+
+  // ✅ إعادة التهيئة
   eveningIndex = 0;
   eveningCount = 0;
 
+  // ✅ فتح الصفحة
   openView("evening");
 
-  document.getElementById("eveningCounter").style.display = "flex";
+  // ✅ إظهار العناصر الأساسية
   document.getElementById("eveningZikrBox").style.display = "block";
   document.getElementById("eveningFinishMsg").classList.add("hidden");
 
+  // ✅ عرض أول ذكر
   showEveningZikr();
-}   
- function openSleep(){
- setMode("sleep");
+}
+ function openSleep() {
+  // ✅ تفعيل وضع أذكار النوم
+  setMode("sleep");
+
+  // ✅ إعادة التهيئة
   sleepIndex = 0;
   sleepCount = 0;
 
+  // ✅ فتح الصفحة
   openView("sleep");
 
-  document.getElementById("sleepCounter").style.display = "flex";
+  // ✅ إظهار العناصر الأساسية
   document.getElementById("sleepZikrBox").style.display = "block";
   document.getElementById("sleepFinishMsg").classList.add("hidden");
 
+  // ✅ عرض أول ذكر
   showSleepZikr();
-} 
-    
+}
     function playBeep(freq=600, duration=0.2){
   if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
   const o = audioCtx.createOscillator();
