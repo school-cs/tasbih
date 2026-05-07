@@ -675,40 +675,7 @@ body.night #settings .card{
 .toast.show{
   opacity: 1;
 }
-/* ⭐ فضائل الأعمال */
-.virtues-list{
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 12px;
-}
 
-.virtue-card{
-  background: var(--card);
-  border-radius: 16px;
-  padding: 14px;
-  border: 1px solid rgba(0,0,0,.06);
-}
-
-body.night .virtue-card{
-  border-color:#0f172a;
-}
-
-.virtue-title{
-  font-weight: 900;
-  margin-bottom: 6px;
-}
-
-.virtue-text{
-  font-size: 15px;
-  line-height: 1.9;
-}
-
-.virtue-source{
-  margin-top: 6px;
-  font-size: 13px;
-  opacity: .7;
-}
   </style>
 </head>
 <body>
@@ -964,20 +931,83 @@ body.night .virtue-card{
     <span>أسماء الله الحسنى (شرح آخر)</span>
   </button>
 
-  <button onclick="openView('virtues')">
-    <span>فضائل الأعمال</span>
+  <button onclick="openView('hadiths')">
+  <span>الأحاديث النبوية</span>
+</button>
+</div>
+
+<!-- 📚 صفحة الأحاديث النبوية (روابط فقط) -->
+<div id="hadiths" class="view hidden">
+  <button onclick="backLibrary()">⬅ المكتبة</button>
+  <h2>📚 الأحاديث النبوية</h2>
+
+  <button onclick="openView('hadithQuran')">
+    📖 الأحاديث الواردة في فضل تلاوة القرآن الكريم
+  </button>
+
+  <button onclick="openView('hadithZikr')">
+    📿 الأحاديث الواردة في فضل الذكر
+  </button>
+
+  <button onclick="openView('hadithPrayer')">
+    🕌 الأحاديث الواردة في فضل الصلاة
+  </button>
+
+  <button onclick="openView('hadithFasting')">
+    🌙 الأحاديث الواردة في فضل الصيام
+  </button>
+
+  <button onclick="openView('hadithSalawat')">
+    🕊️ الأحاديث الواردة في الصلاة على النبي ﷺ
   </button>
 </div>
 
-<div id="virtues" class="view hidden">
-  <button onclick="backLibrary()">⬅ المكتبة</button>
-  <h2>⭐ فضائل الأعمال</h2>
 
-  <!-- ✅ أضيفي هذا السطر -->
-  <div class="virtues-list" id="virtuesList"></div>
+<!-- 📖 فضل تلاوة القرآن الكريم -->
+<div id="hadithQuran" class="view hidden">
+  <button onclick="openView('hadiths')">⬅ الأحاديث النبوية</button>
+  <h2>📖 الأحاديث الواردة في فضل تلاوة القرآن الكريم</h2>
+
+  <!-- أحاديث فضل القرآن هنا -->
 </div>
 
-<!-- صفحة أسماء الله الحسنى -->
+
+<!-- 📿 فضل الذكر -->
+<div id="hadithZikr" class="view hidden">
+  <button onclick="openView('hadiths')">⬅ الأحاديث النبوية</button>
+  <h2>📿 الأحاديث الواردة في فضل الذكر</h2>
+
+  <!-- أحاديث فضل الذكر هنا -->
+</div>
+
+
+<!-- 🕌 فضل الصلاة -->
+<div id="hadithPrayer" class="view hidden">
+  <button onclick="openView('hadiths')">⬅ الأحاديث النبوية</button>
+  <h2>🕌 الأحاديث الواردة في فضل الصلاة</h2>
+
+  <!-- أحاديث فضل الصلاة هنا -->
+</div>
+
+
+<!-- 🌙 فضل الصيام -->
+<div id="hadithFasting" class="view hidden">
+  <button onclick="openView('hadiths')">⬅ الأحاديث النبوية</button>
+  <h2>🌙 الأحاديث الواردة في فضل الصيام</h2>
+
+  <!-- أحاديث فضل الصيام هنا -->
+</div>
+
+
+<!-- 🕊️ الصلاة على النبي ﷺ -->
+<div id="hadithSalawat" class="view hidden">
+  <button onclick="openView('hadiths')">⬅ الأحاديث النبوية</button>
+  <h2>🕊️ الأحاديث الواردة في الصلاة على النبي ﷺ</h2>
+
+  <!-- أحاديث الصلاة على النبي ﷺ هنا -->
+</div>
+ 
+ <!-- صفحة أسماء الله الحسنى -->
 <div id="names" class="view hidden">
   <button onclick="backLibrary()">⬅ المكتبة</button>
   <h2>أسماء الله الحسنى</h2>
@@ -1685,98 +1715,7 @@ if (modeSelect) {
 };
 
 
-   /* =========================
-   ⭐ بيانات فضائل الأعمال
-   ========================= */
-
-const virtuesData = [
-
-  {
-    title: "فضل ذكر الله",
-    text: "",
-    source: ""
-  },
-
-  {
-    title: "فضل قراءة القرآن الكريم",
-    text: "",
-    source: ""
-  },
-
-  {
-    title: "فضل الصلاة على وقتها",
-    text: "",
-    source: ""
-  },
-
-  {
-    title: "فضل الصلاة على النبي ﷺ",
-    text: "",
-    source: ""
-  },
-
-  {
-    title: "فضل الاستغفار",
-    text: "",
-    source: ""
-  },
-
-  {
-    title: "فضل الدعاء",
-    text: "",
-    source: ""
-  },
-
-  {
-    title: "فضل الصدقة",
-    text: "",
-    source: ""
-  },
-
-  {
-    title: "فضل برّ الوالدين",
-    text: "",
-    source: ""
-  },
-
-  {
-    title: "فضل صلة الرحم",
-    text: "",
-    source: ""
-  },
-
-  {
-    title: "فضل حسن الخلق",
-    text: "",
-    source: ""
-  },
-
-  {
-    title: "فضل صلاة الضحى ",
-    text: "",
-    source: ""
-  },
-
-  {
-    title: "فضل صلاة الليل ",
-    text: "",
-    source: ""
-  },
-
-  {
-    title: "فضل الإحسان إلى الناس",
-    text: "",
-    source: ""
-  },
-
-  {
-    title: "فضل طلب العلم",
-    text: "",
-    source: ""
-  }
-
-];
-   
+  
 function renderVirtues(){
   const box = document.getElementById("virtuesList");
   if(!box) return;
@@ -1929,7 +1868,8 @@ function renderJawamiDua() {
   }
 
   // ✅ إخفاء الصفحة الرئيسية
-  document.getElementById("home").classList.add("hidden");
+  const home = document.getElementById("home");
+  if (home) home.classList.add("hidden");
 
   // ✅ إخفاء جميع الصفحات
   document.querySelectorAll(".view").forEach(v => {
@@ -1939,14 +1879,9 @@ function renderJawamiDua() {
   // ✅ إظهار الصفحة المطلوبة
   document.getElementById(id).classList.remove("hidden");
 
-  // ✅ 🤲 جوامع الدعاء (المهم)
+  // ✅ 🤲 جوامع الدعاء
   if (id === "jawamiDua") {
     renderJawamiDua();
-  }
-
-  // ✅ ⭐ فضائل الأعمال
-  if (id === "virtues") {
-    renderVirtues();
   }
 
   // ✅ 📖 أسماء الله الحسنى
@@ -1958,7 +1893,7 @@ function renderJawamiDua() {
 
   // ✅ 📿 السبحة
   if (id === "tasbeeh") {
-  setMode("tasbeeh");
+    setMode("tasbeeh");
 
     document.getElementById("zikrText").innerText = currentZikr || "";
     document.getElementById("touchCount").innerText = count || "0";
