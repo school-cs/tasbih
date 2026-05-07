@@ -1288,14 +1288,14 @@ function showSleepZikr(){
   if (btnCount) btnCount.innerText = `${sleepCount} / ${z.repeat}`;
 }
     
-    function handlePrayerTap() {
+  function handlePrayerTap() {
   const z = azkarPrayer[prayerIndex];
   prayerCount++;
 
-  // عرض نص الذكر
+  // ✅ مربع الذكر: نص فقط بدون عدّ
   document.getElementById("prayerZikrBox").textContent = z.text;
 
-  // تحديث العداد داخل زر التسبيح
+  // ✅ العدّ يظهر فقط في زر التسبيح
   const btnCount = document.getElementById("prayerTouchCount");
   if (btnCount) {
     btnCount.innerText = `${prayerCount} / ${z.repeat}`;
@@ -1313,10 +1313,10 @@ function showSleepZikr(){
   if (prayerIndex < azkarPrayer.length) {
     showPrayerZikr();
   } else {
-    // انتهاء أذكار الصلاة
+    // ✅ انتهاء أذكار الصلاة
     document.getElementById("prayerZikrBox").style.display = "none";
     document.getElementById("prayerFinishMsg").classList.remove("hidden");
-    setMode(); // الخروج من وضع الأذكار
+    setMode();
   }
 }
 function handleMorningTap(){
