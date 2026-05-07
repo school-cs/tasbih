@@ -25,7 +25,7 @@
   <meta property="og:description" content="تطبيق إسلامي شامل يعمل بدون إنترنت">
   <meta property="og:image" content="/icon-512.png">
   <meta property="og:type" content="website">
-  <meta property="og:locale" content="ar_AR">
+<meta property="og:locale" content="ar_SA">
 
   <!-- ✅ كلمات مفتاحية -->
   <meta name="keywords" content="القرآن الكريم, السنة النبوية, أحاديث نبوية, أذكار, دعاء, أسماء الله الحسنى, سبحة إلكترونية, تسبيح, مواقيت الصلاة">
@@ -1716,25 +1716,7 @@ if (modeSelect) {
 
 
   
-function renderVirtues(){
-  const box = document.getElementById("virtuesList");
-  if(!box) return;
 
-  box.innerHTML = "";
-
-  virtuesData.forEach(v=>{
-    const card = document.createElement("div");
-    card.className = "virtue-card";
-
-    card.innerHTML = `
-      <div class="virtue-title">⭐ ${v.title}</div>
-      <div class="virtue-text">${v.text}</div>
-      ${v.source ? `<div class="virtue-source">📖 ${v.source}</div>` : ""}
-    `;
-
-    box.appendChild(card);
-  });
-}
 const jawamiDua = [
 
   { text: "الحمدُ للَّهِ حمدًا كثيرًا طيِّبًا مبارَكا عليهِ كما يحبُّ ربُّنا ويرضى" },
@@ -1852,7 +1834,10 @@ function renderJawamiDua() {
 }
 
   function openView(id){
-  if (!document.getElementById(id)) return;
+ 
+if (typeof setMode === "function") setMode();
+
+   if (!document.getElementById(id)) return;
 
   // ✅ الخروج من الصفحة الرئيسية
   isHomeActive = false;
@@ -1909,7 +1894,7 @@ function renderJawamiDua() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 function backHome(){
- setMode();
+  setMode();
 
   // ✅ إعادة تهيئة مؤشرات الأذكار
   morningIndex = 0;
@@ -1927,12 +1912,16 @@ function backHome(){
   // ✅ إظهار الصفحة الرئيسية
   document.getElementById("home").classList.remove("hidden");
 
-  // ✅ إظهار شريط الآيات (ثابت مثل الأيقونات)
+  // ✅ إظهار شريط الآيات
   const ayahBar = document.getElementById("ayahBar");
   if (ayahBar) ayahBar.style.display = "flex";
 
   // ✅ تفعيل وضع الصفحة الرئيسية
   isHomeActive = true;
+
+  // ✅ ⭐ إعادة تهيئة حركة الآيات (مهم)
+  const textEl = document.getElementById("ayahText");
+  if (textEl) textEl.style.animation = "none";
 
   // ✅ تشغيل دوران الآيات
   showAyahBar();
@@ -1940,7 +1929,6 @@ function backHome(){
   // ✅ الرجوع لأعلى الصفحة
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
-/* ✅ هنا بالضبط */
 function backLibrary(){
   setMode();
   isHomeActive = false;
