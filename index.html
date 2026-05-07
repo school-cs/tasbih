@@ -828,28 +828,31 @@ body.night .virtue-card{
 </div>
   
   <div id="prayer" class="view hidden">
- <button onclick="backHome()">🏠 الرئيسية</button>
+  <button onclick="backHome()">🏠 الرئيسية</button>
   <h2>🕌 أذكار الصلاة</h2>
 
   <div class="zikrText" id="prayerZikrBox"></div>
-<div class="touch"
-     role="button"
-     tabindex="0"
-     aria-label="اضغط لتكرار الذكر بعد الصلاة"
-     onclick="handleMainTap()"
-     onkeydown="if(event.key === 'Enter' || event.key === ' ') handleMainTap();">
 
-  <div class="touch-count" id="prayerTouchCount" aria-live="polite">
-    0 / 0
+  <div class="touch"
+       role="button"
+       tabindex="0"
+       aria-label="اضغط لتكرار الذكر بعد الصلاة"
+       onclick="handleMainTap()"
+       onkeydown="if(event.key === 'Enter' || event.key === ' ') handleMainTap();">
+
+    <div class="touch-count" id="prayerTouchCount" aria-live="polite">
+      0 / 0
+    </div>
+
+    <div class="touch-label">
+      للاستمرار
+    </div>
   </div>
 
-  <div class="touch-label">
-    للاستمرار
-  </div>
-</div>
   <div id="prayerFinishMsg" class="complete hidden">
     ✅ تم الانتهاء من أذكار الصلاة
   </div>
+</div>
 </div>
 <div id="morning" class="view hidden">
 
