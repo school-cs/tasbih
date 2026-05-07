@@ -1435,13 +1435,12 @@ function showAyahBar() {
   // ✅ الانتقال للنص التالي
   rotateIndex = (rotateIndex + 1) % rotatingTexts.length;
 
-  // ✅ حفظ المؤقّت (المهم)
+  // ✅ حفظ المؤقّت
   ayahTimer = setTimeout(
     showAyahBar,
     scrollDuration + pauseAfter
   );
 }
-
 function setMax(v){
   // ✅ حماية: منع القيم غير الصحيحة
   if (v <= 0 || isNaN(v)) return;
