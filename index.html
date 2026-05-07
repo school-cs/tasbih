@@ -832,15 +832,21 @@ body.night .virtue-card{
   <h2>🕌 أذكار الصلاة</h2>
 
   <div class="zikrText" id="prayerZikrBox"></div>
-<div class="center" id="prayerCounter">
-  <div class="touch-wrapper">
-    <div class="touch" onclick="handleMainTap()">
-      <div class="touch-count" id="prayerTouchCount">0 / 0</div>
-      <div class="touch-label">للاستمرار</div>
-    </div>
+<div class="touch"
+     role="button"
+     tabindex="0"
+     aria-label="اضغط لتكرار الذكر بعد الصلاة"
+     onclick="handleMainTap()"
+     onkeydown="if(event.key === 'Enter' || event.key === ' ') handleMainTap();">
+
+  <div class="touch-count" id="prayerTouchCount" aria-live="polite">
+    0 / 0
+  </div>
+
+  <div class="touch-label">
+    للاستمرار
   </div>
 </div>
-
   <div id="prayerFinishMsg" class="complete hidden">
     ✅ تم الانتهاء من أذكار الصلاة
   </div>
@@ -1305,7 +1311,7 @@ function showSleepZikr(){
     document.getElementById("prayerZikrBox").style.display = "none";
     document.getElementById("prayerFinishMsg").classList.remove("hidden");
     document.getElementById("prayerCounter").style.display = "none";
-    currentMode = "none";
+   setMode();
   }
 }
 function handleMorningTap(){
@@ -1334,7 +1340,7 @@ function handleMorningTap(){
     document.getElementById("morningZikrBox").style.display = "none";
     document.getElementById("morningFinishMsg").classList.remove("hidden");
     document.getElementById("morningCounter").style.display = "none";
-    currentMode = "none";
+  setMode();
   }
 }
 function handleEveningTap(){
@@ -1361,7 +1367,7 @@ function handleEveningTap(){
     document.getElementById("eveningZikrBox").style.display = "none";
     document.getElementById("eveningFinishMsg").classList.remove("hidden");
     document.getElementById("eveningCounter").style.display = "none";
-    currentMode = "none";
+   setMode();
   }
 }
   function handleSleepTap(){
@@ -1390,7 +1396,7 @@ function handleEveningTap(){
     document.getElementById("sleepZikrBox").style.display = "none";
     document.getElementById("sleepFinishMsg").classList.remove("hidden");
     document.getElementById("sleepCounter").style.display = "none";
-    currentMode = "none";
+ setMode();
   }
 }
     
