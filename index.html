@@ -1414,6 +1414,7 @@ function showAyahBar() {
   const item = rotatingTexts[rotateIndex];
   const cleanText = item.text.replace(/\s*\n\s*/g, " ");
 
+  // ✅ تمييز الآية عن الحديث
   if (item.type === "ayah") {
     textEl.innerHTML =
       '<span style="margin-left:6px;">قال الله تعالى</span>' +
@@ -1425,18 +1426,22 @@ function showAyahBar() {
       '<span class="hadith-text">' + cleanText + '</span>';
   }
 
-  // ✅ إعادة تشغيل حركة المرور
+  // ✅ إعادة تشغيل حركة التمرير
   textEl.style.animation = "none";
-  textEl.offsetHeight;
+  textEl.offsetHeight; // إعادة تهيئة
   textEl.style.animation =
     "scrollAyah " + (scrollDuration / 1000) + "s linear";
 
-  // ✅ النص التالي
+  // ✅ الانتقال للنص التالي
   rotateIndex = (rotateIndex + 1) % rotatingTexts.length;
 
-  // ✅ التكرار المستمر
-  setTimeout(showAyahBar, scrollDuration + pauseAfter);
+  // ✅ حفظ المؤقّت (المهم)
+  ayahTimer = setTimeout(
+    showAyahBar,
+    scrollDuration + pauseAfter
+  );
 }
+
 function setMax(v){
   // ✅ حماية: منع القيم غير الصحيحة
   if (v <= 0 || isNaN(v)) return;
