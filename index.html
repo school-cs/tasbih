@@ -221,6 +221,10 @@ body.night .dashboard button{
    📿 زر التسبيح
    ========================================================= */
 
+/* =========================================================
+   📿 زر التسبيح – النسخة النهائية
+   ========================================================= */
+
 .center{
   flex:1;
   padding:12px;
@@ -231,6 +235,7 @@ body.night .dashboard button{
 .touch-wrapper{
   flex:1;
   display:flex;
+  justify-content:center;   /* ✅ توسيط زر التسبيح */
 }
 
 .touch{
@@ -263,82 +268,113 @@ body.night .dashboard button{
   opacity:.75;
 }
 
+/* هوية صفحة التسبيح */
 #tasbeeh .touch{
   background:
     radial-gradient(circle at top,#f0fdfa,var(--primary-soft));
 }
 #tasbeeh .touch-count{ color:var(--primary); }
 
+/* أذكار أخرى */
 #prayer .touch{
   background:
     radial-gradient(circle at top,#fff7ed,var(--amber-soft));
 }
 #prayer .touch-count{ color:var(--amber); }
 
+/* الوضع الليلي */
 body.night .touch{
   background:
     radial-gradient(circle at top,#022c22,#000);
   box-shadow:none;
 }
-/* =========================
-   🔢 أزرار العد (33 · 99 · 100)
-   ========================= */
 
-..counter-buttons{
-  display: flex;
-  align-items: center;   /* ✅ أضيفي هذا السطر هنا */
-  gap: 8px;
-  margin: 8px 0 10px;
+
+/* =========================================================
+   🔢 أزرار العد – صفحة التسبيح فقط
+   (مكبّرة + متمركزة + مريحة)
+   ========================================================= */
+
+#tasbeehUI .counter-buttons{
+  display:flex;
+  justify-content:center;    /* ✅ توسيط */
+  gap:12px;
+  margin:6px 0 10px;
 }
-.counter-buttons button{
-  flex: 1;
-  width: auto;
 
-  min-height: 44px;        /* ✅ أكبر قليلًا */
-  padding: 8px 6px;        /* ✅ حجم مريح للإصبع */
+#tasbeehUI .counter-buttons button{
+  flex:1;
+  max-width:90px;            /* ✅ يمنع التمدد الزائد */
 
-  font-size: 15px;         /* ✅ واضح */
-  font-weight: 800;
+  min-height:48px;           /* ✅ حجم مريح */
+  padding:10px 0;
 
-  border-radius: 14px;
+  font-size:16px;            /* ✅ واضح أكثر */
+  font-weight:900;
+
+  border-radius:16px;
 }
-  #tasbeehUI select{
-  width: 100%;
-  box-sizing: border-box;
-  padding: 12px 14px;
 
-  font-size: 15px;
-  border-radius: 12px;
-  border: 1px solid rgba(0,0,0,.15);
+
+/* =========================================================
+   📿 مربع الذكر – استثنائي (5 أسطر فقط)
+   ========================================================= */
+
+#tasbeehUI .zikrText{
+  margin-top:6px;
+  padding:12px 14px;
+
+  min-height:140px;          /* ✅ حوالي 5 أسطر */
+  max-height:140px;
+
+  line-height:2;
+  font-size:15px;
+
+  overflow-y:auto;
 }
-   
-   /* =========================
+
+
+/* =========================================================
+   ⬇️ اختيار الذكر – داخل الإطار وبعرض صحيح
+   ========================================================= */
+
+#tasbeehUI select{
+  width:100%;
+  box-sizing:border-box;
+  padding:12px 14px;
+
+  font-size:15px;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,.15);
+}
+
+
+/* =========================================================
    🧹 زر مسح العدّادات
-   ========================= */
+   ========================================================= */
 
 .clear-counter{
-  margin-top: 10px;   /* ✅ قريب من زر التسبيح */
-  text-align: center;
+  margin-top:10px;
+  text-align:center;
 }
 
 .clear-counter button{
-  max-width: 220px;
-  margin: auto;
-  min-height: 42px;
-  font-size: 14px;
-  font-weight: 800;
+  max-width:220px;
+  margin:auto;
+  min-height:42px;
+  font-size:14px;
+  font-weight:800;
 }
-   /* =========================
-   📐 ضبط المساحات – صفحة التسبيح فقط
-   ========================= */
+
+
+/* =========================================================
+   📐 ضبط المسافات – صفحة التسبيح فقط
+   ========================================================= */
 
 #tasbeehUI .center{
-  flex: 1;
-  padding-top: 6px;
-  padding-bottom: 32px;
-}
-   .touch-wrapper{
-  justify-content: center;
+  flex:1;
+  padding-top:4px;      /* ✅ شدّ الصفحة */
+  padding-bottom:28px;
 }
 /* =========================================================
    🕋 شريط الآيات (نسخة واحدة – النهائي)
