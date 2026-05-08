@@ -280,7 +280,51 @@ body.night .touch{
     radial-gradient(circle at top,#022c22,#000);
   box-shadow:none;
 }
+/* =========================
+   🔢 أزرار العد (33 · 99 · 100)
+   ========================= */
 
+.counter-buttons{
+  display: flex;
+  gap: 8px;
+  margin: 8px 0 10px;
+}
+
+.counter-buttons button{
+  flex: 1;
+  min-height: 46px;
+  font-size: 15px;
+  font-weight: 800;
+  border-radius: 14px;
+}
+   /* =========================
+   🧹 زر مسح العدّادات
+   ========================= */
+
+.clear-counter{
+  margin-top: 10px;   /* ✅ قريب من زر التسبيح */
+  text-align: center;
+}
+
+.clear-counter button{
+  max-width: 220px;
+  margin: auto;
+  min-height: 42px;
+  font-size: 14px;
+  font-weight: 800;
+}
+   /* =========================
+   📐 ضبط المساحات – صفحة التسبيح فقط
+   ========================= */
+
+#tasbeehUI .center{
+  flex: 1;
+  padding-top: 6px;
+  padding-bottom: 32px;
+}
+   .touch-wrapper{
+  justify-content: center;
+}
 /* =========================================================
    🕋 شريط الآيات (نسخة واحدة – النهائي)
    ========================================================= */
