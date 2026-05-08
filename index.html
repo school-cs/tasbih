@@ -43,19 +43,22 @@
   <!-- ✅ CSS -->
  
   <style>
+/* =========================================================
+   🌿 المتغيرات العامة + الهوية
+   ========================================================= */
+
 :root{
-  /* الأساس */
+  /* الألوان الأساسية */
   --bg:#f4f6f8;
   --card:#ffffff;
   --text:#0f172a;
   --accent:#0f766e;
   --touch:#d1fae5;
 
-  /* ألوان الهوية */
+  /* الهوية */
   --primary:#0f766e;
   --primary-soft:#ccfbf1;
 
-  /* ألوان Dashboard */
   --blue:#2563eb;
   --blue-soft:#dbeafe;
 
@@ -65,49 +68,41 @@
   --purple:#7c3aed;
   --purple-soft:#ede9fe;
 
-  /* ✅ متغيرات المقاسات */
---radius-xl: 32px;
---radius-md: 18px;
---radius-sm: 16px;
+  /* المقاسات */
+  --radius-xl:32px;
+  --radius-md:18px;
+  --radius-sm:16px;
 
-/* ✅ المسافات والمقاسات العامة */
---bottom-space: 140px;
+  --btn-padding:16px 18px;
+  --btn-font-size:18px;
 
-
-/* ✅ الأزرار */
---btn-padding: 16px 18px;
---btn-font-size: 18px;
-
-/* ✅ العدّادات والأذكار */
---counter-size: 250px;     /* حجم زر العد (مثل التسبيح) */
-
-/* =========================
-   🌿 الخلفية العامة – هوية إسلامية هادئة
-   ========================= */
-
-body{
-  margin: 0;
-
-  /* تدرّج ناعم يعطي إحساس النور من الأعلى */
-  background:
-    radial-gradient(
-      circle at top,
-      #f0fdfa 0%,
-      var(--bg) 60%
-    );
-
-  color: var(--text);
-  font-family: 'Tajawal', Tahoma, Arial, sans-serif;
-  font-weight: 600;
-  min-height: 100vh;
+  --counter-size:250px;
+  --bottom-space:140px;
 }
 
-/* =========================
-   🌙 الوضع الليلي – مع الحفاظ على المتغيرات
-   ========================= */
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+
+/* =========================================================
+   🌿 الخلفية العامة
+   ========================================================= */
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:'Tajawal',Tahoma,Arial,sans-serif;
+  font-weight:600;
+  color:var(--text);
+
+  background:
+    radial-gradient(circle at top,#f0fdfa 0%,var(--bg) 60%);
+}
+
+/* =========================================================
+   🌙 الوضع الليلي
+   ========================================================= */
 
 body.night{
-  /* ✅ متغيرات الوضع الليلي (لا تُحذف) */
   --bg:#020617;
   --card:#020617;
   --text:#e5e7eb;
@@ -126,121 +121,76 @@ body.night{
   --purple:#c4b5fd;
   --purple-soft:#1e1b4b;
 
-  /* ✅ خلفية ليلية بعمق ووقار */
   background:
-    radial-gradient(
-      circle at top,
-      #020617 0%,
-      #000000 70%
-    );
+    radial-gradient(circle at top,#020617 0%,#000 70%);
 }
 
-/* =========================
-   العناوين
-   ========================= */
+/* =========================================================
+   🧱 الهيكل العام
+   ========================================================= */
 
-h2, h3, summary{
-  font-weight: 900;
-  letter-spacing: .3px;
-}
-
-*{ box-sizing:border-box; }
-
-html, body{
-  height:100%;
-}
-
-    .hidden{
-  display: none !important;
-}
-
-    
-    /* =========================
-   ✅ تنسيق موحّد لكل الأزرار
-   ========================= */
-
-button{
-  width: 100%;
-  min-height: 58px;                 /* ✅ كبير ومريح */
-  padding: var(--btn-padding);
-
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(0,0,0,.08);
-  background: var(--card);
-
-  font-family: 'Tajawal', Tahoma, Arial, sans-serif;
-  font-size: var(--btn-font-size);
-  font-weight: 900;                 /* ✅ غامق وواضح */
-  font-style: normal;               /* ✅ بدون ميلان */
-  text-decoration: none;            /* ✅ بدون زخرفة */
-  letter-spacing: .3px;
-  color: var(--text);
-
-  cursor: pointer;
-  transition: transform .15s ease, box-shadow .15s ease;
-}
-header button{
-  min-height:40px;
-  padding:8px 12px;
-  font-size:14px;
-  font-weight:700;
-}
-/* تأثير الضغط */
-button:active{
-  transform:scale(.96);
-}
-  body.night button{
-  border-color:rgba(255,255,255,.12);
-}
- 
-
-  .app{
-  position: relative;
+.app{
   max-width:520px;
   margin:auto;
-  min-height:100vh;   /* ✅ بدل height */
+  min-height:100vh;
   display:flex;
   flex-direction:column;
 }
-header,footer{padding:14px}
 
- footer{
-  padding:14px;
-  background:var(--bg);
+.hidden{ display:none!important; }
+
+/* =========================================================
+   🔘 الأزرار العامة
+   ========================================================= */
+
+button{
+  width:100%;
+  min-height:58px;
+  padding:var(--btn-padding);
+  border-radius:var(--radius-md);
+  border:1px solid rgba(0,0,0,.08);
+  background:var(--card);
+  color:var(--text);
+
+  font-size:var(--btn-font-size);
+  font-weight:900;
+  letter-spacing:.3px;
+  cursor:pointer;
+
+  transition:transform .15s ease,box-shadow .15s ease;
 }
 
- /* =========================
-   🕌 الشريط العلوي – وقار وأناقة
-   ========================= */
+button:active{ transform:scale(.96); }
 
-.header-wrap{
-  position: relative;   /* ✅ مرجع الحسابات */
+body.night button{
+  border-color:rgba(255,255,255,.12);
 }
+
+/* =========================================================
+   🕌 الهيدر
+   ========================================================= */
 
 header{
-  position: relative;   /* ✅ ضروري لـ z-index */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 30;
-
-  background: transparent;
-  border-bottom: 1px solid rgba(0,0,0,.05);
-  padding-bottom: 6px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px;
+  border-bottom:1px solid rgba(0,0,0,.05);
 }
 
-/* عنوان التطبيق */
 header strong{
-  font-size: 17px;
-  font-weight: 900;
-  letter-spacing: .4px;
+  font-size:17px;
+  font-weight:900;
 }
 
-/* الوضع الليلي */
 body.night header{
-  border-bottom-color: rgba(255,255,255,.08);
+  border-bottom-color:rgba(255,255,255,.08);
 }
-/* ✅ الصفحة الرئيسية - Dashboard */
+
+/* =========================================================
+   🧭 Dashboard
+   ========================================================= */
+
 .dashboard{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -248,825 +198,217 @@ body.night header{
   padding:14px;
 }
 
-/* ============================= */
-/* ✅ جوامع الدعاء – قراءة ورقية */
-/* ============================= */
-
-.dua-title{
-  font-size:22px;
-  font-weight:900;
-  text-align:center;
-  margin:12px 0 6px;
-}
-
-.dua-intro{
-  text-align:center;
-  font-size:15px;
-  opacity:.75;
-  margin-bottom:20px;
-}
-
-.dua-content{
-  background:var(--card);
-  padding:18px;
-  border-radius:18px;
-  font-size:15.5px;
-  line-height:2;
-}
-
-.dua-content p{
-  margin:0 0 18px;
-}
-/* ✅ تفاعل نسخ الدعاء */
-.dua-content p{
-  cursor: pointer;
-}
-
-.dua-content p:active{
-  background: var(--touch);
-  border-radius: 10px;
-}
-    
- 
-/* =========================
-   🧭 Dashboard – بطاقات أنيقة بروح إسلامية
-   ========================= */
-
 .dashboard button{
-  /* ✅ الأساس (لا يُحذف) */
-  border-radius: var(--radius-sm);
-  padding: var(--btn-padding);
-  min-height: 80px;
-  border: 1px solid rgba(0,0,0,.06);
-  cursor: pointer;
+  min-height:80px;
+  border-radius:var(--radius-sm);
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-
-  /* ✅ التحسين الجمالي */
   background:
-    linear-gradient(
-      to bottom,
-      var(--card),
-      rgba(255,255,255,.92)
-    );
+    linear-gradient(to bottom,var(--card),rgba(255,255,255,.92));
 
-  box-shadow: 0 4px 10px rgba(0,0,0,.05);
-
-  transition:
-    transform .15s ease,
-    box-shadow .15s ease;
+  box-shadow:0 4px 10px rgba(0,0,0,.05);
 }
 
-/* نص الزر */
 .dashboard button span{
   font-size:18px;
   font-weight:900;
-  letter-spacing:.3px;
-  color: var(--text);
 }
 
-/* تفاعل هادئ */
-.dashboard button:active{
-  transform: translateY(1px) scale(.98);
-}
-
-/* ✅ الوضع الليلي – بدون ظلال */
 body.night .dashboard button{
-  box-shadow: none;
-}
-/* تمييز زر السبحة (الهوية الرئيسية) */
-.dashboard .tasbeeh-btn{
-  border-color: var(--primary);
-  background: var(--primary-soft);
+  box-shadow:none;
 }
 
-.dashboard .tasbeeh-btn span{
-  color: var(--primary);
-}
+/* =========================================================
+   📿 زر التسبيح
+   ========================================================= */
 
-
-/* =========================
-   🎨 ألوان تلقائية حسب القسم
-   ========================= */
-
-/* ✅ توحيد لون النص */
-
-
-
-/* 🌅🌙 الأذكار */
-.dashboard button[onclick*="morning"],
-.dashboard button[onclick*="evening"],
-.dashboard button[onclick*="sleep"],
-.dashboard button[onclick*="prayer"]{
-  background: var(--amber-soft);
-}
-
-/* 📖 القرآن + 🕰️ المواقيت */
-.dashboard button[onclick*="quran"],
-.dashboard button[onclick*="prayersTime"]{
-  background: var(--blue-soft);
-}
-
-/* 🤲 الدعاء + ⭐ الفضائل */
-.dashboard button[onclick*="dua"],
-.dashboard button[onclick*="virtues"]{
-  background: var(--purple-soft);
-}
-
-/* 📚 أسماء الله الحسنى – داخل المكتبة فقط */
-#library button[onclick*="names"]{
-  background: var(--primary-soft);
-  border-color: var(--primary);
-}
-
-#library button[onclick*="names"] span{
-  color: var(--primary);
-}
-  .view{
-  padding:14px;
-}
-
-
-  .view h2{
-  margin-top:8px;
-  font-size:20px;
-}
-select{
-  width:100%;
-  padding:12px;
-  font-size:16px;
-  border-radius:12px;
-  border:1px solid #ccc;
-}
-.settings{display:flex;gap:8px;margin-top:10px}
-.settings button{flex:1}
-
-
-    .zikrText{
-  background: var(--card);
-  border-radius: var(--zikr-radius, 14px);
-  padding: var(--zikr-padding, 16px);
-  font-size: 15px;
-  line-height: 2;
-  /* ✅ يعرض 8 أسطر تقريبًا */
-  min-height: 240px;
-  max-height: 240px;
-  overflow-y: auto;   /* ✅ تمرير عند زيادة النص */
-}
-    
-
-
-
-/* منطقة زر التسبيح – المساحة العامة */
 .center{
   flex:1;
-  display:flex;
   padding:12px;
-  padding-bottom:140px; /* ✅ القيمة العامة لكل الصفحات */
-  align-items:stretch;
+  padding-bottom:var(--bottom-space);
+  display:flex;
 }
 
-/* =========================
-   📿 زر التسبيح – قلب التطبيق
-   ========================= */
+.touch-wrapper{
+  flex:1;
+  display:flex;
+}
 
 .touch{
-  width: 100%;
-  flex: none;                          /* ✅ لا يتأثر بمربع الذكر */
-  min-height: var(--counter-size);     /* ✅ نفس حجم التسبيح */
-  border-radius: var(--radius-xl);
+  width:100%;
+  min-height:var(--counter-size);
+  border-radius:var(--radius-xl);
 
-  /* ✅ خلفية روحانية ناعمة */
   background:
-    radial-gradient(
-      circle at top,
-      #ecfeff,
-      var(--touch)
-    );
+    radial-gradient(circle at top,#ecfeff,var(--touch));
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  /* ✅ إحساس عمق هادئ */
-  box-shadow:
-    0 10px 30px rgba(15,118,110,.15);
-
-  transition: transform .15s ease;
-}
-
-/* تفاعل الضغط */
-.touch:active{
-  transform: scale(0.97);
-}
-
-/* رقم العداد */
-.touch-count{
-  font-size: 64px;
-  font-weight: 800;
-  color: var(--accent);
-}
-
-/* النص أسفل العداد */
-.touch-label{
-  font-size: 15px;
-  opacity: .75;
-}
-
-/* تحسين إحساس الزر قريب من الأسفل */
-.touch-wrapper{
-  flex: 1;
-  display: flex;
-}
- /* =========================
-   🔵 السبحة (الهوية الأساسية)
-   ========================= */
-
-#tasbeeh .touch{
-  background:
-    radial-gradient(
-      circle at top,
-      #f0fdfa,
-      var(--primary-soft)
-    );
-}
-
-#tasbeeh .touch-count{
-  color: var(--primary);
-}
-
-/* =========================
-   🟡 أذكار الصلاة
-   ========================= */
-
-#prayer .touch{
-  background:
-    radial-gradient(
-      circle at top,
-      #fff7ed,
-      var(--amber-soft)
-    );
-}
-
-#prayer .touch-count{
-  color: var(--amber);
-}
-
-/* =========================
-   🌙 الوضع الليلي
-   ========================= */
-
-body.night .touch{
-  background:
-    radial-gradient(
-      circle at top,
-      #022c22,
-      #000000
-    );
-
-  box-shadow: none;
-}
- 
- /* رسالة الاكتمال */
-.complete{
-  color:#0f766e;
-  text-align:center;
-  font-weight:bold;
-  margin-top:8px;
-}
-  
-
-
-.stats{
-  margin-top:12px;
   display:flex;
   flex-direction:column;
-  gap:10px;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  box-shadow:0 10px 30px rgba(15,118,110,.15);
 }
 
-.stat-card{
-  background:var(--card);
-  border-radius:12px;
-  padding:12px;
-  border:1px solid rgba(0,0,0,.06);
-}
+.touch:active{ transform:scale(.97); }
 
-.stat-title{
-  font-size:14px;
-  font-weight:bold;
-  margin-bottom:6px;
-}
-
-.stat-count{
-  font-size:15px;
+.touch-count{
+  font-size:64px;
   font-weight:800;
   color:var(--accent);
 }
 
-/* ✅ الوضع الليلي لبطاقات الإحصائيات */
-body.night .stat-card{
-  background:#020617;
-  border-color:#0f172a;
-}
-
-.app-logo {
-  width: 90px;
-  height: 90px;
-  margin: 10px auto;
-  display: block;
-}
-
-/* ✅ شريط الآيات — ثابت داخل الصفحة الرئيسية */
-.ayah-bar{
-  position: relative;          /* ✅ داخل التدفق مثل الأيقونات */
-  margin: 8px auto 12px;
-  width: calc(100% - 28px);
-  max-width: 520px;
-  height: 48px;
-
-  display: flex;               /* ✅ مرئي دائمًا عند تفعيله من JS */
-  align-items: center;
-
-  background: #f8fafc;
-  border-radius: 12px;
-  padding: 0 12px;
-
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-/* ✅ النص المتحرك */
-.ayah-text{
-  display: inline-block;
-  padding-right: 100%;
-  font-size: 15px;
-  line-height: 1.8;
-  white-space: nowrap;
-  font-weight: 700;
-}
-
-/* ✅ حركة النص */
-@keyframes scrollAyah{
-  from{
-    transform: translateX(-100%);
-  }
-  to{
-    transform: translateX(100%);
-  }
-}
-
-/* ✅ زخرفة الأقواس */
-.ayah-bracket{
-  color: #c4a24a;
-  font-weight: bold;
-}
-
-/* =========================
-   📿 تنسيقات صفحة السبحة – النسخة النهائية المضغوطة
-   ========================= */
-
-/* صفحة السبحة */
-#tasbeeh.view{
-  padding-bottom: 0;
-}
-
-/* زر الرجوع */
-#tasbeeh > button{
-  margin-bottom: 4px;
-}
-
-/* واجهة التسبيح */
-#tasbeehUI{
-  margin-top: 0;
-}
-
-/* الجزء العلوي */
-#tasbeehUI .top-panel{
-  padding-top: 2px;
-}
-
-/* اختر الذكر */
-#tasbeehUI select{
-  margin-top: 6px;   /* ⬅️ كان 12 */
-}
-
-/* ✅ مربع الذكر – 5 أسطر */
-#tasbeehUI .zikrText{
-  margin-top: 6px;
-  min-height: 150px;
-  max-height: 150px;
-  overflow-y: auto;
-}
-
-
-/* زر التسبيح */
-#tasbeehUI .center{
-  padding-top: 6px;
-  padding-bottom: 40px; /* ✅ تقليل المسافة بين زر التسبيح والفوتر */
-}
-
-/* الإحصائيات */
-#tasbeehUI .stats{
-  margin-top: 8px;   /* ⬅️ كان 12 */
-}
-
-/* زر مسح العدّادات */
-
-#tasbeeh footer{
-  margin-top: 0;
-  padding-top: 6px;
-}
-    
-#tasbeeh footer > button{
-  margin-top: 0;
-}
-
-/* الوضع الليلي */
-body.night #tasbeehUI .touch{
-  background: var(--touch);
-}
-  /* =========================
-   ⚙️ تنسيقات صفحة الإعدادات
-   ========================= */
-
-#settings.view{
-  padding: 14px;
-}
-
-#settings .card{
-  background: var(--card);
-  border-radius: 14px;
-  padding: 14px;
-  margin-top: 16px;
-  border: 1px solid rgba(0,0,0,.06);
-}
-
-body.night #settings .card{
-  border-color:#0f172a;
-}
-
-#settings label{
-  display:block;
-  margin-bottom:8px;
-  font-weight:700;
+.touch-label{
   font-size:15px;
+  opacity:.75;
 }
 
-/* =========================
-   📖 بطاقات أسماء الله الحسنى
-   ========================= */
+#tasbeeh .touch{
+  background:
+    radial-gradient(circle at top,#f0fdfa,var(--primary-soft));
+}
+#tasbeeh .touch-count{ color:var(--primary); }
 
-.asma-card{
-  background: var(--card);
-  border-radius: 18px;
-  padding: 14px;
-  margin-bottom: 16px;
-  border: 1px solid rgba(0,0,0,.05);
-  box-shadow: 0 4px 10px rgba(0,0,0,.06);
+#prayer .touch{
+  background:
+    radial-gradient(circle at top,#fff7ed,var(--amber-soft));
+}
+#prayer .touch-count{ color:var(--amber); }
+
+body.night .touch{
+  background:
+    radial-gradient(circle at top,#022c22,#000);
+  box-shadow:none;
 }
 
-.asma-card h3{
-  margin: 0 0 6px;
-  font-size: 20px;
-  font-weight: 900;
-  letter-spacing: .3px;
-}
-
-.asma-desc{
-  margin-top: 6px;
-  line-height: 2;
-  font-size: 15px;
-}
-
-/* =========================
-   🎛️ أزرار البطاقة
-   ========================= */
-
-.asma-actions{
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.asma-actions button{
-  flex: 1;
-  min-height: 42px;
-  font-size: 14px;
-  font-weight: 800;
-  border-radius: 14px;
-}
-
-/* زر الصورة (أساسي) */
-.asma-actions button:first-child{
-  background: var(--primary);
-  color: #fff;
-  border: none;
-}
-
-/* زر النص (ثانوي) */
-.asma-actions button:last-child{
-  background: transparent;
-  color: var(--primary);
-  border: 1px solid var(--primary);
-}
-
-/* =========================
-   ✅ Toast تنبيه النسخ
-   ========================= */
-
-.toast{
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--primary);
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: 12px;
-  font-size: 14px;
-  opacity: 0;
-  transition: opacity .3s;
-  z-index: 9999;
-}
-
-.toast.show{
-  opacity: 1;
-}
-/* =========================
-   📖 واجهة قراءة الحديث (النسخة النهائية)
-   ========================= */
-
-/* بطاقة الحديث */
-.hadith-card{
-  background: linear-gradient(
-    to bottom,
-    var(--card),
-    rgba(255,255,255,0.95)
-  );
-  border-radius: 20px;
-  padding: 18px 18px 16px;
-  margin-bottom: 18px;
-
-  border: 1px solid rgba(0,0,0,.06);
-  box-shadow: 0 6px 16px rgba(0,0,0,.06);
-
-  position: relative;
-  overflow: hidden;
-}
-
-/* شريط زخرفي جانبي */
-.hadith-card::before{
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 5px;
-  height: 100%;
-  background: var(--primary);
-  opacity: .25;
-}
-
-/* الوضع الليلي */
-body.night .hadith-card{
-  background: #020617;
-  border-color: rgba(255,255,255,.1);
-  box-shadow: none;
-}
-
-/* نص الحديث */
-.hadith-text{
-  font-size: 16px;
-  line-height: 2.1;
-  color: var(--text);
-  font-weight: 600;
-  letter-spacing: .2px;
-  text-align: justify;
-}
-
-/* فاصل خفيف */
-.hadith-text::after{
-  content: "";
-  display: block;
-  height: 1px;
-  background: rgba(0,0,0,.06);
-  margin: 14px 0 10px;
-}
-
-body.night .hadith-text::after{
-  background: rgba(255,255,255,.1);
-}
-
-/* مصدر الحديث */
-.hadith-source{
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--accent);
-  opacity: .9;
-  text-align: left;
-}
-
-/* أيقونة قبل المصدر */
-.hadith-source::before{
-  content: "📘 ";
-}
-
-/* عنوان صفحة الأحاديث */
-.view h2{
-  margin: 6px 0 18px;
-  text-align: center;
-  font-size: 22px;
-  font-weight: 900;
-}
-
-/* زر الرجوع */
-.view > button{
-  margin-bottom: 14px;
-}
-.view h2::after{
-  content:" ﴾";
-  opacity:.3;
-}
-.view h2::before{
-  content:"﴿ ";
-  opacity:.3;
-}
-
-/* =========================
-   🕋 شريط الآيات – لوحة روحانية هادئة
-   ========================= */
+/* =========================================================
+   🕋 شريط الآيات (نسخة واحدة – النهائي)
+   ========================================================= */
 
 .ayah-bar{
-  position: relative;
-  margin: 10px auto 14px;
-  width: calc(100% - 28px);
-  max-width: 520px;
-  height: 52px;
+  margin:10px auto 14px;
+  width:calc(100% - 28px);
+  max-width:520px;
+  height:52px;
 
-  display: flex;
-  align-items: center;
+  display:flex;
+  align-items:center;
 
-  /* ✅ خلفية روحانية ناعمة */
   background:
-    linear-gradient(
-      to bottom,
-      #f0fdfa,
-      var(--card)
-    );
+    linear-gradient(to bottom,#f0fdfa,var(--card));
 
-  border-radius: 16px;
-  padding: 0 14px;
-
-  box-shadow:
-    0 6px 18px rgba(0,0,0,.06);
-
-  overflow: hidden;
-  white-space: nowrap;
-
-  border: 1px solid rgba(0,0,0,.05);
+  border-radius:16px;
+  padding:0 14px;
+  border:1px solid rgba(0,0,0,.05);
+  overflow:hidden;
+  white-space:nowrap;
 }
 
-/* الوضع الليلي */
 body.night .ayah-bar{
   background:
-    linear-gradient(
-      to bottom,
-      #020617,
-      #000
-    );
-  border-color: rgba(255,255,255,.08);
-  box-shadow: none;
+    linear-gradient(to bottom,#020617,#000);
+  border-color:rgba(255,255,255,.08);
 }
-
-/* =========================
-   📝 النص المتحرك
-   ========================= */
 
 .ayah-text{
-  display: inline-block;
-  padding-right: 100%;
-  font-size: 15px;
-  line-height: 1.9;
-  font-weight: 700;
-  letter-spacing: .3px;
-  color: var(--text);
+  display:inline-block;
+  padding-right:100%;
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:.3px;
 }
 
-/* الآيات */
 .ayah-bracket{
-  color: #c4a24a;
-  font-weight: 900;
-  opacity: .85;
+  color:#c4a24a;
+  font-weight:900;
+  opacity:.85;
 }
-
-/* =========================
-   ✨ حركة ناعمة بطيئة
-   ========================= */
 
 @keyframes scrollAyah{
-  from{
-    transform: translateX(-100%);
-  }
-  to{
-    transform: translateX(100%);
-  }
+  from{ transform:translateX(-100%); }
+  to{ transform:translateX(100%); }
 }
-/* =========================
-   📖 صفحات القراءة الطويلة
-   ========================= */
 
-.reading-mode,
+/* =========================================================
+   📖 القراءة الطويلة (أحاديث / أذكار)
+   ========================================================= */
+
+.hadith-card{
+  max-width:720px;
+  margin:0 auto 20px;
+  padding:18px;
+
+  background:
+    linear-gradient(to bottom,var(--card),rgba(255,255,255,.95));
+
+  border-radius:20px;
+  border:1px solid rgba(0,0,0,.06);
+  box-shadow:0 6px 16px rgba(0,0,0,.06);
+  position:relative;
+}
+
+.hadith-card::before{
+  content:"";
+  position:absolute;
+  right:0;
+  top:0;
+  width:5px;
+  height:100%;
+  background:var(--primary);
+  opacity:.25;
+}
+
 .hadith-text,
 .zikrText{
-  font-size: 16px;
-  line-height: 2.2;
-  letter-spacing: .3px;
-  text-align: justify;
+  font-size:16px;
+  line-height:2.2;
+  font-weight:600;
+  letter-spacing:.3px;
+  text-align:justify;
 }
 
-/* تباعد مريح بين الفقرات */
-.hadith-text p,
-.zikrText p{
-  margin-bottom: 18px;
+.zikrText{
+  background:var(--card);
+  border-radius:14px;
+  padding:16px;
+  min-height:240px;
+  max-height:240px;
+  overflow-y:auto;
 }
 
-/* تحسين بطاقات الأحاديث */
-.hadith-card{
-  max-width: 720px;
-  margin: 0 auto 20px;
-}
-
-/* الوضع الليلي */
 body.night .hadith-text,
 body.night .zikrText{
-  color: #e5e7eb;
-} 
- /* =========================
-   📱 تحسين تجربة الجوال
-   ========================= */
-
-@media (max-width: 480px){
-
-  body{
-    font-size: 15px;
-  }
-
-  button{
-    min-height: 60px;
-  }
-
-  .touch{
-    min-height: 220px;
-  }
-
-  /* منع تحديد النص بالخطأ */
-  button, .touch, .dashboard{
-    user-select: none;
-    -webkit-user-select: none;
-  }
-
-  /* تحسين المسافات */
-  .view{
-    padding: 12px;
-  }
+  color:#e5e7eb;
 }
- /* =========================
-   🕌 الهوية البصرية – لمسة مصحف
-   ========================= */
 
-/* عناوين بروح قرآنية */
+/* =========================================================
+   🕌 العناوين (لمسة مصحف)
+   ========================================================= */
+
 .view h2{
-  font-size: 22px;
-  margin-bottom: 18px;
-  text-align: center;
+  text-align:center;
+  font-size:22px;
+  margin:6px 0 18px;
+  font-weight:900;
 }
 
-/* زخرفة خفيفة */
-.view h2::before{
-  content: "﴿ ";
-  opacity: .35;
-}
+.view h2::before{ content:"﴿ "; opacity:.35; }
+.view h2::after{ content:" ﴾"; opacity:.35; }
 
-.view h2::after{
-  content: " ﴾";
-  opacity: .35;
-}
+/* =========================================================
+   📱 تحسين الجوال
+   ========================================================= */
 
-/* توحيد البطاقات */
-.stat-card,
-.asma-card,
-.hadith-card{
-  border-radius: 18px;
-}
+@media (max-width:480px){
+  body{ font-size:15px; }
+  .touch{ min-height:220px; }
 
-/* خطوط أكثر وقارًا للنصوص الطويلة */
-.hadith-text,
-.zikrText{
-  font-weight: 600;
+  button,.touch,.dashboard{
+    user-select:none;
+    -webkit-user-select:none;
+  }
+
+  .view{ padding:12px; }
 }
 
   </style>
