@@ -505,6 +505,28 @@ body.night .zikrText{
 
   .view{ padding:12px; }
 }
+.toast{
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: #fff;
+
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+
+  opacity: 0;                 /* ✅ مخفي افتراضيًا */
+  pointer-events: none;
+
+  transition: opacity .3s ease;
+  z-index: 9999;
+}
+
+.toast.show{
+  opacity: 1;                 /* ✅ يظهر فقط عند الإظهار */
+}
 
   </style>
 </head>
@@ -3370,11 +3392,16 @@ function handleDuaCopy(text){
   showToast();
 }
 
-function showToast(){
+function showToast(message = "تم النسخ"){
   const toast = document.getElementById("toast");
   if(!toast) return;
+
+  toast.textContent = message;
   toast.classList.add("show");
-  setTimeout(()=>toast.classList.remove("show"), 2000);
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 1500);
 }
   </script>
 
