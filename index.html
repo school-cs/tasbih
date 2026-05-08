@@ -284,17 +284,23 @@ body.night .touch{
    🔢 أزرار العد (33 · 99 · 100)
    ========================= */
 
-.counter-buttons{
+..counter-buttons{
   display: flex;
+  align-items: center;   /* ✅ أضيفي هذا السطر هنا */
   gap: 8px;
   margin: 8px 0 10px;
 }
-
 .counter-buttons button{
   flex: 1;
-  min-height: 46px;
-  font-size: 15px;
+
+  /* ❗ كسر تأثير الزر العام */
+  width: auto;
+  min-height: 40px;
+  padding: 6px 0;
+
+  font-size: 14px;
   font-weight: 800;
+
   border-radius: 14px;
 }
    /* =========================
@@ -1151,11 +1157,12 @@ body.night .zikrText{
     </select>  
      
 
-      <div class="settings">
-        <button onclick="setMax(33)">33</button>
-        <button onclick="setMax(99)">99</button>
-        <button onclick="setMax(100)">100</button>
-      </div>
+     <div class="counter-buttons">
+  <button class="count-btn" onclick="setMax(10)">10</button>
+  <button class="count-btn" onclick="setMax(33)">33</button>
+  <button class="count-btn" onclick="setMax(100)">100</button>
+</div>
+
 
       <div id="zikrText" class="zikrText"></div>
       <div id="count" class="counter">0</div>
