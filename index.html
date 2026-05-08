@@ -1824,78 +1824,76 @@ function handleEveningTap(){
   }
 }
     
-function openPrayer() {
-  // ✅ تفعيل وضع أذكار الصلاة
+function openPrayer(){
   setMode("prayer");
 
-  // ✅ إعادة تهيئة المؤشرات
   prayerIndex = 0;
   prayerCount = 0;
 
-  // ✅ فتح صفحة أذكار الصلاة
-  openView("prayer");
+  isHomeActive = false;
+  document.getElementById("home").classList.add("hidden");
+  document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
 
-  // ✅ إظهار عناصر الصفحة الأساسية
-  document.getElementById("prayerZikrBox").style.display = "block";
-  document.getElementById("prayerFinishMsg").classList.add("hidden");
+  document.getElementById("prayer").classList.remove("hidden");
+  document.getElementById("ayahBar").style.display = "none";
 
-  // ✅ عرض أول ذكر
   showPrayerZikr();
+  window.scrollTo({top:0});
 }
-
-function openMorning() {
-  // ✅ تفعيل وضع أذكار الصباح
+function openMorning(){
   setMode("morning");
 
-  // ✅ إعادة التهيئة
   morningIndex = 0;
   morningCount = 0;
 
-  // ✅ فتح الصفحة
-  openView("morning");
+  // ❌ لا نستخدم openView هنا
+  isHomeActive = false;
 
-  // ✅ إظهار العناصر الأساسية
+  document.getElementById("home").classList.add("hidden");
+  document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
+
+  document.getElementById("morning").classList.remove("hidden");
+
+  document.getElementById("ayahBar").style.display = "none";
+
   document.getElementById("morningZikrBox").style.display = "block";
   document.getElementById("morningFinishMsg").classList.add("hidden");
 
-  // ✅ عرض أول ذكر
   showMorningZikr();
+  window.scrollTo({top:0});
 }
- function openEvening() {
-  // ✅ تفعيل وضع أذكار المساء
+
+function openEvening(){
   setMode("evening");
 
-  // ✅ إعادة التهيئة
   eveningIndex = 0;
   eveningCount = 0;
 
-  // ✅ فتح الصفحة
-  openView("evening");
+  isHomeActive = false;
+  document.getElementById("home").classList.add("hidden");
+  document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
 
-  // ✅ إظهار العناصر الأساسية
-  document.getElementById("eveningZikrBox").style.display = "block";
-  document.getElementById("eveningFinishMsg").classList.add("hidden");
+  document.getElementById("evening").classList.remove("hidden");
+  document.getElementById("ayahBar").style.display = "none";
 
-  // ✅ عرض أول ذكر
   showEveningZikr();
+  window.scrollTo({top:0});
 }
- function openSleep() {
-  // ✅ تفعيل وضع أذكار النوم
+function openSleep(){
   setMode("sleep");
 
-  // ✅ إعادة التهيئة
   sleepIndex = 0;
   sleepCount = 0;
 
-  // ✅ فتح الصفحة
-  openView("sleep");
+  isHomeActive = false;
+  document.getElementById("home").classList.add("hidden");
+  document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
 
-  // ✅ إظهار العناصر الأساسية
-  document.getElementById("sleepZikrBox").style.display = "block";
-  document.getElementById("sleepFinishMsg").classList.add("hidden");
+  document.getElementById("sleep").classList.remove("hidden");
+  document.getElementById("ayahBar").style.display = "none";
 
-  // ✅ عرض أول ذكر
   showSleepZikr();
+  window.scrollTo({top:0});
 }
     function playBeep(freq=600, duration=0.2){
   if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
