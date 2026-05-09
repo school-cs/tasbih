@@ -77,7 +77,18 @@
 
   --counter-size:250px;
   --bottom-space:140px;
+
+
+  /* ✅ أحجام الخط */
+  --font-base: 16px;     /* النص العادي */
+  --font-title: 22px;   /* العناوين */
+  --font-small: 14px;   /* نص مساعد */
+
+  /* قراءة */
+  --line-reading: 2.1;
 }
+
+   
 
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
@@ -89,8 +100,7 @@ html,body{ height:100%; }
 body{
   margin:0;
   min-height:100vh;
-  font-family: 'IBM Plex Arabic', Tajawal, Tahoma, Arial, sans-serif;
-  font-weight:600;
+font-family: 'IBM Plex Arabic', Tahoma, Arial, sans-serif;  font-weight:600;
   color:var(--text);
 
   background:
@@ -216,9 +226,6 @@ body.night .dashboard button{
   box-shadow:none;
 }
 
-/* =========================================================
-   📿 زر التسبيح
-   ========================================================= */
 
 /* =========================================================
    📿 زر التسبيح – النسخة النهائية
@@ -263,10 +270,8 @@ body.night .dashboard button{
 }
 
 .touch-label{
-  font-size:15px;
-  opacity:.75;
+  opacity:.75;   /* ✅ الحجم يأتي من var(--font-small) */
 }
-
 /* هوية صفحة التسبيح */
 #tasbeeh .touch{
   background:
@@ -308,7 +313,8 @@ body.night .touch{
   min-height:48px;           /* ✅ حجم مريح */
   padding:10px 0;
 
-  font-size:16px;            /* ✅ واضح أكثر */
+
+  font-size: var(--font-base);
   font-weight:900;
 
   border-radius:16px;
@@ -452,14 +458,7 @@ body.night .ayah-bar{
   opacity:.25;
 }
 
-.hadith-text,
-.zikrText{
-  font-size:16px;
-  line-height:2.2;
-  font-weight:600;
-  letter-spacing:.3px;
-  text-align:justify;
-}
+
 
 .zikrText{
   background:var(--card);
@@ -474,17 +473,34 @@ body.night .hadith-text,
 body.night .zikrText{
   color:#e5e7eb;
 }
+/* =========================================================
+   📖 أحجام الخطوط – تعتمد على الإعدادات
+   ========================================================= */
 
+.hadith-text,
+.zikrText{
+  font-size: var(--font-base);
+  line-height: var(--line-reading);
+  font-weight: 600;
+  letter-spacing: .3px;
+  text-align: justify;
+}
+
+.view h2{
+  font-size: var(--font-title);
+  font-weight: 800;
+}
+
+.touch-label,
+.counter,
+small{
+  font-size: var(--font-small);
+}
 /* =========================================================
    🕌 العناوين (لمسة مصحف)
    ========================================================= */
 
-.view h2{
-  text-align:center;
-  font-size:22px;
-  margin:6px 0 18px;
-  font-weight:900;
-}
+
 
 .view h2::before{ content:"﴿ "; opacity:.35; }
 .view h2::after{ content:" ﴾"; opacity:.35; }
@@ -1295,6 +1311,17 @@ body.night .zikrText{
       <option value="sound">صوت</option>
     </select>
   </div>
+<div class="settings">
+  <label for="fontSize">
+    🔤 حجم الخط
+  </label>
+
+  <select id="fontSize" onchange="setFontSize(this.value)">
+    &lt;option value="small"&gt;صغير&lt;/option&gt;
+    &lt;option value="medium"&gt;متوسط (افتراضي)&lt;/option&gt;
+    &lt;option value="large"&gt;كبير&lt;/option&gt;
+  </select>
+</div>
 </div>
  
   <script>
@@ -1839,7 +1866,39 @@ function showStats(){
   totalEl.innerHTML = `📿 إجمالي الأذكار اليوم: <strong>${total}</strong> مرة`;
 
   el.innerHTML = html;
-}
+}  
+
+
+function setFontSize(size){
+  let base, title, small;
+
+  switch(size){
+    case "small":
+      base = "14px";
+      title = "20px";
+      small = "12px";
+      break;
+
+    case "large":
+      base = "18px";
+      title = "26px";
+      small = "16px";
+      break;
+
+    default: // medium
+      base = "16px";
+      title = "22px";
+      small = "14px";
+  }
+
+  document.documentElement.style.setProperty("--font-base", base);
+  document.documentElement.style.setProperty("--font-title", title);
+  document.documentElement.style.setProperty("--font-small", small);
+
+  localStorage.setItem("fontSize", size);
+}  
+
+
 window.onload = () => {
   const todayKey = new Date().toISOString().split('T')[0];
 const lastDay = localStorage.getItem('lastStatsDay');
@@ -1871,10 +1930,17 @@ const modeSelect = document.getElementById('completionMode');
 if (modeSelect) {
   modeSelect.value = savedMode;
 }
+
+const savedFont = localStorage.getItem("fontSize") || "medium";
+const fontSelect = document.getElementById("fontSize");
+
+if (fontSelect){
+  fontSelect.value = savedFont;
+}
+
+setFontSize(savedFont);
 };
 
-
-  
 
 const jawamiDua = [
 
