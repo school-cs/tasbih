@@ -2170,9 +2170,9 @@ function renderJawamiDua() {
 }
 function openView(id) {
 
-  setMode();
+  // ✅ الإصلاح النهائي
+  setMode(id === "tasbeeh" ? "tasbeeh" : "none");
 
-  // إيقاف شريط الآيات
   isHomeActive = false;
   if (ayahTimer) {
     clearTimeout(ayahTimer);
@@ -2182,16 +2182,13 @@ function openView(id) {
   const ayahBar = document.getElementById("ayahBar");
   if (ayahBar) ayahBar.style.display = "none";
 
-  // إخفاء الصفحة الرئيسية
   document.getElementById("home")?.classList.add("hidden");
 
-  // إخفاء كل الصفحات
   document.querySelectorAll(".view").forEach(v => {
     v.classList.add("hidden");
     v.style.display = "none";
   });
 
-  // ✅ إظهار الصفحة المطلوبة فعليًا
   const page = document.getElementById(id);
   if (!page) return;
 
@@ -2212,7 +2209,6 @@ function openView(id) {
     document.getElementById("locationStatus").style.display = "block";
     document.getElementById("locationStatus").textContent = "📍 جارٍ تحديد موقعك…";
     document.getElementById("prayerTimesBox").classList.add("hidden");
-
     setTimeout(getPrayerTimes, 300);
   }
 
