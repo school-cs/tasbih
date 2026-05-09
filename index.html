@@ -83,6 +83,7 @@
   --font-base: 16px;     /* النص العادي */
   --font-title: 22px;   /* العناوين */
   --font-small: 14px;   /* نص مساعد */
+--tasbeeh-gap: 12px;
 
   /* قراءة */
   --line-reading: 2.1;
@@ -301,40 +302,39 @@ body.night .touch{
 
 #tasbeehUI .counter-buttons{
   display:flex;
-  justify-content:center;    /* ✅ توسيط */
+  justify-content:center;
   gap:12px;
-  margin:6px 0 10px;
+  margin-top: var(--tasbeeh-gap);
+  margin-bottom: var(--tasbeeh-gap);
 }
-
 #tasbeehUI .counter-buttons button{
   flex:1;
   max-width:90px;            /* ✅ يمنع التمدد الزائد */
-
   min-height:48px;           /* ✅ حجم مريح */
   padding:10px 0;
-
-
   font-size: var(--font-base);
   font-weight:900;
-
   border-radius:16px;
 }
 
+.current-limit{
+  margin-top: var(--tasbeeh-gap);
+  margin-bottom: var(--tasbeeh-gap);
+  text-align:center;
+  font-size: var(--font-small);
+  opacity: .85;
 
+}
 /* =========================================================
    📿 مربع الذكر – استثنائي (5 أسطر فقط)
    ========================================================= */
 
 #tasbeehUI .zikrText{
-  margin-top:6px;
+  margin-top: var(--tasbeeh-gap);
   padding:12px 14px;
-
   min-height:140px;          /* ✅ حوالي 5 أسطر */
   max-height:140px;
-
   line-height:2;
-
-
   overflow-y:auto;
 }
 
@@ -347,7 +347,7 @@ body.night .touch{
   width:100%;
   box-sizing:border-box;
   padding:12px 14px;
-
+  margin-top: var(--tasbeeh-gap);
   font-size: var(--font-base);
   border-radius:12px;
   border:1px solid rgba(0,0,0,.15);
@@ -360,7 +360,7 @@ body.night .touch{
    ========================================================= */
 
 .clear-counter{
-  margin-top:10px;
+margin-top: var(--tasbeeh-gap);
   text-align:center;
 }
 
@@ -372,6 +372,10 @@ body.night .touch{
   font-weight:800;
 }
 
+#tasbeehUI footer{
+  margin-top: var(--tasbeeh-gap);
+}
+
 
 /* =========================================================
    📐 ضبط المسافات – صفحة التسبيح فقط
@@ -379,9 +383,11 @@ body.night .touch{
 
 #tasbeehUI .center{
   flex:1;
-  padding-top:4px;      /* ✅ شدّ الصفحة */
-  padding-bottom:28px;
+margin-top: var(--tasbeeh-gap);
+  padding-top: 0;
+  padding-bottom: 28px;
 }
+
 /* =========================================================
    🕋 شريط الآيات (نسخة واحدة – النهائي)
    ========================================================= */
@@ -1249,11 +1255,9 @@ small{
 
       <div id="zikrText" class="zikrText"></div>
       <div id="count" class="counter">0</div>
-     <div style="text-align:center;font-size:14px;margin-top:6px">
+    <div class="current-limit">
   الحد الحالي: <span id="maxLabel">100</span>
 </div>
-    </div>
-
    <div class="center">
   <div class="touch-wrapper">
     <div class="touch"
