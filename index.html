@@ -227,7 +227,32 @@ body.night .dashboard button{
   box-shadow:none;
 }
 
+/* =========================================================
+   ⚙️ الإعدادات
+   ========================================================= */
 
+.settings {
+  margin: 14px;
+  padding: 14px;
+  background: var(--card);
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.settings label {
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.settings select {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.15);
+  font-size: 15px;
+}
 /* =========================================================
    📿 زر التسبيح – النسخة النهائية
    ========================================================= */
@@ -2079,20 +2104,21 @@ function renderJawamiDua() {
 
  function openView(id){
 
-  // ✅ تصفير أي وضع سابق
+  // ✅ إيقاف أي وضع سابق (تسبيح / أذكار)
   setMode();
 
   // ✅ حماية: التأكد من وجود الصفحة
-  if (!document.getElementById(id)) return;
+  const target = document.getElementById(id);
+  if (!target) return;
 
-  // ✅ الخروج من الصفحة الرئيسية
+  // ✅ نحن لسنا في الصفحة الرئيسية الآن
   isHomeActive = false;
 
   // ✅ إخفاء شريط الآيات
   const ayahBar = document.getElementById("ayahBar");
   if (ayahBar) ayahBar.style.display = "none";
 
-  // ✅ إيقاف مؤقت شريط الآيات
+  // ✅ إيقاف مؤقّت شريط الآيات
   if (ayahTimer) {
     clearTimeout(ayahTimer);
     ayahTimer = null;
@@ -2108,9 +2134,13 @@ function renderJawamiDua() {
   });
 
   // ✅ إظهار الصفحة المطلوبة
-  document.getElementById(id).classList.remove("hidden");
+  target.classList.remove("hidden");
 
-  // ✅ 🤲 جوامع الدعاء (إعادة تحميل نظيفة)
+  /* ===============================
+     🔄 إعادة تهيئة الصفحات الخاصة
+     =============================== */
+
+  // ✅ 🤲 جوامع الدعاء
   if (id === "jawamiDua") {
     const box = document.getElementById("jawamiDuaContent");
     if (box) box.innerHTML = "";
@@ -2138,7 +2168,27 @@ function renderJawamiDua() {
     }
   }
 
-  // ✅ الرجوع لأعلى
+  // ✅ 🕰️ صفحة مواقيت الصلاة
+  if (id === "prayersTime") {
+    const status = document.getElementById("locationStatus");
+    const box = document.getElementById("prayerTimesBox");
+
+    if (status) {
+      status.style.display = "block";
+      status.textContent = "📍 جارٍ تحديد موقعك…";
+    }
+
+    if (box) {
+      box.classList.add("hidden");
+    }
+  }
+
+  // ✅ ⚙️ صفحة الإعدادات
+  if (id === "settings") {
+    // لا حاجة لأي إعادة تهيئة إضافية
+  }
+
+  // ✅ الرجوع للأعلى
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 function backHome(){
@@ -3494,7 +3544,6 @@ function getPrayerTimes() {
   const status = document.getElementById("locationStatus");
   const box = document.getElementById("prayerTimesBox");
 
-  // تهيئة الواجهة
   status.style.display = "block";
   status.textContent = "📍 جارٍ تحديد موقعك…";
   box.classList.add("hidden");
@@ -3510,15 +3559,8 @@ function getPrayerTimes() {
       const lon = pos.coords.longitude;
 
       fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=4`)
-        .then(res => {
-          if (!res.ok) throw new Error("Network error");
-          return res.json();
-        })
+        .then(res => res.json())
         .then(data => {
-          if (!data || !data.data || !data.data.timings) {
-            throw new Error("Invalid data");
-          }
-
           const t = data.data.timings;
 
           const prayerTimes = {
@@ -3529,36 +3571,25 @@ function getPrayerTimes() {
             Isha: t.Isha
           };
 
-          // ✅ حفظ آخر مواقيت
-          localStorage.setItem(
-            "lastPrayerTimes",
-            JSON.stringify(prayerTimes)
-          );
-
-          // ✅ عرض المواقيت
+          localStorage.setItem("lastPrayerTimes", JSON.stringify(prayerTimes));
           showPrayerTimes(prayerTimes);
         })
         .catch(() => {
-          // ✅ عرض المواقيت المخزنة (إن وجدت)
           const cached = localStorage.getItem("lastPrayerTimes");
           if (cached) {
             showPrayerTimes(JSON.parse(cached));
             status.textContent = "📴 تم عرض آخر مواقيت محفوظة";
           } else {
-            status.textContent = "⚠️ فشل تحميل المواقيت ولا توجد بيانات محفوظة";
+            status.textContent = "⚠️ تعذر تحميل مواقيت الصلاة";
           }
         });
     },
     () => {
       status.textContent = "❌ يجب السماح بتحديد الموقع";
-    },
-    {
-      enableHighAccuracy: true,
-      timeout: 10000,
-      maximumAge: 600000
     }
   );
 }
+
 
 function showPrayerTimes(t) {
   document.getElementById("fajr").textContent = t.Fajr;
