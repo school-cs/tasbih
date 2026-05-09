@@ -1313,7 +1313,7 @@ small{
     <button><span>العشاء</span> <strong id="isha"></strong></button>
   </div>
 </div>
-<div id="settings" class="view hidden">
+ <div id="settings" class="view hidden">
 <button onclick="backHome()">🏠 الرئيسية</button>
   <h2>⚙️ الإعدادات</h2>
 
@@ -3485,7 +3485,7 @@ function showToast(message = "تم النسخ"){
     toast.classList.remove("show");
   }, 1500);
 }
- function openPrayersTime() {
+function openPrayersTime() {
   openView("prayersTime");
   getPrayerTimes();
 }
@@ -3515,11 +3515,13 @@ function getPrayerTimes() {
           return res.json();
         })
         .then(data => {
-          if (!data?.data?.timings) throw new Error("Invalid data");
+          if (!data || !data.data || !data.data.timings) {
+            throw new Error("Invalid data");
+          }
 
           const t = data.data.timings;
 
-          const savedTimes = {
+          const prayerTimes = {
             Fajr: t.Fajr,
             Dhuhr: t.Dhuhr,
             Asr: t.Asr,
@@ -3527,17 +3529,17 @@ function getPrayerTimes() {
             Isha: t.Isha
           };
 
-          // ✅ حفظ المواقيت
+          // ✅ حفظ آخر مواقيت
           localStorage.setItem(
             "lastPrayerTimes",
-            JSON.stringify(savedTimes)
+            JSON.stringify(prayerTimes)
           );
 
-          // ✅ عرضها
-          showPrayerTimes(savedTimes);
+          // ✅ عرض المواقيت
+          showPrayerTimes(prayerTimes);
         })
         .catch(() => {
-          // ✅ محاولة قراءة آخر مواقيت محفوظة
+          // ✅ عرض المواقيت المخزنة (إن وجدت)
           const cached = localStorage.getItem("lastPrayerTimes");
           if (cached) {
             showPrayerTimes(JSON.parse(cached));
@@ -3557,7 +3559,8 @@ function getPrayerTimes() {
     }
   );
 }
-   function showPrayerTimes(t) {
+
+function showPrayerTimes(t) {
   document.getElementById("fajr").textContent = t.Fajr;
   document.getElementById("dhuhr").textContent = t.Dhuhr;
   document.getElementById("asr").textContent = t.Asr;
@@ -3565,11 +3568,8 @@ function getPrayerTimes() {
   document.getElementById("isha").textContent = t.Isha;
 
   document.getElementById("locationStatus").style.display = "none";
-  document
-    .getElementById("prayerTimesBox")
-    .classList.remove("hidden");
+  document.getElementById("prayerTimesBox").classList.remove("hidden");
 }
-
   </script>
 
 <p style="display:none">
