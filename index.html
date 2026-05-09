@@ -632,8 +632,8 @@ small{
     <span>السبحة</span>
   </button>
 
-  <button onclick="openPrayersTime()">
-  <span>مواقيت الصلاة</span>
+<button onclick="openView('prayersTime')">
+ <span>مواقيت الصلاة</span>
 </button>
 
 <button onclick="openView('settings')">
@@ -2170,10 +2170,10 @@ function renderJawamiDua() {
 }
 function openView(id) {
 
-  // ✅ إيقاف أي وضع سابق
   setMode();
-  isHomeActive = false;
 
+  // إيقاف شريط الآيات
+  isHomeActive = false;
   if (ayahTimer) {
     clearTimeout(ayahTimer);
     ayahTimer = null;
@@ -2182,66 +2182,38 @@ function openView(id) {
   const ayahBar = document.getElementById("ayahBar");
   if (ayahBar) ayahBar.style.display = "none";
 
-  // ✅ إخفاء الصفحة الرئيسية
-  const home = document.getElementById("home");
-  if (home) home.classList.add("hidden");
+  // إخفاء الصفحة الرئيسية
+  document.getElementById("home")?.classList.add("hidden");
 
-  // ✅ إخفاء جميع الصفحات
+  // إخفاء كل الصفحات
   document.querySelectorAll(".view").forEach(v => {
     v.classList.add("hidden");
     v.style.display = "none";
   });
 
-  // ✅ إظهار الصفحة المطلوبة
-  const target = document.getElementById(id);
-  if (!target) return;
+  // ✅ إظهار الصفحة المطلوبة فعليًا
+  const page = document.getElementById(id);
+  if (!page) return;
 
-  target.classList.remove("hidden");
-  target.style.display = "block";
+  page.classList.remove("hidden");
+  page.style.display = "block";
 
-  /* ===============================
-     🤲 جوامع الدعاء
-     =============================== */
-  if (id === "jawamiDua") {
-    renderJawamiDua(); // ✅ ارسمها دائمًا بدون شرط
-  }
-
-  /* ===============================
-     ⚙️ الإعدادات
-     =============================== */
+  /* ⚙️ الإعدادات */
   if (id === "settings") {
-    const cm = document.getElementById("completionMode");
-    const fs = document.getElementById("fontSize");
+    document.getElementById("completionMode").value =
+      localStorage.getItem("completionMode") || "none";
 
-    if (cm) cm.value = localStorage.getItem("completionMode") || "none";
-    if (fs) fs.value = localStorage.getItem("fontSize") || "medium";
+    document.getElementById("fontSize").value =
+      localStorage.getItem("fontSize") || "medium";
   }
 
-  /* ===============================
-     🕰️ مواقيت الصلاة
-     =============================== */
+  /* 🕰️ مواقيت الصلاة */
   if (id === "prayersTime") {
-    const status = document.getElementById("locationStatus");
-    const box = document.getElementById("prayerTimesBox");
-
-    if (status) {
-      status.style.display = "block";
-      status.textContent = "📍 جارٍ تحديد موقعك…";
-    }
-
-    if (box) box.classList.add("hidden");
+    document.getElementById("locationStatus").style.display = "block";
+    document.getElementById("locationStatus").textContent = "📍 جارٍ تحديد موقعك…";
+    document.getElementById("prayerTimesBox").classList.add("hidden");
 
     setTimeout(getPrayerTimes, 300);
-  }
-
-  /* ===============================
-     📿 السبحة
-     =============================== */
-  if (id === "tasbeeh") {
-    setMode("tasbeeh");
-    document.getElementById("zikrText").innerText = currentZikr || "";
-    document.getElementById("count").innerText = count || "0";
-    document.getElementById("touchCount").innerText = count || "0";
   }
 
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -3576,14 +3548,6 @@ function showToast(message = "تم النسخ"){
   }, 1500);
 }
 
-function openPrayersTime() {
-  openView("prayersTime");
-
-  // ✅ جلب المواقيت مباشرة بعد فتح الصفحة
-  setTimeout(() => {
-    getPrayerTimes();
-  }, 200);
-}
 function getPrayerTimes() {
   const status = document.getElementById("locationStatus");
   const box = document.getElementById("prayerTimesBox");
