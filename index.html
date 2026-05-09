@@ -2170,10 +2170,11 @@ function renderJawamiDua() {
 }
 function openView(id) {
 
-  // ✅ الإصلاح النهائي
+  // ✅ تحديد الوضع الصحيح
   setMode(id === "tasbeeh" ? "tasbeeh" : "none");
 
   isHomeActive = false;
+
   if (ayahTimer) {
     clearTimeout(ayahTimer);
     ayahTimer = null;
@@ -2197,22 +2198,36 @@ function openView(id) {
 
   /* ⚙️ الإعدادات */
   if (id === "settings") {
-    document.getElementById("completionMode").value =
-      localStorage.getItem("completionMode") || "none";
 
-    document.getElementById("fontSize").value =
-      localStorage.getItem("fontSize") || "medium";
+    const completion = document.getElementById("completionMode");
+    const font = document.getElementById("fontSize");
+
+    if (completion) {
+      completion.value = localStorage.getItem("completionMode") || "none";
+    }
+
+    if (font) {
+      font.value = localStorage.getItem("fontSize") || "medium";
+    }
   }
 
   /* 🕰️ مواقيت الصلاة */
   if (id === "prayersTime") {
-    document.getElementById("locationStatus").style.display = "block";
-    document.getElementById("locationStatus").textContent = "📍 جارٍ تحديد موقعك…";
-    document.getElementById("prayerTimesBox").classList.add("hidden");
+
+    const status = document.getElementById("locationStatus");
+    const box = document.getElementById("prayerTimesBox");
+
+    if (status) {
+      status.style.display = "block";
+      status.textContent = "📍 جارٍ تحديد موقعك…";
+    }
+
+    if (box) {
+      box.classList.add("hidden");
+    }
+
     setTimeout(getPrayerTimes, 300);
   }
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 function backHome() {
 
