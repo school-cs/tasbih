@@ -1488,52 +1488,59 @@ let sleepCount = 0;
   };
   actions[currentMode]?.();
 }
-function showPrayerZikr() {
-  prayerCount = 0;
-  const z = azkarPrayer[prayerIndex];
+function showPrayerZikr(){
+  if (!azkarPrayer.length) return;
 
-  // ✅ عرض نص الذكر فقط (بدون عدّ)
+  const z = azkarPrayer[prayerIndex];
+  if (!z) return;
+
+  prayerCount = 0;
+
   document.getElementById("prayerZikrBox").textContent = z.text;
 
-  // ✅ العدّ يظهر فقط في زر التسبيح
   const btnCount = document.getElementById("prayerTouchCount");
   if (btnCount) btnCount.innerText = `${prayerCount} / ${z.repeat}`;
 }
+  function showMorningZikr(){
+  if (!azkarMorning.length) return;
 
-   function showMorningZikr(){
-  morningCount = 0;
   const z = azkarMorning[morningIndex];
+  if (!z) return;
 
-  // ✅ عرض نص الذكر فقط (بدون عدّ)
+  morningCount = 0;
+
   document.getElementById("morningZikrBox").textContent = z.text;
 
-  // ✅ العدّ يظهر فقط في زر التسبيح
   const btnCount = document.getElementById("morningTouchCount");
   if (btnCount) btnCount.innerText = `${morningCount} / ${z.repeat}`;
 }
 function showEveningZikr(){
-  eveningCount = 0;
-  const z = azkarEvening[eveningIndex];
+  if (!azkarEvening.length) return;
 
-  // ✅ نص الذكر فقط
+  const z = azkarEvening[eveningIndex];
+  if (!z) return;
+
+  eveningCount = 0;
+
   document.getElementById("eveningZikrBox").textContent = z.text;
 
-  // ✅ العدّ في زر التسبيح
   const btnCount = document.getElementById("eveningTouchCount");
   if (btnCount) btnCount.innerText = `${eveningCount} / ${z.repeat}`;
 }
-function showSleepZikr(){
-  sleepCount = 0;
-  const z = azkarSleep[sleepIndex];
 
-  // نص الذكر فقط
+function showSleepZikr(){
+  if (!azkarSleep.length) return;
+
+  const z = azkarSleep[sleepIndex];
+  if (!z) return;
+
+  sleepCount = 0;
+
   document.getElementById("sleepZikrBox").textContent = z.text;
 
-  // العداد في زر التسبيح
   const btnCount = document.getElementById("sleepTouchCount");
   if (btnCount) btnCount.innerText = `${sleepCount} / ${z.repeat}`;
-}
-    
+} 
   function handlePrayerTap() {
   const z = azkarPrayer[prayerIndex];
   prayerCount++;
