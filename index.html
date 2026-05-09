@@ -3515,9 +3515,8 @@ function getPrayerTimes() {
           document.getElementById("maghrib").textContent = t.Maghrib;
           document.getElementById("isha").textContent = t.Isha;
 
-          status.textContent = "✅ تم تحديد المواقيت حسب موقعك";
-          box.classList.remove("hidden");
           status.style.display = "none";
+          box.classList.remove("hidden");
         })
         .catch(() => {
           status.textContent = "⚠️ فشل تحميل المواقيت";
