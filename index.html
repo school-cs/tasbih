@@ -2089,18 +2089,18 @@ function renderJawamiDua() {
   const container = document.getElementById("jawamiDuaContent");
   if (!container) return;
 
+  container.innerHTML = ""; // ✅ مهم جدًا
 
   jawamiDua.forEach(dua => {
     const p = document.createElement("p");
-    p.innerText = dua.text;
+    p.textContent = dua.text;
     p.onclick = () => handleDuaCopy(dua.text);
     container.appendChild(p);
   });
 }
-
 function openView(id) {
 
-  /* ✅ إيقاف أي وضع سابق */
+  // ✅ إيقاف أي وضع سابق
   setMode();
   isHomeActive = false;
 
@@ -2112,14 +2112,17 @@ function openView(id) {
   const ayahBar = document.getElementById("ayahBar");
   if (ayahBar) ayahBar.style.display = "none";
 
+  // ✅ إخفاء الصفحة الرئيسية
   const home = document.getElementById("home");
   if (home) home.classList.add("hidden");
 
+  // ✅ إخفاء جميع الصفحات
   document.querySelectorAll(".view").forEach(v => {
     v.classList.add("hidden");
     v.style.display = "none";
   });
 
+  // ✅ إظهار الصفحة المطلوبة
   const target = document.getElementById(id);
   if (!target) return;
 
@@ -2127,7 +2130,14 @@ function openView(id) {
   target.style.display = "block";
 
   /* ===============================
-     ⚙️ صفحة الإعدادات
+     🤲 جوامع الدعاء
+     =============================== */
+  if (id === "jawamiDua") {
+    renderJawamiDua(); // ✅ ارسمها دائمًا بدون شرط
+  }
+
+  /* ===============================
+     ⚙️ الإعدادات
      =============================== */
   if (id === "settings") {
     const cm = document.getElementById("completionMode");
@@ -2138,7 +2148,7 @@ function openView(id) {
   }
 
   /* ===============================
-     🕰️ صفحة مواقيت الصلاة
+     🕰️ مواقيت الصلاة
      =============================== */
   if (id === "prayersTime") {
     const status = document.getElementById("locationStatus");
@@ -2155,19 +2165,19 @@ function openView(id) {
   }
 
   /* ===============================
-     📿 صفحة السبحة
+     📿 السبحة
      =============================== */
   if (id === "tasbeeh") {
     setMode("tasbeeh");
-
     document.getElementById("zikrText").innerText = currentZikr || "";
-    document.getElementById("touchCount").innerText = count || "0";
     document.getElementById("count").innerText = count || "0";
+    document.getElementById("touchCount").innerText = count || "0";
   }
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 function backHome() {
+
   setMode();
 
   if (ayahTimer) {
@@ -2180,7 +2190,11 @@ function backHome() {
     v.style.display = "none";
   });
 
-  document.getElementById("home").classList.remove("hidden");
+  const home = document.getElementById("home");
+  if (home) {
+    home.classList.remove("hidden");
+    home.style.display = "grid";
+  }
 
   const ayahBar = document.getElementById("ayahBar");
   if (ayahBar) ayahBar.style.display = "flex";
@@ -2190,6 +2204,7 @@ function backHome() {
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
+
 function backLibrary(){
   setMode();
   isHomeActive = false;
