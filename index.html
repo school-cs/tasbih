@@ -348,9 +348,12 @@ body.night .touch{
   box-sizing:border-box;
   padding:12px 14px;
 
-  font-size: var(--font-base);   /* ✅ الصحيح */
+  font-size: var(--font-base);
   border-radius:12px;
-  border:1px solid rgba(0,
+  border:1px solid rgba(0,0,0,.15);
+  background: var(--card);
+  color: var(--text);
+}
 
 /* =========================================================
    🧹 زر مسح العدّادات
@@ -3401,15 +3404,14 @@ ctx.fillStyle = "#083344";
     y += 22;
   }
 
-  /* اسم التطبيق */
-  ctx.font = "13px Tajawal";
-  ctx.fillStyle = "#64748b";
-  ctx.fillText(
-    "تطبيق القرآن الكريم والسنة النبوية",
-    width / 2,
-    y
-  );
-
+/* اسم التطبيق */
+ctx.font = "13px Tajawal";
+ctx.fillStyle = "#64748b";
+ctx.fillText(
+  "تطبيق القرآن الكريم والسنة النبوية",
+  width / 2,
+  y
+);
   /* ✅ المشاركة الصحيحة */
   canvas.toBlob(blob => {
     const file = new File(
