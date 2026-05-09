@@ -1656,71 +1656,134 @@ function openPrayer(){
 
   prayerIndex = 0;
   prayerCount = 0;
-
   isHomeActive = false;
-  document.getElementById("home").classList.add("hidden");
-  document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
 
-  document.getElementById("prayer").classList.remove("hidden");
+  document.getElementById("home").classList.add("hidden");
+
+  document.querySelectorAll(".view").forEach(v => {
+    v.classList.add("hidden");
+    v.style.display = "none";
+  });
+
+  const page = document.getElementById("prayer");
+  page.classList.remove("hidden");
+  page.style.display = "block";
+
   document.getElementById("ayahBar").style.display = "none";
 
+  // ✅ إعادة ضبط الواجهة
+  document.getElementById("prayerFinishMsg").classList.add("hidden");
+
+  const box = document.getElementById("prayerZikrBox");
+  box.style.display = "block";
+  box.textContent = "";
+
+  // ✅ عرض الذكر الأول فورًا
   showPrayerZikr();
-  window.scrollTo({top:0});
+
+  window.scrollTo({ top: 0 });
 }
 function openMorning(){
   setMode("morning");
 
   morningIndex = 0;
   morningCount = 0;
-
-  // ❌ لا نستخدم openView هنا
   isHomeActive = false;
 
   document.getElementById("home").classList.add("hidden");
-  document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
 
-  document.getElementById("morning").classList.remove("hidden");
+  document.querySelectorAll(".view").forEach(v => {
+    v.classList.add("hidden");
+    v.style.display = "none";
+  });
+
+  const page = document.getElementById("morning");
+  page.classList.remove("hidden");
+  page.style.display = "block";
 
   document.getElementById("ayahBar").style.display = "none";
 
-  document.getElementById("morningZikrBox").style.display = "block";
+  // ✅ إعادة ضبط الواجهة
   document.getElementById("morningFinishMsg").classList.add("hidden");
 
+  const box = document.getElementById("morningZikrBox");
+  box.style.display = "block";
+  box.textContent = "";
+
+  document.getElementById("morningCounter").style.display = "flex";
+
+  // ✅ عرض الذكر الأول فورًا
   showMorningZikr();
+
   window.scrollTo({top:0});
 }
-
 function openEvening(){
   setMode("evening");
 
   eveningIndex = 0;
   eveningCount = 0;
-
   isHomeActive = false;
-  document.getElementById("home").classList.add("hidden");
-  document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
 
-  document.getElementById("evening").classList.remove("hidden");
+  document.getElementById("home").classList.add("hidden");
+
+  document.querySelectorAll(".view").forEach(v => {
+    v.classList.add("hidden");
+    v.style.display = "none";
+  });
+
+  const page = document.getElementById("evening");
+  page.classList.remove("hidden");
+  page.style.display = "block";
+
   document.getElementById("ayahBar").style.display = "none";
 
+  // ✅ إعادة ضبط الواجهة
+  document.getElementById("eveningFinishMsg").classList.add("hidden");
+
+  const box = document.getElementById("eveningZikrBox");
+  box.style.display = "block";
+  box.textContent = "";
+
+  document.getElementById("eveningCounter").style.display = "flex";
+
+  // ✅ عرض الذكر الأول فورًا
   showEveningZikr();
-  window.scrollTo({top:0});
+
+  window.scrollTo({ top: 0 });
 }
 function openSleep(){
   setMode("sleep");
 
   sleepIndex = 0;
   sleepCount = 0;
-
   isHomeActive = false;
-  document.getElementById("home").classList.add("hidden");
-  document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
 
-  document.getElementById("sleep").classList.remove("hidden");
+  document.getElementById("home").classList.add("hidden");
+
+  document.querySelectorAll(".view").forEach(v => {
+    v.classList.add("hidden");
+    v.style.display = "none";
+  });
+
+  const page = document.getElementById("sleep");
+  page.classList.remove("hidden");
+  page.style.display = "block";
+
   document.getElementById("ayahBar").style.display = "none";
 
+  // ✅ إعادة ضبط الواجهة
+  document.getElementById("sleepFinishMsg").classList.add("hidden");
+
+  const box = document.getElementById("sleepZikrBox");
+  box.style.display = "block";
+  box.textContent = "";
+
+  document.getElementById("sleepCounter").style.display = "flex";
+
+  // ✅ عرض الذكر الأول فورًا
   showSleepZikr();
-  window.scrollTo({top:0});
+
+  window.scrollTo({ top: 0 });
 }
     function playBeep(freq=600, duration=0.2){
   if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
