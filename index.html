@@ -333,7 +333,7 @@ body.night .touch{
   max-height:140px;
 
   line-height:2;
-  font-size:15px;
+
 
   overflow-y:auto;
 }
@@ -348,11 +348,9 @@ body.night .touch{
   box-sizing:border-box;
   padding:12px 14px;
 
-  font-size:15px;
+  font-size: var(--font-base);   /* ✅ الصحيح */
   border-radius:12px;
-  border:1px solid rgba(0,0,0,.15);
-}
-
+  border:1px solid rgba(0,
 
 /* =========================================================
    🧹 زر مسح العدّادات
@@ -367,7 +365,7 @@ body.night .touch{
   max-width:220px;
   margin:auto;
   min-height:42px;
-  font-size:14px;
+  font-size: var(--font-small);
   font-weight:800;
 }
 
@@ -1317,10 +1315,10 @@ small{
   </label>
 
   <select id="fontSize" onchange="setFontSize(this.value)">
-    &lt;option value="small"&gt;صغير&lt;/option&gt;
-    &lt;option value="medium"&gt;متوسط (افتراضي)&lt;/option&gt;
-    &lt;option value="large"&gt;كبير&lt;/option&gt;
-  </select>
+  <option value="small">صغير</option>
+  <option value="medium">متوسط (افتراضي)</option>
+  <option value="large">كبير</option>
+</select>
 </div>
 </div>
  
@@ -3373,19 +3371,19 @@ function shareAsmaImage(name, text, source) {
   ctx.fillRect(0, 0, width, height);
 
   let y = padding;
+/* اسم الله */
+ctx.font = "bold 44px 'IBM Plex Arabic'";
+ctx.textAlign = "center";
+ctx.fillStyle = "#0f766e";
+ctx.fillText(name, width / 2, y);
 
-  /* اسم الله */
-  ctx.font = "bold 44px Tajawal";
-  ctx.textAlign = "center";
-  ctx.fillStyle = "#0f766e";
-  ctx.fillText(name, width / 2, y);
+y += 40;
 
-  y += 40;
+/* الشرح */
+ctx.font = "26px 'IBM Plex Arabic'";
+ctx.textAlign = "right";
+ctx.fillStyle = "#083344";
 
-  /* الشرح */
-  ctx.font = "26px Tajawal";
-  ctx.textAlign = "right";
-  ctx.fillStyle = "#083344";
 
   lines.forEach(l => {
     ctx.fillText(l, width - padding, y);
