@@ -1900,47 +1900,48 @@ function setFontSize(size){
 
 
 window.onload = () => {
+
+  /* ✅ التحقق من يوم جديد */
   const todayKey = new Date().toISOString().split('T')[0];
-const lastDay = localStorage.getItem('lastStatsDay');
+  const lastDay = localStorage.getItem('lastStatsDay');
 
-if (lastDay !== todayKey) {
-
-  // ✅ حذف الإحصائيات المخزنة
-  localStorage.removeItem('stats');
-
-  // ✅ مسح النسخة الموجودة في الذاكرة
-  for (let k in stats) {
-    delete stats[k];
+  if (lastDay !== todayKey) {
+    localStorage.removeItem('stats');
+    for (let k in stats) {
+      delete stats[k];
+    }
+    localStorage.setItem('lastStatsDay', todayKey);
   }
 
-  // ✅ حفظ تاريخ اليوم
-  localStorage.setItem('lastStatsDay', todayKey);
-}
-
+  /* ✅ الوضع الليلي */
   document.body.classList.toggle(
     'night',
     localStorage.getItem('night') === '1'
   );
 
+  /* ✅ تهيئة القيم الأساسية */
   document.getElementById('maxLabel').innerText = max;
   showAyahBar();
-// ✅ مزامنة إعداد تنبيه الاكتمال مع صفحة الإعدادات
-const savedMode = localStorage.getItem('completionMode') || 'none';
-const modeSelect = document.getElementById('completionMode');
-if (modeSelect) {
-  modeSelect.value = savedMode;
-}
 
-const savedFont = localStorage.getItem("fontSize") || "medium";
-const fontSelect = document.getElementById("fontSize");
+  /* ✅ مزامنة تنبيه الاكتمال */
+  const savedMode = localStorage.getItem('completionMode') || 'none';
+  const modeSelect = document.getElementById('completionMode');
+  if (modeSelect) {
+    modeSelect.value = savedMode;
+  }
 
-if (fontSelect){
-  fontSelect.value = savedFont;
-}
+  /* =========================
+     ✅ تهيئة حجم الخط
+     ========================= */
+  const savedFont = localStorage.getItem("fontSize") || "medium";
+  const fontSelect = document.getElementById("fontSize");
 
-setFontSize(savedFont);
+  if (fontSelect){
+    fontSelect.value = savedFont;
+  }
+
+  setFontSize(savedFont);
 };
-
 
 const jawamiDua = [
 
