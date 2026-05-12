@@ -37,8 +37,8 @@
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icon-512.png">
 
-  <!-- ✅ خط Tajawal -->
- <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- ✅ خط IBM Plex Arabic -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- ✅ CSS -->
  
   <style>
@@ -1457,11 +1457,27 @@ let ayahTimer = null;     // مؤقّت شريط الآيات
   completionMode = val;
   localStorage.setItem('completionMode', val);
 }
-let max=parseInt(localStorage.getItem('max')||'100');
-let count=0,currentZikr='';
+let max = parseInt(localStorage.getItem('max') || '100');
+let count = 0, currentZikr = '';
 const today = new Date().toISOString().split('T')[0];
-const stats=JSON.parse(localStorage.getItem('stats')||'{}');
-let audioCtx=null;
+const stats = JSON.parse(localStorage.getItem('stats') || '{}');
+let audioCtx = null;
+
+/* ✅ DOM Cache */
+const countEl = document.getElementById("count");
+const touchCountEl = document.getElementById("touchCount");
+
+/* ✅ DOM Cache – أذكار الصلاة */
+const prayerTouchCountEl = document.getElementById("prayerTouchCount");
+
+/* ✅ DOM Cache – الصباح */
+const morningTouchCountEl = document.getElementById("morningTouchCount");
+
+/* ✅ DOM Cache – المساء */
+const eveningTouchCountEl = document.getElementById("eveningTouchCount");
+
+/* ✅ DOM Cache – النوم */
+const sleepTouchCountEl = document.getElementById("sleepTouchCount");
 
    
     let currentMode = "none";   // none | tasbeeh | prayer
@@ -1502,8 +1518,7 @@ function showPrayerZikr(){
 
   document.getElementById("prayerZikrBox").textContent = z.text;
 
-  const btnCount = document.getElementById("prayerTouchCount");
-  if (btnCount) btnCount.innerText = `${prayerCount} / ${z.repeat}`;
+ prayerTouchCountEl.innerText = `${prayerCount} / ${z.repeat}`;
 }
   function showMorningZikr(){
   if (!azkarMorning.length) return;
@@ -1515,8 +1530,8 @@ function showPrayerZikr(){
 
   document.getElementById("morningZikrBox").textContent = z.text;
 
-  const btnCount = document.getElementById("morningTouchCount");
-  if (btnCount) btnCount.innerText = `${morningCount} / ${z.repeat}`;
+  morningTouchCountEl.innerText = `${morningCount} / ${z.repeat}`;
+   
 }
 function showEveningZikr(){
   if (!azkarEvening.length) return;
@@ -1528,8 +1543,8 @@ function showEveningZikr(){
 
   document.getElementById("eveningZikrBox").textContent = z.text;
 
-  const btnCount = document.getElementById("eveningTouchCount");
-  if (btnCount) btnCount.innerText = `${eveningCount} / ${z.repeat}`;
+  eveningTouchCountEl.innerText = `${eveningCount} / ${z.repeat}`;
+ 
 }
 
 function showSleepZikr(){
@@ -1542,8 +1557,7 @@ function showSleepZikr(){
 
   document.getElementById("sleepZikrBox").textContent = z.text;
 
-  const btnCount = document.getElementById("sleepTouchCount");
-  if (btnCount) btnCount.innerText = `${sleepCount} / ${z.repeat}`;
+ sleepTouchCountEl.innerText = `${sleepCount} / ${z.repeat}`;
 } 
   function handlePrayerTap() {
   const z = azkarPrayer[prayerIndex];
@@ -1553,10 +1567,7 @@ function showSleepZikr(){
   document.getElementById("prayerZikrBox").textContent = z.text;
 
   // ✅ العدّ يظهر فقط في زر التسبيح
-  const btnCount = document.getElementById("prayerTouchCount");
-  if (btnCount) {
-    btnCount.innerText = `${prayerCount} / ${z.repeat}`;
-  }
+  prayerTouchCountEl.innerText = `${prayerCount} / ${z.repeat}`;
 
   if (prayerCount < z.repeat) return;
 
@@ -1584,8 +1595,7 @@ function handleMorningTap(){
   document.getElementById("morningZikrBox").textContent = z.text;
 
   // ✅ العدّ يظهر فقط في زر التسبيح
-  const btnCount = document.getElementById("morningTouchCount");
-  if (btnCount) btnCount.innerText = `${morningCount} / ${z.repeat}`;
+  morningTouchCountEl.innerText = `${morningCount} / ${z.repeat}`;
 
   if (morningCount < z.repeat) return;
 
@@ -1611,8 +1621,7 @@ function handleEveningTap(){
 
   document.getElementById("eveningZikrBox").textContent = z.text;
 
-  const btnCount = document.getElementById("eveningTouchCount");
-  if (btnCount) btnCount.innerText = `${eveningCount} / ${z.repeat}`;
+ eveningTouchCountEl.innerText = `${eveningCount} / ${z.repeat}`;
 
   if (eveningCount < z.repeat) return;
 
@@ -1640,8 +1649,8 @@ function handleEveningTap(){
   document.getElementById("sleepZikrBox").textContent = z.text;
 
   // تحديث العداد
-  const btnCount = document.getElementById("sleepTouchCount");
-  if (btnCount) btnCount.innerText = `${sleepCount} / ${z.repeat}`;
+sleepTouchCountEl.innerText = `${sleepCount} / ${z.repeat}`;
+
 
   if (sleepCount < z.repeat) return;
 
@@ -1823,14 +1832,9 @@ function showAyahBar() {
 
   // ✅ تمييز الآية عن الحديث
   if (item.type === "ayah") {
-    textEl.innerHTML =
-      '<span style="margin-left:6px;">قال الله تعالى</span>' +
-      '<span class="ayah-bracket">﴿</span>' +
-      cleanText +
-      '<span class="ayah-bracket">﴾</span>';
+textEl.textContent = `قال الله تعالى ﴿ ${cleanText} ﴾`;
   } else {
-    textEl.innerHTML =
-      '<span class="hadith-text">' + cleanText + '</span>';
+  textEl.textContent = cleanText;
   }
 
   // ✅ إعادة تشغيل حركة التمرير
@@ -1872,8 +1876,8 @@ function changeZikr(){
   currentZikr = s.value;
   count = parseInt(localStorage.getItem(currentZikr)) || 0;
 
-  document.getElementById('count').innerText = count;
-  document.getElementById('touchCount').innerText = count;
+  countEl.innerText = count;
+touchCountEl.innerText = count;
   document.getElementById('zikrText').innerText = currentZikr;
 }
 
@@ -1888,8 +1892,8 @@ function increment(){
 
   count++;
   localStorage.setItem(currentZikr, count);
-  document.getElementById('count').innerText = count;
-  document.getElementById('touchCount').innerText = count;
+  countEl.innerText = count;
+touchCountEl.innerText = count;
 
   // ✅ تحديث إحصائيات اليوم
   if (!stats[today]) stats[today] = {};
@@ -1913,8 +1917,8 @@ function increment(){
     setTimeout(() => {
       count = 0;
       localStorage.setItem(currentZikr, 0);
-      document.getElementById('count').innerText = 0;
-      document.getElementById('touchCount').innerText = 0;
+     countEl.innerText = 0;
+touchCountEl.innerText = 0;
     }, 300);
   }
 }
@@ -1922,6 +1926,7 @@ function clearCount(){
 
   /* ✅ مسح إحصائيات اليوم */
   localStorage.removeItem('stats');
+localStorage.removeItem('lastStatsDay');
 
   // ✅ مسح الذاكرة فورًا
   for (let k in stats) delete stats[k];
@@ -1939,9 +1944,8 @@ function clearCount(){
 
   document.getElementById('zikr').value = '';
   document.getElementById('zikrText').innerText = '';
-  document.getElementById('count').innerText = '0';
-  document.getElementById('touchCount').innerText = '0';
-
+ countEl.innerText = '0';
+touchCountEl.innerText = '0';
   showStats();
 }
 
@@ -2184,8 +2188,9 @@ function openView(id) {
     location.hash = id;
   }
   // ✅ تحديد الوضع الصحيح
-setMode(id === "tasbeeh" ? "tasbeeh" : "none");
-// ✅ باقي الصفحات الخاصة (الصلاة، الصباح، المساء، النوم)
+const validModes = ["tasbeeh", "prayer", "morning", "evening", "sleep"];
+setMode(validModes.includes(id) ? id : "none");
+ // ✅ باقي الصفحات الخاصة (الصلاة، الصباح، المساء، النوم)
 // ✅ تتحكم بالـ mode من دوالها الخاصة (openPrayer / openMorning ...)
 
   isHomeActive = false;
