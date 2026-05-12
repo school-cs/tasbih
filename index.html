@@ -2185,91 +2185,96 @@ jawamiDua.forEach(dua => {
 container.appendChild(fragment);
 }
 function openView(id) {
-// ✅ مزامنة الرابط مع الصفحة
+
+  /* ✅ مزامنة الرابط مع الصفحة */
   if (location.hash.replace("#", "") !== id) {
     location.hash = id;
   }
-  // ✅ تحديد الوضع الصحيح
-const validModes = ["tasbeeh", "prayer", "morning", "evening", "sleep"];
-setMode(validModes.includes(id) ? id : "none");
- // ✅ باقي الصفحات الخاصة (الصلاة، الصباح، المساء، النوم)
-// ✅ تتحكم بالـ mode من دوالها الخاصة (openPrayer / openMorning ...)
+
+  /* ✅ تحديد الوضع (التسبيح – الأذكار فقط) */
+  const validModes = ["tasbeeh", "prayer", "morning", "evening", "sleep"];
+  setMode(validModes.includes(id) ? id : "none");
 
   isHomeActive = false;
 
+  /* ✅ إيقاف شريط الآيات */
   if (ayahTimer) {
     clearTimeout(ayahTimer);
     ayahTimer = null;
   }
+  document.getElementById("ayahBar")?.style.display = "none";
 
-  const ayahBar = document.getElementById("ayahBar");
-  if (ayahBar) ayahBar.style.display = "none";
-
+  /* ✅ إخفاء الصفحة الرئيسية */
   document.getElementById("home")?.classList.add("hidden");
 
+  /* ✅ إخفاء كل الصفحات */
   document.querySelectorAll(".view").forEach(v => {
     v.classList.add("hidden");
     v.style.display = "none";
   });
 
-const page = document.getElementById(id);
-if (!page) return;
+  /* ✅ إظهار الصفحة المطلوبة */
+  const page = document.getElementById(id);
+  if (!page) return;
 
-// ✅ الحارس الصحيح في مشروعك
-if (!page.classList.contains("hidden")) return;
+  page.classList.remove("hidden");
+  page.style.display = "block";
 
-page.classList.remove("hidden");
-page.style.display = "block";
+  /* =========================
+     📌 صفحات بمحتوى خاص
+     ========================= */
 
- // ✅ تحميل جوامع الدعاء عند فتح الصفحة
+  /* 🤲 جوامع الدعاء */
   if (id === "jawamiDua") {
     renderJawamiDua();
-  } 
- if (id === "names") {
-  renderAsmaCards();
-}
+  }
+
+  /* 🕋 أسماء الله الحسنى */
+  if (id === "names") {
+    renderAsmaCards();
+  }
+
   /* ⚙️ الإعدادات */
   if (id === "settings") {
+    setMode("none");
 
-  setMode("none");
+    const completion = document.getElementById("completionMode");
+    const font = document.getElementById("fontSize");
 
-  const completion = document.getElementById("completionMode");
-  const font = document.getElementById("fontSize");
+    if (completion) {
+      completion.value =
+        localStorage.getItem("completionMode") || "none";
+    }
 
-  if (completion) {
-    completion.value =
-      localStorage.getItem("completionMode") || "none";
+    if (font) {
+      const savedFont = localStorage.getItem("fontSize") || "medium";
+      font.value = savedFont;
+      setFontSize(savedFont);
+    }
   }
-
-  if (font) {
-    const savedFont = localStorage.getItem("fontSize") || "medium";
-    font.value = savedFont;
-    setFontSize(savedFont); // ✅ مهم
-  }
-}
 
   /* 🕰️ مواقيت الصلاة */
- if (id === "prayersTime") {
+  if (id === "prayersTime") {
+    setMode("none");
 
-  setMode("none");
+    const status = document.getElementById("locationStatus");
+    const box = document.getElementById("prayerTimesBox");
+    const nextBox = document.getElementById("nextPrayerBox");
 
-  const status = document.getElementById("locationStatus");
-  const box = document.getElementById("prayerTimesBox");
-  const nextBox = document.getElementById("nextPrayerBox");
+    if (status) {
+      status.style.display = "block";
+      status.textContent = "📍 جارٍ تحديد موقعك…";
+    }
 
-  if (status) {
-    status.style.display = "block";
-    status.textContent = "📍 جارٍ تحديد موقعك…";
+    if (box) box.classList.add("hidden");
+    if (nextBox) nextBox.style.display = "none";
+
+    /* ✅ تأخير بسيط لضمان جاهزية DOM */
+    setTimeout(getPrayerTimes, 300);
   }
 
-  if (box) box.classList.add("hidden");
-  if (nextBox) nextBox.style.display = "none";
-
-  // ✅ تأكد أنه يعمل بعد تحميل الصفحة
-  setTimeout(() => {
-    getPrayerTimes();
-  }, 400);
-}
+  /* ✅ العودة للأعلى */
+  window.scrollTo({ top: 0 });
 }
 function backHome() {
 // ✅ العودة إلى رابط الصفحة الرئيسية
