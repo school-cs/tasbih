@@ -2212,13 +2212,14 @@ setMode(validModes.includes(id) ? id : "none");
     v.style.display = "none";
   });
 
-  const page = document.getElementById(id);
-  if (!page) return;
+const page = document.getElementById(id);
+if (!page) return;
 
- if (page.style.display === "block") return;
- 
-  page.classList.remove("hidden");
-  page.style.display = "block";
+// ✅ الحارس الصحيح في مشروعك
+if (!page.classList.contains("hidden")) return;
+
+page.classList.remove("hidden");
+page.style.display = "block";
 
  // ✅ تحميل جوامع الدعاء عند فتح الصفحة
   if (id === "jawamiDua") {
