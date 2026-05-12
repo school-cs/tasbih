@@ -37,8 +37,8 @@
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icon-512.png">
 
-<!-- ✅ خط IBM Plex Arabic -->
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- ✅ خط Tajawal -->
+ <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- ✅ CSS -->
  
   <style>
@@ -573,27 +573,8 @@ small{
 
 .toast.show{
   opacity: 1;                 /* ✅ يظهر فقط عند الإظهار */
-
-}
-/* ✅ منع حجب النقر */
-.info-section{
-  position: relative;
-  z-index: 0;
 }
 
-.dashboard{
-  position: relative;
-  z-index: 5;
-}
- /* ✅ الحل النهائي لمشكلة الأيقونات */
-.info-section{
-  pointer-events: none;
-}
-
-.info-section details{
-  pointer-events: auto;
-}
-  
   </style>
 </head>
 <body>
@@ -612,67 +593,96 @@ small{
   </div>
 </div>
     <!-- ✅ الصفحة الرئيسية (Dashboard) -->
-<div id="home" class="dashboard view">
+
+<div id="home" class="dashboard">
 
   <div style="grid-column:1/-1;text-align:center;font-weight:bold;font-size:16px;opacity:.75;">
     اختر القسم
   </div>
 
-  <button onclick="navigate('quran')"><span>القرآن الكريم</span></button>
-  <button onclick="navigate('dua')"><span>الدعاء</span></button>
+  <button onclick="openView('quran')">
+    <span>القرآن الكريم</span>
+  </button>
 
-  <button onclick="navigate('morning')"><span>أذكار الصباح</span></button>
-  <button onclick="navigate('evening')"><span>أذكار المساء</span></button>
-  <button onclick="navigate('prayer')"><span>أذكار الصلاة</span></button>
-  <button onclick="navigate('sleep')"><span>أذكار النوم</span></button>
+  <button onclick="openView('dua')">
+    <span>الدعاء</span>
+  </button>
 
-  <button onclick="navigate('library')"><span>📚 المكتبة</span></button>
-  <button onclick="navigate('tasbeeh')"><span>السبحة</span></button>
-  <button onclick="navigate('prayersTime')"><span>مواقيت الصلاة</span></button>
-  <button onclick="navigate('settings')"><span>⚙️ الإعدادات</span></button>
+<button onclick="openMorning()">
+  <span>أذكار الصباح</span>
+</button>
+  
+  <button onclick="openEvening()">
+  <span>أذكار المساء</span>
+</button>
 
-</div>
+  <button onclick="openPrayer()">
+  <span>أذكار الصلاة</span>
+</button>
 
+<button onclick="openSleep()">
+  <span>أذكار النوم</span>
+</button>
+
+<button onclick="openView('library')">
+  <span>📚 المكتبة</span>
+</button>
+  
+  <button class="tasbeeh-btn" onclick="openView('tasbeeh')">
+    <span>السبحة</span>
+  </button>
+
+<button onclick="openView('prayersTime')">
+ <span>مواقيت الصلاة</span>
+</button>
+
+<button onclick="openView('settings')">
+  <span>⚙️ الإعدادات</span>
+</button>
 <section class="info-section" style="grid-column:1/-1;">
-  <div class="info-box">
-    <h3>📿 ما هي السبحة الإلكترونية؟</h3>
+  <details>
+    <summary>📿 ما هي السبحة الإلكترونية؟ وكيف تُستخدم كتطبيق</summary>
 
+    <h3>📱 ما هي السبحة الإلكترونية؟</h3>
     <p>
-      السبحة الإلكترونية أداة رقمية حديثة صُمِّمت لمساعدة المسلم
-      على التسبيح وذكر الله بسهولة وانتظام.
+      السبحة الإلكترونية أداة رقمية حديثة صُمِّمت لمساعدة المسلم على التسبيح
+      وذكر الله بسهولة وانتظام. تعمل كعدّاد تسبيح إلكتروني دقيق،
+      ويمكن استخدامها على الهاتف الجوال أو عبر المتصفح،
+      وتُعد بديلًا عمليًا للسبحة التقليدية.
     </p>
 
-    <h3>✅ مميزاتها</h3>
+    <h3>✅ مميزات عدّاد التسبيح الإلكتروني</h3>
     <ul>
-      <li>✅ تعمل بدون إنترنت</li>
-      <li>📱 مناسبة للجوال</li>
-      <li>🔢 عدّاد دقيق</li>
+      <li>✅ يعمل بدون اتصال بالإنترنت</li>
+      <li>📱 مناسب للجوال</li>
+      <li>🔢 عدّاد واضح ودقيق</li>
       <li>💾 حفظ تلقائي</li>
+      <li>📊 إحصائيات يومية</li>
     </ul>
-  </div>
-</section>
+  </details>
 </section>
 
 </div>
    
     
     <div id="quran" class="view hidden">
-<button onclick="navigate('home')">🏠 الرئيسية</button>
+<button onclick="backHome()">🏠 الرئيسية</button>
   <h2> القرآن الكريم</h2>
 </div>
 <div id="dua" class="view hidden">
-<button onclick="navigate('home')">🏠 الرئيسية</button>
+  <button onclick="backHome()">🏠 الرئيسية</button>
   <h2>🤲 الدعاء</h2>
 
   <button disabled>◈ الدعاء من القرآن الكريم </button>
   <button disabled>◈ الدعاء من السنة النبوية </button>
-<button onclick="navigate('jawamiDua')">
-  ◈ جوامع الدعاء
-</button>
-</div>
 
- <div id="jawamiDua" class="view hidden">
-<button onclick="navigate('dua')">⬅ الدعاء</button>
+  <button onclick="openView('jawamiDua')">
+    ◈ جوامع الدعاء
+  </button>
+</div>
+<div id="jawamiDua" class="view hidden">
+
+  <button onclick="openView('dua')">⬅ الدعاء</button>
 
   <h2 class="dua-title">🤲 جوامع الدعاء</h2>
   <p class="dua-intro">
@@ -684,7 +694,7 @@ small{
 </div>
   
 <div id="prayer" class="view hidden">
-<button onclick="navigate('home')">🏠 الرئيسية</button>
+  <button onclick="backHome()">🏠 الرئيسية</button>
   <h2>🕌 أذكار الصلاة</h2>
 
   <div class="zikrText" id="prayerZikrBox"></div>
@@ -711,7 +721,7 @@ small{
 </div>
 <div id="morning" class="view hidden">
 
-<button onclick="navigate('home')">🏠 الرئيسية</button>
+<button onclick="backHome()">🏠 الرئيسية</button>
   <h2>🌅 أذكار الصباح</h2>
 
   <div class="zikrText" id="morningZikrBox"></div>
@@ -743,7 +753,7 @@ small{
 
 </div>
 <div id="evening" class="view hidden">
-<button onclick="navigate('home')">🏠 الرئيسية</button>
+<button onclick="backHome()">🏠 الرئيسية</button>
   <h2>🌙 أذكار المساء</h2>
 
   <div class="zikrText" id="eveningZikrBox"></div>
@@ -775,7 +785,7 @@ small{
 </div>
 
 <div id="sleep" class="view hidden">
-<button onclick="navigate('home')">🏠 الرئيسية</button>
+<button onclick="backHome()">🏠 الرئيسية</button>
   <h2> أذكار النوم</h2>
 
   <div class="zikrText" id="sleepZikrBox"></div>
@@ -812,17 +822,15 @@ small{
     اختر من المكتبة
   </div>
 
-
-<button onclick="navigate('names')">
+  <button onclick="openView('names')">
     <span>أسماء الله الحسنى</span>
   </button>
 
-<button onclick="navigate('asma2')">
- <span>أسماء الله الحسنى (شرح آخر)</span>
+  <button onclick="openView('asma2')">
+    <span>أسماء الله الحسنى (شرح آخر)</span>
   </button>
 
-
-<button onclick="navigate('hadiths')">
+  <button onclick="openView('hadiths')">
   <span>الأحاديث النبوية</span>
 </button>
 </div>
@@ -1220,13 +1228,13 @@ small{
 
 <!-- 📘 أسماء الله الحسنى (شرح آخر) -->
 <div id="asma2" class="view hidden">
-<button onclick="navigate('home')">🏠 الرئيسية</button>
+  <button onclick="backHome()">🏠 الرئيسية</button>
   <h2>أسماء الله الحسنى (شرح آخر)</h2>
 </div>
 
 <!-- 📚 كتب مختارة -->
 <div id="books" class="view hidden">
-<button onclick="navigate('home')">🏠 الرئيسية</button>
+  <button onclick="backHome()">🏠 الرئيسية</button>
   <h2>كتب مختارة</h2>
 </div>
 
@@ -1237,7 +1245,7 @@ small{
 
 <!-- 📿 السبحة -->
 <div id="tasbeeh" class="view hidden">
-<button onclick="navigate('home')">🏠 الرئيسية</button>
+ <button onclick="backHome()">🏠 الرئيسية</button>
 
   <div id="tasbeehUI">
 
@@ -1310,16 +1318,11 @@ small{
   </div>
 
 <div id="prayersTime" class="view hidden">
-  <button onclick="navigate('home')">🏠 الرئيسية</button>
+  <button onclick="backHome()">🏠 الرئيسية</button>
   <h2>🕰️ مواقيت الصلاة</h2>
 
   <div id="locationStatus" class="zikrText">
     📍 جارٍ تحديد موقعك…
-  </div>
-
-  <!-- ✅ عدّاد الصلاة القادمة -->
-  <div id="nextPrayerBox" class="zikrText" style="text-align:center; display:none;">
-    ⏳ جارٍ حساب الصلاة القادمة…
   </div>
 
   <div id="prayerTimesBox" class="dashboard hidden">
@@ -1331,7 +1334,7 @@ small{
   </div>
 </div>
  <div id="settings" class="view hidden">
-<button onclick="navigate('home')">🏠 الرئيسية</button>
+<button onclick="backHome()">🏠 الرئيسية</button>
   <h2>⚙️ الإعدادات</h2>
 
   <div class="settings">
@@ -1450,27 +1453,11 @@ let ayahTimer = null;     // مؤقّت شريط الآيات
   completionMode = val;
   localStorage.setItem('completionMode', val);
 }
-let max = parseInt(localStorage.getItem('max') || '100');
-let count = 0, currentZikr = '';
+let max=parseInt(localStorage.getItem('max')||'100');
+let count=0,currentZikr='';
 const today = new Date().toISOString().split('T')[0];
-const stats = JSON.parse(localStorage.getItem('stats') || '{}');
-let audioCtx = null;
-
-/* ✅ DOM Cache */
-const countEl = document.getElementById("count");
-const touchCountEl = document.getElementById("touchCount");
-
-/* ✅ DOM Cache – أذكار الصلاة */
-const prayerTouchCountEl = document.getElementById("prayerTouchCount");
-
-/* ✅ DOM Cache – الصباح */
-const morningTouchCountEl = document.getElementById("morningTouchCount");
-
-/* ✅ DOM Cache – المساء */
-const eveningTouchCountEl = document.getElementById("eveningTouchCount");
-
-/* ✅ DOM Cache – النوم */
-const sleepTouchCountEl = document.getElementById("sleepTouchCount");
+const stats=JSON.parse(localStorage.getItem('stats')||'{}');
+let audioCtx=null;
 
    
     let currentMode = "none";   // none | tasbeeh | prayer
@@ -1511,7 +1498,8 @@ function showPrayerZikr(){
 
   document.getElementById("prayerZikrBox").textContent = z.text;
 
- prayerTouchCountEl.innerText = `${prayerCount} / ${z.repeat}`;
+  const btnCount = document.getElementById("prayerTouchCount");
+  if (btnCount) btnCount.innerText = `${prayerCount} / ${z.repeat}`;
 }
   function showMorningZikr(){
   if (!azkarMorning.length) return;
@@ -1523,8 +1511,8 @@ function showPrayerZikr(){
 
   document.getElementById("morningZikrBox").textContent = z.text;
 
-  morningTouchCountEl.innerText = `${morningCount} / ${z.repeat}`;
-   
+  const btnCount = document.getElementById("morningTouchCount");
+  if (btnCount) btnCount.innerText = `${morningCount} / ${z.repeat}`;
 }
 function showEveningZikr(){
   if (!azkarEvening.length) return;
@@ -1536,8 +1524,8 @@ function showEveningZikr(){
 
   document.getElementById("eveningZikrBox").textContent = z.text;
 
-  eveningTouchCountEl.innerText = `${eveningCount} / ${z.repeat}`;
- 
+  const btnCount = document.getElementById("eveningTouchCount");
+  if (btnCount) btnCount.innerText = `${eveningCount} / ${z.repeat}`;
 }
 
 function showSleepZikr(){
@@ -1550,7 +1538,8 @@ function showSleepZikr(){
 
   document.getElementById("sleepZikrBox").textContent = z.text;
 
- sleepTouchCountEl.innerText = `${sleepCount} / ${z.repeat}`;
+  const btnCount = document.getElementById("sleepTouchCount");
+  if (btnCount) btnCount.innerText = `${sleepCount} / ${z.repeat}`;
 } 
   function handlePrayerTap() {
   const z = azkarPrayer[prayerIndex];
@@ -1560,7 +1549,10 @@ function showSleepZikr(){
   document.getElementById("prayerZikrBox").textContent = z.text;
 
   // ✅ العدّ يظهر فقط في زر التسبيح
-  prayerTouchCountEl.innerText = `${prayerCount} / ${z.repeat}`;
+  const btnCount = document.getElementById("prayerTouchCount");
+  if (btnCount) {
+    btnCount.innerText = `${prayerCount} / ${z.repeat}`;
+  }
 
   if (prayerCount < z.repeat) return;
 
@@ -1588,7 +1580,8 @@ function handleMorningTap(){
   document.getElementById("morningZikrBox").textContent = z.text;
 
   // ✅ العدّ يظهر فقط في زر التسبيح
-  morningTouchCountEl.innerText = `${morningCount} / ${z.repeat}`;
+  const btnCount = document.getElementById("morningTouchCount");
+  if (btnCount) btnCount.innerText = `${morningCount} / ${z.repeat}`;
 
   if (morningCount < z.repeat) return;
 
@@ -1614,7 +1607,8 @@ function handleEveningTap(){
 
   document.getElementById("eveningZikrBox").textContent = z.text;
 
- eveningTouchCountEl.innerText = `${eveningCount} / ${z.repeat}`;
+  const btnCount = document.getElementById("eveningTouchCount");
+  if (btnCount) btnCount.innerText = `${eveningCount} / ${z.repeat}`;
 
   if (eveningCount < z.repeat) return;
 
@@ -1642,8 +1636,8 @@ function handleEveningTap(){
   document.getElementById("sleepZikrBox").textContent = z.text;
 
   // تحديث العداد
-sleepTouchCountEl.innerText = `${sleepCount} / ${z.repeat}`;
-
+  const btnCount = document.getElementById("sleepTouchCount");
+  if (btnCount) btnCount.innerText = `${sleepCount} / ${z.repeat}`;
 
   if (sleepCount < z.repeat) return;
 
@@ -1825,9 +1819,14 @@ function showAyahBar() {
 
   // ✅ تمييز الآية عن الحديث
   if (item.type === "ayah") {
-textEl.textContent = `قال الله تعالى ﴿ ${cleanText} ﴾`;
+    textEl.innerHTML =
+      '<span style="margin-left:6px;">قال الله تعالى</span>' +
+      '<span class="ayah-bracket">﴿</span>' +
+      cleanText +
+      '<span class="ayah-bracket">﴾</span>';
   } else {
-  textEl.textContent = cleanText;
+    textEl.innerHTML =
+      '<span class="hadith-text">' + cleanText + '</span>';
   }
 
   // ✅ إعادة تشغيل حركة التمرير
@@ -1869,8 +1868,8 @@ function changeZikr(){
   currentZikr = s.value;
   count = parseInt(localStorage.getItem(currentZikr)) || 0;
 
-  countEl.innerText = count;
-touchCountEl.innerText = count;
+  document.getElementById('count').innerText = count;
+  document.getElementById('touchCount').innerText = count;
   document.getElementById('zikrText').innerText = currentZikr;
 }
 
@@ -1885,8 +1884,8 @@ function increment(){
 
   count++;
   localStorage.setItem(currentZikr, count);
-  countEl.innerText = count;
-touchCountEl.innerText = count;
+  document.getElementById('count').innerText = count;
+  document.getElementById('touchCount').innerText = count;
 
   // ✅ تحديث إحصائيات اليوم
   if (!stats[today]) stats[today] = {};
@@ -1910,8 +1909,8 @@ touchCountEl.innerText = count;
     setTimeout(() => {
       count = 0;
       localStorage.setItem(currentZikr, 0);
-     countEl.innerText = 0;
-touchCountEl.innerText = 0;
+      document.getElementById('count').innerText = 0;
+      document.getElementById('touchCount').innerText = 0;
     }, 300);
   }
 }
@@ -1919,7 +1918,6 @@ function clearCount(){
 
   /* ✅ مسح إحصائيات اليوم */
   localStorage.removeItem('stats');
-localStorage.removeItem('lastStatsDay');
 
   // ✅ مسح الذاكرة فورًا
   for (let k in stats) delete stats[k];
@@ -1937,8 +1935,9 @@ localStorage.removeItem('lastStatsDay');
 
   document.getElementById('zikr').value = '';
   document.getElementById('zikrText').innerText = '';
- countEl.innerText = '0';
-touchCountEl.innerText = '0';
+  document.getElementById('count').innerText = '0';
+  document.getElementById('touchCount').innerText = '0';
+
   showStats();
 }
 
@@ -2050,8 +2049,6 @@ window.onload = () => {
   }
 
   setFontSize(savedFont);
-handleRoute(); // ✅ تفعيل الراوتر عند تحميل الصفحة
-
 };
 
 const jawamiDua = [
@@ -2164,107 +2161,75 @@ function renderJawamiDua() {
 
   container.innerHTML = ""; // ✅ مهم جدًا
 
-  const fragment = document.createDocumentFragment();
-
-jawamiDua.forEach(dua => {
-  const p = document.createElement("p");
-  p.textContent = dua.text;
-  p.onclick = () => handleDuaCopy(dua.text);
-  fragment.appendChild(p);
-});
-
-container.appendChild(fragment);
+  jawamiDua.forEach(dua => {
+    const p = document.createElement("p");
+    p.textContent = dua.text;
+    p.onclick = () => handleDuaCopy(dua.text);
+    container.appendChild(p);
+  });
 }
 function openView(id) {
 
-  /* ✅ تحديد الوضع */
-  const validModes = ["tasbeeh", "prayer", "morning", "evening", "sleep"];
-  setMode(validModes.includes(id) ? id : "none");
+  // ✅ تحديد الوضع الصحيح
+  setMode(id === "tasbeeh" ? "tasbeeh" : "none");
 
   isHomeActive = false;
 
-  /* ✅ إيقاف شريط الآيات */
   if (ayahTimer) {
     clearTimeout(ayahTimer);
     ayahTimer = null;
   }
-  document.getElementById("ayahBar")?.style.display = "none";
 
-  /* ✅ إخفاء الصفحة الرئيسية */
-  const home = document.getElementById("home");
-  if (home) {
-    home.classList.add("hidden");
-    home.style.display = "none";
-  }
+  const ayahBar = document.getElementById("ayahBar");
+  if (ayahBar) ayahBar.style.display = "none";
 
-  /* ✅ إخفاء كل الصفحات */
+  document.getElementById("home")?.classList.add("hidden");
+
   document.querySelectorAll(".view").forEach(v => {
     v.classList.add("hidden");
     v.style.display = "none";
   });
 
-  /* ✅ إظهار الصفحة المطلوبة */
   const page = document.getElementById(id);
   if (!page) return;
 
   page.classList.remove("hidden");
   page.style.display = "block";
 
-  /* 🤲 جوامع الدعاء */
-  if (id === "jawamiDua") {
-    renderJawamiDua();
-  }
-
-  /* 🕋 أسماء الله الحسنى */
-  if (id === "names") {
-    renderAsmaCards();
-  }
-
   /* ⚙️ الإعدادات */
   if (id === "settings") {
-    setMode("none");
 
     const completion = document.getElementById("completionMode");
     const font = document.getElementById("fontSize");
 
     if (completion) {
-      completion.value =
-        localStorage.getItem("completionMode") || "none";
+      completion.value = localStorage.getItem("completionMode") || "none";
     }
 
     if (font) {
-      const savedFont = localStorage.getItem("fontSize") || "medium";
-      font.value = savedFont;
-      setFontSize(savedFont);
+      font.value = localStorage.getItem("fontSize") || "medium";
     }
   }
 
   /* 🕰️ مواقيت الصلاة */
   if (id === "prayersTime") {
-    setMode("none");
 
     const status = document.getElementById("locationStatus");
     const box = document.getElementById("prayerTimesBox");
-    const nextBox = document.getElementById("nextPrayerBox");
 
     if (status) {
       status.style.display = "block";
       status.textContent = "📍 جارٍ تحديد موقعك…";
     }
 
-    if (box) box.classList.add("hidden");
-    if (nextBox) nextBox.style.display = "none";
+    if (box) {
+      box.classList.add("hidden");
+    }
 
     setTimeout(getPrayerTimes, 300);
   }
-
-  window.scrollTo({ top: 0 });
 }
 function backHome() {
-// ✅ العودة إلى رابط الصفحة الرئيسية
-  if (location.hash !== "#home") {
-    location.hash = "home";
-  }
 
   setMode();
 
@@ -2294,7 +2259,22 @@ function backHome() {
 }
 
 function backLibrary(){
-  navigate("library");
+  setMode();
+  isHomeActive = false;
+
+  // ✅ إخفاء شريط الآيات بالطريقة الصحيحة
+  const ayahBar = document.getElementById("ayahBar");
+  if (ayahBar) ayahBar.style.display = "none";
+
+  // ✅ إخفاء كل الصفحات
+  document.querySelectorAll(".view").forEach(v => {
+    v.classList.add("hidden");
+  });
+
+  // ✅ إظهار المكتبة فقط
+  document.getElementById("library").classList.remove("hidden");
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 // ✅ أذكار الصلاة (كاملة كما زوّدتِني بها)
@@ -3349,44 +3329,7 @@ const asmaAllah = [
 }
   /* ✅ بقية الأسماء تستمر بنفس النمط حتى اسم (الحق) كما في نصك تمامًا */
 ];
-/* =================================================
-   🌐 Vanilla Hash Router (الأساسي)
-   ================================================= */
-
-function navigate(id) {
-  if (!id) {
-    location.hash = "home";
-    handleRoute();        // ✅ استدعاء الراوتر فورًا
-    return;
-  }
-
-  location.hash = id;
-  handleRoute();          // ✅ استدعاء الراوتر فورًا
-}
-
-function handleRoute() {
-  const route = location.hash.replace("#", "");
-
-  // ✅ الصفحة الرئيسية
-  if (!route || route === "home") {
-    backHome();
-    return;
-  }
-
-  // ✅ صفحات خاصة لها منطق مستقل
-  if (route === "morning") { openMorning(); return; }
-  if (route === "evening") { openEvening(); return; }
-  if (route === "prayer")  { openPrayer();  return; }
-  if (route === "sleep")   { openSleep();   return; }
-
-  // ✅ باقي الصفحات
-  openView(route);
-}
-
-// ✅ الاستماع لتغير الرابط
-window.addEventListener("hashchange", handleRoute);
-   
-   /* =========================
+/* =========================
    أدوات مساعدة
    ========================= */
 
@@ -3503,8 +3446,8 @@ function shareAsmaImage(name, text, source) {
   const padding = 50;
   const lineHeight = 34;
 
-ctx.font = "26px 'IBM Plex Arabic'";
- const lines = wrapText(ctx, text, width - padding * 2);
+  ctx.font = "26px Tajawal";
+  const lines = wrapText(ctx, text, width - padding * 2);
 
   const height =
     padding +
@@ -3543,7 +3486,7 @@ ctx.fillStyle = "#083344";
 
   /* المصدر */
   if (source) {
-ctx.font = "14px 'IBM Plex Arabic'";
+    ctx.font = "14px Tajawal";
     ctx.textAlign = "center";
     ctx.fillStyle = "#475569";
     ctx.fillText(source, width / 2, y);
@@ -3551,8 +3494,8 @@ ctx.font = "14px 'IBM Plex Arabic'";
   }
 
 /* اسم التطبيق */
-ctx.font = "13px 'IBM Plex Arabic'";
- ctx.fillStyle = "#64748b";
+ctx.font = "13px Tajawal";
+ctx.fillStyle = "#64748b";
 ctx.fillText(
   "تطبيق القرآن الكريم والسنة النبوية",
   width / 2,
@@ -3617,35 +3560,15 @@ function showToast(message = "تم النسخ"){
 }
 
 function getPrayerTimes() {
-
-  if (!navigator.onLine) {
-    loadCachedPrayerTimes("📴 لا يوجد اتصال بالإنترنت – تم عرض آخر مواقيت محفوظة");
-    return;
-  }
-
-  const lastDate = localStorage.getItem("lastPrayerDate");
-  const today = new Date().toDateString();
-
-  if (lastDate === today) {
-    const cached = localStorage.getItem("lastPrayerTimes");
-    if (cached) {
-      showPrayerTimes(JSON.parse(cached));
-      return;
-    }
-  }
-
   const status = document.getElementById("locationStatus");
   const box = document.getElementById("prayerTimesBox");
 
-  if (status) {
-    status.style.display = "block";
-    status.textContent = "📍 جارٍ تحديد موقعك…";
-  }
-
-  if (box) box.classList.add("hidden");
+  status.style.display = "block";
+  status.textContent = "📍 جارٍ تحديد موقعك…";
+  box.classList.add("hidden");
 
   if (!navigator.geolocation) {
-    if (status) status.textContent = "❌ جهازك لا يدعم تحديد الموقع";
+    status.textContent = "❌ جهازك لا يدعم تحديد الموقع";
     return;
   }
 
@@ -3654,9 +3577,7 @@ function getPrayerTimes() {
       const lat = pos.coords.latitude;
       const lon = pos.coords.longitude;
 
-      // ✅ السطر المصحح
-
-fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=4`)      
+      fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=4`)
         .then(res => res.json())
         .then(data => {
           const t = data.data.timings;
@@ -3669,14 +3590,12 @@ fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&metho
             Isha: t.Isha
           };
 
+          // ✅ حفظ آخر نتيجة
           localStorage.setItem("lastPrayerTimes", JSON.stringify(prayerTimes));
-          localStorage.setItem("lastPrayerDate", today);
 
           showPrayerTimes(prayerTimes);
         })
-        .catch(() => {
-          loadCachedPrayerTimes("⚠️ فشل الجلب – تم عرض آخر مواقيت محفوظة");
-        });
+        .catch(() => loadCachedPrayerTimes());
     },
     () => {
       loadCachedPrayerTimes("❌ يجب السماح بتحديد الموقع");
@@ -3694,7 +3613,6 @@ function loadCachedPrayerTimes(msg = "📴 تم عرض آخر مواقيت مح�
     status.textContent = "⚠️ لا توجد مواقيت صلاة محفوظة";
   }
 }
-
 function showPrayerTimes(t) {
   document.getElementById("fajr").textContent = t.Fajr;
   document.getElementById("dhuhr").textContent = t.Dhuhr;
@@ -3704,55 +3622,6 @@ function showPrayerTimes(t) {
 
   document.getElementById("locationStatus").style.display = "none";
   document.getElementById("prayerTimesBox").classList.remove("hidden");
-
-  startPrayerCountdown(t);
-}
-let prayerTimer = null;
-
-function startPrayerCountdown(prayers) {
-  const box = document.getElementById("nextPrayerBox");
-  if (!box) return;
-
-  box.style.display = "block";
-  if (prayerTimer) clearInterval(prayerTimer);
-
-  prayerTimer = setInterval(() => {
-    const next = getNextPrayer(prayers);
-    const diff = next.time - new Date();
-
-    if (diff <= 0) {
-      box.textContent = `🕌 حان وقت صلاة ${next.name}`;
-      showToast(`🕌 حان وقت صلاة ${next.name}`);
-      clearInterval(prayerTimer);
-      return;
-    }
-
-    const h = Math.floor(diff / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-
-    box.textContent =
-      `🕰️ الصلاة القادمة: ${next.name}\n⏳ بعد: ${h}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
-  }, 1000);
-}
-function getNextPrayer(prayers) {
-  const now = new Date();
-  const order = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
-
-  for (let name of order) {
-    const [h, m] = prayers[name].split(":").map(Number);
-    const t = new Date();
-    t.setHours(h, m, 0, 0);
-
-    if (t > now) return { name, time: t };
-  }
-
-  const [h, m] = prayers.Fajr.split(":").map(Number);
-  const t = new Date();
-  t.setDate(t.getDate() + 1);
-  t.setHours(h, m, 0, 0);
-
-  return { name: "Fajr", time: t };
 }
   </script>
 
