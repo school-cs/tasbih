@@ -2170,9 +2170,7 @@ function renderJawamiDua() {
 }
 function openView(id) {
 
-  // ✅ تحديد الوضع الصحيح
   setMode(id === "tasbeeh" ? "tasbeeh" : "none");
-
   isHomeActive = false;
 
   if (ayahTimer) {
@@ -2180,9 +2178,7 @@ function openView(id) {
     ayahTimer = null;
   }
 
-  const ayahBar = document.getElementById("ayahBar");
-  if (ayahBar) ayahBar.style.display = "none";
-
+  document.getElementById("ayahBar")?.style.display = "none";
   document.getElementById("home")?.classList.add("hidden");
 
   document.querySelectorAll(".view").forEach(v => {
@@ -2196,37 +2192,14 @@ function openView(id) {
   page.classList.remove("hidden");
   page.style.display = "block";
 
-  /* ⚙️ الإعدادات */
-  if (id === "settings") {
-
-    const completion = document.getElementById("completionMode");
-    const font = document.getElementById("fontSize");
-
-    if (completion) {
-      completion.value = localStorage.getItem("completionMode") || "none";
-    }
-
-    if (font) {
-      font.value = localStorage.getItem("fontSize") || "medium";
-    }
+  // ✅ جوامع الدعاء
+  if (id === "jawamiDua") {
+    renderJawamiDua();
   }
 
-  /* 🕰️ مواقيت الصلاة */
-  if (id === "prayersTime") {
-
-    const status = document.getElementById("locationStatus");
-    const box = document.getElementById("prayerTimesBox");
-
-    if (status) {
-      status.style.display = "block";
-      status.textContent = "📍 جارٍ تحديد موقعك…";
-    }
-
-    if (box) {
-      box.classList.add("hidden");
-    }
-
-    setTimeout(getPrayerTimes, 300);
+  // ✅ أسماء الله الحسنى
+  if (id === "names") {
+    renderAsmaCards();
   }
 }
 function backHome() {
