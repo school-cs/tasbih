@@ -3365,9 +3365,12 @@ const asmaAllah = [
 function navigate(id) {
   if (!id) {
     location.hash = "home";
+    handleRoute();        // ✅ استدعاء الراوتر فورًا
     return;
   }
+
   location.hash = id;
+  handleRoute();          // ✅ استدعاء الراوتر فورًا
 }
 
 function handleRoute() {
