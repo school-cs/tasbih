@@ -2220,39 +2220,51 @@ setMode(validModes.includes(id) ? id : "none");
   if (id === "jawamiDua") {
     renderJawamiDua();
   } 
- 
+ if (id === "names") {
+  renderAsmaCards();
+}
   /* ⚙️ الإعدادات */
   if (id === "settings") {
 
-    const completion = document.getElementById("completionMode");
-    const font = document.getElementById("fontSize");
+  setMode("none");
 
-    if (completion) {
-      completion.value = localStorage.getItem("completionMode") || "none";
-    }
+  const completion = document.getElementById("completionMode");
+  const font = document.getElementById("fontSize");
 
-    if (font) {
-      font.value = localStorage.getItem("fontSize") || "medium";
-    }
+  if (completion) {
+    completion.value =
+      localStorage.getItem("completionMode") || "none";
   }
+
+  if (font) {
+    const savedFont = localStorage.getItem("fontSize") || "medium";
+    font.value = savedFont;
+    setFontSize(savedFont); // ✅ مهم
+  }
+}
 
   /* 🕰️ مواقيت الصلاة */
-  if (id === "prayersTime") {
+ if (id === "prayersTime") {
 
-    const status = document.getElementById("locationStatus");
-    const box = document.getElementById("prayerTimesBox");
+  setMode("none");
 
-    if (status) {
-      status.style.display = "block";
-      status.textContent = "📍 جارٍ تحديد موقعك…";
-    }
+  const status = document.getElementById("locationStatus");
+  const box = document.getElementById("prayerTimesBox");
+  const nextBox = document.getElementById("nextPrayerBox");
 
-    if (box) {
-      box.classList.add("hidden");
-    }
-
-    setTimeout(getPrayerTimes, 300);
+  if (status) {
+    status.style.display = "block";
+    status.textContent = "📍 جارٍ تحديد موقعك…";
   }
+
+  if (box) box.classList.add("hidden");
+  if (nextBox) nextBox.style.display = "none";
+
+  // ✅ تأكد أنه يعمل بعد تحميل الصفحة
+  setTimeout(() => {
+    getPrayerTimes();
+  }, 400);
+}
 }
 function backHome() {
 // ✅ العودة إلى رابط الصفحة الرئيسية
