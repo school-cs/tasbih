@@ -2186,12 +2186,7 @@ container.appendChild(fragment);
 }
 function openView(id) {
 
-  /* ✅ مزامنة الرابط مع الصفحة */
-  if (location.hash.replace("#", "") !== id) {
-    location.hash = id;
-  }
-
-  /* ✅ تحديد الوضع (التسبيح – الأذكار فقط) */
+  /* ✅ تحديد الوضع */
   const validModes = ["tasbeeh", "prayer", "morning", "evening", "sleep"];
   setMode(validModes.includes(id) ? id : "none");
 
@@ -2205,7 +2200,11 @@ function openView(id) {
   document.getElementById("ayahBar")?.style.display = "none";
 
   /* ✅ إخفاء الصفحة الرئيسية */
-  document.getElementById("home")?.classList.add("hidden");
+  const home = document.getElementById("home");
+  if (home) {
+    home.classList.add("hidden");
+    home.style.display = "none";
+  }
 
   /* ✅ إخفاء كل الصفحات */
   document.querySelectorAll(".view").forEach(v => {
@@ -2219,10 +2218,6 @@ function openView(id) {
 
   page.classList.remove("hidden");
   page.style.display = "block";
-
-  /* =========================
-     📌 صفحات بمحتوى خاص
-     ========================= */
 
   /* 🤲 جوامع الدعاء */
   if (id === "jawamiDua") {
@@ -2269,11 +2264,9 @@ function openView(id) {
     if (box) box.classList.add("hidden");
     if (nextBox) nextBox.style.display = "none";
 
-    /* ✅ تأخير بسيط لضمان جاهزية DOM */
     setTimeout(getPrayerTimes, 300);
   }
 
-  /* ✅ العودة للأعلى */
   window.scrollTo({ top: 0 });
 }
 function backHome() {
