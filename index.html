@@ -821,15 +821,17 @@ small{
     اختر من المكتبة
   </div>
 
-  <button onclick="openView('names')">
+
+<button onclick="navigate('names')">
     <span>أسماء الله الحسنى</span>
   </button>
 
-  <button onclick="openView('asma2')">
-    <span>أسماء الله الحسنى (شرح آخر)</span>
+<button onclick="navigate('asma2')">
+ <span>أسماء الله الحسنى (شرح آخر)</span>
   </button>
 
-  <button onclick="openView('hadiths')">
+
+<button onclick="navigate('hadiths')">
   <span>الأحاديث النبوية</span>
 </button>
 </div>
@@ -2213,6 +2215,8 @@ setMode(validModes.includes(id) ? id : "none");
   const page = document.getElementById(id);
   if (!page) return;
 
+ if (page.style.display === "block") return;
+ 
   page.classList.remove("hidden");
   page.style.display = "block";
 
