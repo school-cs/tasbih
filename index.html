@@ -1,12 +1,41 @@
 <!DOCTYPE html>
 <html lang="ar-SA" dir="rtl">
+  
+<head>
 
- <head>
-  <!-- الترميز والعنوان -->
   <meta charset="UTF-8">
   <title>القرآن الكريم والسنة النبوية</title>
 
-  <!-- ✅ Structured Data (JSON-LD) -->
+  <!-- ✅ SEO -->
+  <link rel="canonical" href="https://school-cs.github.io/tasbih/">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="تطبيق القرآن الكريم والسنة النبوية">
+  <meta name="theme-color" content="#0f766e">
+
+  <!-- ✅ وصف الموقع -->
+  <meta name="description" content="تطبيق شامل للقرآن الكريم والسنة النبوية يحتوي على الأذكار والدعاء والسبحة الإلكترونية ومواقيت الصلاة، يعمل بدون إنترنت">
+
+  <!-- ✅ Open Graph -->
+  <meta property="og:title" content="القرآن الكريم والسنة النبوية">
+  <meta property="og:description" content="تطبيق إسلامي شامل يعمل بدون إنترنت">
+  <meta property="og:image" content="/icon-512.png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_SA">
+<meta property="og:url" content="https://school-cs.github.io/tasbih/">
+  <!-- ✅ Keywords -->
+  <meta name="keywords" content="القرآن الكريم, السنة النبوية, أذكار, دعاء, سبحة, مواقيت الصلاة">
+
+  <!-- ✅ Mobile -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ✅ PWA -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-512.png">
+
+  <!-- ✅ الخط -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- ✅ Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -17,30 +46,8 @@
   }
   </script>
 
-  <!-- ✅ وصف الموقع (SEO) -->
-  <meta name="description" content="القرآن الكريم والسنة النبوية موقع إسلامي شامل يضم القرآن، الأحاديث النبوية، الأذكار، الدعاء، وأداة سبحة إلكترونية، يعمل بدون إنترنت ومتوافق مع الجوال.">
+</head>
 
-  <!-- ✅ Open Graph (للمشاركة) -->
-  <meta property="og:title" content="القرآن الكريم والسنة النبوية">
-  <meta property="og:description" content="تطبيق إسلامي شامل يعمل بدون إنترنت">
-  <meta property="og:image" content="/icon-512.png">
-  <meta property="og:type" content="website">
-<meta property="og:locale" content="ar_SA">
-
-  <!-- ✅ كلمات مفتاحية -->
-  <meta name="keywords" content="القرآن الكريم, السنة النبوية, أحاديث نبوية, أذكار, دعاء, أسماء الله الحسنى, سبحة إلكترونية, تسبيح, مواقيت الصلاة">
-
-  <!-- ✅ العرض على الجوال -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-  <!-- ✅ PWA -->
-  <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="icon-512.png">
-
-<!-- ✅ خط IBM Plex Arabic -->
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- ✅ CSS -->
- 
   <style>
 /* =========================================================
    🌿 المتغيرات العامة + الهوية
@@ -1820,39 +1827,53 @@ function openSleep(){
 }
 function showAyahBar() {
 
-  // ✅ إيقاف أي مؤقّت قديم (منع التراكب)
-  if (ayahTimer) clearTimeout(ayahTimer);
+  if (window._ayahRunning) return;
 
-  // ✅ يعمل فقط في الصفحة الرئيسية
-  if (!isHomeActive) return;
+  try {
+    window._ayahRunning = true;
 
-  const textEl = document.getElementById("ayahText");
-  if (!textEl) return;
+    if (ayahTimer) clearTimeout(ayahTimer);
 
-  const item = rotatingTexts[rotateIndex];
-  const cleanText = item.text.replace(/\s*\n\s*/g, " ");
+    if (!isHomeActive){
+      const textEl = document.getElementById("ayahText");
+      if (textEl) {
+        textEl.style.animation = "none";
+        textEl.textContent = "";
+      }
+      return;
+    }
 
-  // ✅ تمييز الآية عن الحديث
-  if (item.type === "ayah") {
-textEl.textContent = `قال الله تعالى ﴿ ${cleanText} ﴾`;
-  } else {
-  textEl.textContent = cleanText;
+    const textEl = document.getElementById("ayahText");
+    if (!textEl) return;
+
+    if (!rotatingTexts || rotatingTexts.length === 0) return;
+
+    const item = rotatingTexts[rotateIndex] || {};
+    const cleanText = (item.text || "").replace(/\s*\n\s*/g, " ");
+
+    const dynamicDuration = Math.max(8, cleanText.length / 10);
+
+    if (item.type === "ayah") {
+      textEl.textContent = `قال الله تعالى ﴿ ${cleanText} ﴾`;
+    } else {
+      textEl.textContent = cleanText;
+    }
+
+    textEl.style.animation = "none";
+    void textEl.offsetWidth;
+
+    textEl.style.animation =
+      "scrollAyah " + dynamicDuration + "s linear";
+
+    rotateIndex = (rotateIndex + 1) % (rotatingTexts.length || 1);
+
+    ayahTimer = setTimeout(() => {
+      showAyahBar();
+    }, (dynamicDuration * 1000) + pauseAfter);
+
+  } finally {
+    window._ayahRunning = false;
   }
-
-  // ✅ إعادة تشغيل حركة التمرير
-  textEl.style.animation = "none";
-  textEl.offsetHeight; // إعادة التهيئة
-  textEl.style.animation =
-    "scrollAyah " + (scrollDuration / 1000) + "s linear";
-
-  // ✅ الانتقال للنص التالي
-  rotateIndex = (rotateIndex + 1) % rotatingTexts.length;
-
-  // ✅ إنشاء مؤقّت جديد
-  ayahTimer = setTimeout(
-    showAyahBar,
-    scrollDuration + pauseAfter
-  );
 }
 function setMax(v){
   // ✅ حماية: منع القيم غير الصحيحة
@@ -1887,11 +1908,11 @@ touchCountEl.innerText = count;
 function increment(){
 
   // ✅ منع التسبيح بدون اختيار ذكر
- if (!currentZikr || currentZikr.trim() === '') {
-  playBeep(300, 0.1);
+
+if (!currentZikr || currentZikr.trim() === '') {
+  showToast("اختر الذكر أولًا");
   return;
 }
-
   count++;
   localStorage.setItem(currentZikr, count);
   countEl.innerText = count;
@@ -3369,7 +3390,12 @@ function navigate(id) {
     location.hash = "home";
     return;
   }
-  location.hash = id;
+
+  const current = location.hash.replace("#","");
+
+  if (current !== id) {
+    location.hash = id;
+  }
 }
 
 function handleRoute() {
@@ -3664,8 +3690,7 @@ function getPrayerTimes() {
 
       // ✅ السطر المصحح
 
-     fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=4`)
-      
+      fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=4`)
         .then(res => res.json())
         .then(data => {
           const t = data.data.timings;
