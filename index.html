@@ -3828,8 +3828,7 @@ function getPrayerTimes() {
 
       // ✅ السطر المصحح
 
-const url = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=4`;
-      
+const url = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=4`;      
 Promise.race([
   fetch(url),
   new Promise((_, reject) => setTimeout(() => reject("timeout"), 6000))
