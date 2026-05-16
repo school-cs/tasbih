@@ -2096,13 +2096,12 @@ Object.entries(todayStats)
   .sort((a,b)=>b[1]-a[1])
   .forEach(([z,count])=>{
 total += count;
-    html += `
-      <div class="stat-card">
-        <div class="stat-title">${z}</div>
-        <div class="stat-count">🔢 ${count}
- مرة</div>
-      </div>
-   ;
+   html += `
+  <div class="stat-card">
+    <div class="stat-title">${z}</div>
+    <div class="stat-count">🔢 ${count} مرة</div>
+  </div>
+`;
   }
 
   totalEl.style.display = 'block';
