@@ -12,6 +12,7 @@
   <meta name="robots" content="index, follow">
   <meta name="author" content="تطبيق القرآن الكريم والسنة النبوية">
   <meta name="description" content="تطبيق شامل للقرآن الكريم والسنة النبوية يحتوي على الأذكار والدعاء والسبحة الإلكترونية ومواقيت الصلاة، يعمل بدون إنترنت">
+ <meta name="format-detection" content="telephone=no">
   <!-- ✅ ألوان التطبيق -->
   <meta name="theme-color" content="#0f766e">
 
@@ -63,7 +64,6 @@
   }
   </script>
 
-</head>
 
 
   <style>
@@ -1556,6 +1556,7 @@ let count = 0, currentZikr = '';
 const today = new Date().toISOString().split('T')[0];
 const stats = JSON.parse(localStorage.getItem('stats') || '{}');
 let audioCtx = null;
+window._ayahRunning = false;
 
 /* ✅ DOM Cache */
 const countEl = document.getElementById("count");
@@ -1588,8 +1589,12 @@ let eveningIndex = 0;
 let eveningCount = 0;    
 let sleepIndex = 0;
 let sleepCount = 0;
-function handleMainTap() {
+
+    
+    
+    function handleMainTap() {
   navigator.vibrate?.(15);
+ if (!document.hasFocus()) return;
   if (currentMode === "none") {
     playBeep(300, 0.1);
     return;
@@ -1918,6 +1923,7 @@ function showAyahBar() {
   if (!isHomeActive) return;
 
   if (!document.getElementById("ayahBar")) return;
+if (!document.getElementById("ayahText")) return;
   if (window._ayahRunning) return;
 
   try {
@@ -1993,7 +1999,9 @@ function changeZikr(){
   countEl.innerText = count;
 touchCountEl.innerText = count;
   document.getElementById('zikrText').innerText = currentZikr;
+window.scrollTo({top:0});
 }
+    
 
 
 function increment(){
@@ -2087,13 +2095,14 @@ function toggleNight(){document.body.classList.toggle('night');localStorage.setI
 Object.entries(todayStats)
   .sort((a,b)=>b[1]-a[1])
   .forEach(([z,count])=>{
-    total +=🔢 ${count};
+total += count;
     html += `
       <div class="stat-card">
         <div class="stat-title">${z}</div>
-        <div class="stat-count">🔢 ${todayStats[z]} مرة</div>
+        <div class="stat-count">🔢 ${count}
+ مرة</div>
       </div>
-    `;
+   ;
   }
 
   totalEl.style.display = 'block';
@@ -3821,7 +3830,7 @@ function getPrayerTimes() {
       // ✅ السطر المصحح
 
 const url = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=4`;
-
+      
 Promise.race([
   fetch(url),
   new Promise((_, reject) => setTimeout(() => reject("timeout"), 6000))
