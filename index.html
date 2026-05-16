@@ -700,37 +700,43 @@ margin: 4px 0;
     <span>الدعاء</span>
   </button>
 
-<button onclick="navigate('morning')">
-  <span>أذكار الصباح</span>
-</button>
-  
-  <button onclick="navigate('evening')">
-  <span>أذكار المساء</span>
-</button>
+  <!-- ✅ تم التعديل -->
+  <button onclick="openMorning()">
+    <span>أذكار الصباح</span>
+  </button>
 
-  <button onclick="navigate('prayer')">
-  <span>أذكار الصلاة</span>
-</button>
+  <!-- ✅ تم التعديل -->
+  <button onclick="openEvening()">
+    <span>أذكار المساء</span>
+  </button>
 
-<button onclick="navigate('sleep')">
-  <span>أذكار النوم</span>
-</button>
+  <!-- ✅ تم التعديل -->
+  <button onclick="openPrayer()">
+    <span>أذكار الصلاة</span>
+  </button>
 
-<button onclick="navigate('library')">
-  <span>📚 المكتبة</span>
-</button>
+  <!-- ✅ تم التعديل -->
+  <button onclick="openSleep()">
+    <span>أذكار النوم</span>
+  </button>
+
+  <button onclick="navigate('library')">
+    <span>📚 المكتبة</span>
+  </button>
   
   <button class="tasbeeh-btn" onclick="navigate('tasbeeh')">
     <span>السبحة</span>
   </button>
 
-<button onclick="navigate('prayersTime')">
- <span>مواقيت الصلاة</span>
-</button>
+  <button onclick="navigate('prayersTime')">
+    <span>مواقيت الصلاة</span>
+  </button>
 
-<button onclick="navigate('settings')">
-  <span>⚙️ الإعدادات</span>
-</button>
+  <button onclick="navigate('settings')">
+    <span>⚙️ الإعدادات</span>
+  </button>
+
+</div>
 <section class="info-section" style="grid-column:1/-1;">
   <details>
     <summary>📿 ما هي السبحة الإلكترونية؟ وكيف تُستخدم كتطبيق</summary>
@@ -1593,8 +1599,8 @@ let sleepCount = 0;
     
     
     function handleMainTap() {
-  navigator.vibrate?.(15);
- if (!document.hasFocus()) return;
+if (!document.hasFocus()) return;
+navigator.vibrate?.(15);
   if (currentMode === "none") {
     playBeep(300, 0.1);
     return;
@@ -3828,8 +3834,8 @@ function getPrayerTimes() {
 
       // ✅ السطر المصحح
 
-const url = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=4`;      
-Promise.race([
+const url = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=4`;
+      Promise.race([
   fetch(url),
   new Promise((_, reject) => setTimeout(() => reject("timeout"), 6000))
 ])        .then(res => res.json())
