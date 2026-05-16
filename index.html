@@ -589,8 +589,81 @@ small{
 .toast.show{
   opacity: 1;                 /* ✅ يظهر فقط عند الإظهار */
 }
+/* =========================================================
+   ✅ توحيد تصميم الأذكار (نهائي ونظيف)
+   ========================================================= */
 
+/* ✅ صفحات الأذكار فقط */
+#prayer,
+#morning,
+#evening,
+#sleep{
+  padding-top: 6px;
+  padding-bottom: 0 !important;
+}
+
+/* ✅ مربع الذكر */
+#prayer .zikrText,
+#morning .zikrText,
+#evening .zikrText,
+#sleep .zikrText{
+
+  height: 150px;
+  max-height: 150px;
+
+  padding: 12px;
+  margin: 6px 0;
+
+  overflow-y: auto;
+}
+
+/* ✅ زر التسبيح */
+#prayer .touch,
+#morning .touch,
+#evening .touch,
+#sleep .touch{
+
+  max-width: 320px;
+  height: 220px;
+
+  margin: 0 auto;
+}
+
+/* ✅ أهم إصلاح (إزالة الفراغ نهائيًا) */
+#prayer .center,
+#morning .center,
+#evening .center,
+#sleep .center{
+
+  flex: none !important;
+  padding: 0 !important;
+margin: 4px 0;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#prayer .touch,
+#morning .touch,
+#evening .touch,
+#sleep .touch{
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+}
+  #prayer .touch:active,
+#morning .touch:active,
+#evening .touch:active,
+#sleep .touch:active{
+  transform: scale(.96);
+  box-shadow: 0 3px 10px rgba(0,0,0,.12);
+}
+    #prayer .touch,
+#morning .touch,
+#evening .touch,
+#sleep .touch{
+  transition: all .15s ease;
+}
   </style>
+  
 </head>
 <body>
 <h1 style="display:none">
