@@ -3834,8 +3834,13 @@ function getPrayerTimes() {
 
       // ✅ السطر المصحح
 
-const url = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=4`;
-      Promise.race([
+const url = `https://api.aladhan.com/v1/timings?
+latitude=${lat}&longitude=${lon}&method=4`;      Promise.race([
+ .catch(err => {
+  console.error("خطأ في جلب المواقيت:", err);
+  loadCachedPrayerTimes("⚠️ تعذر تحميل المواقيت");
+});
+  
   fetch(url),
   new Promise((_, reject) => setTimeout(() => reject("timeout"), 6000))
 ])        .then(res => res.json())
