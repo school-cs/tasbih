@@ -657,7 +657,22 @@ margin: 4px 0;
   transform: scale(.96);
   box-shadow: 0 3px 10px rgba(0,0,0,.12);
 }
-   
+    
+.asma2-content{
+  background: var(--card);
+  padding: 20px;
+  border-radius: 20px;
+  line-height: 2;
+  font-size: 18px;
+  text-align: right;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.asma2-content h3{
+  color: var(--primary);
+  margin-top: 25px;
+}   
   </style>
   
 </head>
@@ -1316,10 +1331,15 @@ margin: 4px 0;
 
 <!-- 📘 أسماء الله الحسنى (شرح آخر) -->
 <div id="asma2" class="view hidden">
-<button onclick="navigate('library')">
-⬅ المكتبة
-</button>
-  <h2>معاني اسماء الله الحسنى    </h2>
+
+  <button onclick="navigate('library')">
+    ⬅ المكتبة
+  </button>
+
+  <h2>📖 أسماء الله الحسنى (شرح آخر)</h2>
+
+  <div id="asma2Content"></div>
+
 </div>
 
 <!-- 📚 كتب مختارة -->
