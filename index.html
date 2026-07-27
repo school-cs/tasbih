@@ -672,8 +672,9 @@ margin: 4px 0;
 .asma2-content h3{
   color: var(--primary);
   margin-top: 25px;
-}  
-    .asma-card{
+}
+
+.asma-card{
   background:#fff;
   padding:18px;
   border-radius:16px;
@@ -687,7 +688,7 @@ margin: 4px 0;
   font-size:24px;
   font-weight:bold;
   color:#0f766e;
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
 
 .asma-ayah{
@@ -695,6 +696,15 @@ margin: 4px 0;
   padding:12px;
   border-radius:12px;
   margin-top:10px;
+}
+
+.asma-author{
+  margin-top:15px;
+  text-align:center;
+  color:#64748b;
+  font-size:14px;
+  font-weight:bold;
+  line-height:2;
 }
   </style>
   
@@ -3948,7 +3958,7 @@ function getNextPrayer(prayers) {
 
   return { name: "Fajr", time: t };
 }
-  function loadAsma2(){
+function loadAsma2(){
 
 document.getElementById("asma2Content").innerHTML = `
 
@@ -3960,18 +3970,36 @@ document.getElementById("asma2Content").innerHTML = `
 
 <p>
 <b>المعنى:</b>
-اسم الله دال على كونه مألوهاً معبوداً، تألهه الخلائق محبةً وتعظيماً وخضوعاً، وهو الاسم الجامع لمعاني أسماء الله الحسنى.
+اسم (( الله )) دال على كونه مألوهاً معبوداً، تألهه الخلائق محبةً، وتعظيماً، وخضوعاً، وفزعاً إليه في الحوائج والنوائب، وهو الاسم الجامع لمعاني أسماء الله الحسنى.
 </p>
 
 <p>
 <b>الورود:</b>
-ورد في القرآن (2724) مرة.
+ورد في القرآن (٢٧٢٤) مرة.
 </p>
 
 <div class="asma-ayah">
+
+<b>الشاهد:</b>
+
+<br><br>
+
+قال الله تعالى:
+
+<br><br>
+
 ﴿ إِنَّنِي أَنَا اللَّهُ لَا إِلَٰهَ إِلَّا أَنَا فَاعْبُدْنِي وَأَقِمِ الصَّلَاةَ لِذِكْرِي ﴾
-<br>
+
+<br><br>
+
 [طه: 14]
+
+</div>
+
+<div class="asma-author">
+
+المرجع : أسماء الله الحسنى / محمد مصطفى
+
 </div>
 
 </div>
@@ -3979,6 +4007,7 @@ document.getElementById("asma2Content").innerHTML = `
 `;
 
 }
+</div>
   </script>
 
 <p style="display:none">
