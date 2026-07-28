@@ -1455,7 +1455,10 @@ margin: 4px 0;
   <div id="tasbeehStats" class="stats"></div>
 </footer>
 
-  </div>
+
+</div> <!-- tasbeehUI -->
+
+</div> <!-- tasbeeh -->
 
 <div id="prayersTime" class="view hidden">
   <button onclick="navigate('home')">🏠 الرئيسية</button>
@@ -2058,24 +2061,24 @@ touchCountEl.innerText = count;
   showStats();
 
   // ✅ عند الوصول للحد
-if (count >= Number(max))
-    // 🔔 تنبيه الاكتمال
-    if (completionMode === 'vibrate' && navigator.vibrate) {
-      navigator.vibrate(300);
-    }
+if (count >= Number(max)) {
 
-    if (completionMode === 'sound') {
-      playBeep(800, 0.4);
-    }
-
-    // ✅ إعادة العداد بعد تأخير بسيط
-    setTimeout(() => {
-      count = 0;
-      localStorage.setItem(currentZikr, 0);
-     countEl.innerText = 0;
-touchCountEl.innerText = 0;
-    }, 300);
+  if (completionMode === 'vibrate' && navigator.vibrate) {
+    navigator.vibrate(300);
   }
+
+  if (completionMode === 'sound') {
+    playBeep(800, 0.4);
+  }
+
+  setTimeout(() => {
+    count = 0;
+    localStorage.setItem(currentZikr, 0);
+    countEl.innerText = 0;
+    touchCountEl.innerText = 0;
+  }, 300);
+
+}
 }
 function clearCount(){
 
