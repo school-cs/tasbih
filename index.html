@@ -1371,7 +1371,9 @@ margin: 4px 0;
 
   <h2>📖 أسماء الله الحسنى (شرح آخر)</h2>
 
- <div id="asma2Content" class="asma2-content"></div>
+<div id="asma2Content" class="asma2-content"></div>
+
+</div>
 
 <!-- 📚 كتب مختارة -->
 <div id="books" class="view hidden">
@@ -1478,8 +1480,10 @@ margin: 4px 0;
     <button><span>المغرب</span> <strong id="maghrib"></strong></button>
     <button><span>العشاء</span> <strong id="isha"></strong></button>
   </div>
-</div>
- <div id="settings" class="view hidden">
+</div> <!-- نهاية prayerTimes -->
+
+<div id="settings" class="view hidden">
+``
 <button onclick="navigate('home')">🏠 الرئيسية</button>
   <h2>⚙️ الإعدادات</h2>
 
@@ -4108,10 +4112,12 @@ document.getElementById("asma2Content").innerHTML = `
 
 `;
 }
-<p style="display:none">
+</script>
+
+    <p style="display:none">
 السبحة الإلكترونية موقع تسبيح رقمي يعمل بدون إنترنت
 </p>
-
+</script>
 <script>
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js");
