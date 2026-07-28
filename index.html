@@ -1480,7 +1480,6 @@ margin: 4px 0;
 </div> <!-- نهاية prayerTimes -->
 
 <div id="settings" class="view hidden">
-``
 <button onclick="navigate('home')">🏠 الرئيسية</button>
   <h2>⚙️ الإعدادات</h2>
 
@@ -2059,8 +2058,7 @@ touchCountEl.innerText = count;
   showStats();
 
   // ✅ عند الوصول للحد
-  if (count === Number(max)) {
-
+if (count >= Number(max))
     // 🔔 تنبيه الاكتمال
     if (completionMode === 'vibrate' && navigator.vibrate) {
       navigator.vibrate(300);
@@ -4114,7 +4112,7 @@ document.getElementById("asma2Content").innerHTML = `
     <p style="display:none">
 السبحة الإلكترونية موقع تسبيح رقمي يعمل بدون إنترنت
 </p>
-</script>
+
 <script>
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js");
